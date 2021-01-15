@@ -2,13 +2,8 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<parent>
-		<groupId>org.springframework.boot</groupId>
-		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>1.5.20.RELEASE</version>
-	</parent>
 	<groupId>com.imjcker</groupId>
-	<artifactId>api-manager</artifactId>
+	<artifactId>imjcker-cloud</artifactId>
 	<version>1.0.0</version>
 	<packaging>jar</packaging>
 
@@ -21,7 +16,8 @@
 		<maven.compiler.target>1.8</maven.compiler.target>
 		<maven.test.skip>true</maven.test.skip>
 
-		<spring-boot.version>1.5.20.RELEASE</spring-boot.version>
+		<spring-boot.version>2.3.5.RELEASE</spring-boot.version>
+		<spring-cloud.version>2.3.4.RELEASE</spring-cloud.version>
 		<mybatis-spring-boot-starter.version>1.3.4</mybatis-spring-boot-starter.version>
 		<mysql-connector-java.version>5.1.47</mysql-connector-java.version>
 
@@ -34,7 +30,7 @@
 			<dependency>
 				<groupId>org.springframework.cloud</groupId>
 				<artifactId>spring-cloud-dependencies</artifactId>
-				<version>Edgware.RELEASE</version>
+				<version>Hoxton.SR9</version>
 				<type>pom</type>
 				<scope>import</scope>
 			</dependency>
@@ -49,13 +45,13 @@
 	</licenses>
 	<scm>
 		<tag>master</tag>
-		<url>https://github.com/imjcker/api-manager.git</url>
-		<connection>scm:git:https://github.com/imjcker/api-manager.git</connection>
-		<developerConnection>scm:git:git@github.com:imjcker/api-manager.git</developerConnection>
+		<url>https://github.com/imjcker/imjcker-cloud.git</url>
+		<connection>scm:git:https://github.com/imjcker/imjcker-cloud.git</connection>
+		<developerConnection>scm:git:git@github.com:imjcker/imjcker-cloud.git</developerConnection>
 	</scm>
 	<developers>
 		<developer>
-			<id>api-manager</id>
+			<id>imjcker-cloud</id>
 			<name>imjcker</name>
 			<email>570577029@qq.com</email>
 			<url>https://github.com/imjcker</url>
@@ -113,7 +109,7 @@
 		<dependency>
 			<groupId>org.springframework.cloud</groupId>
 			<artifactId>spring-cloud-dependencies</artifactId>
-			<version>${spring-cloud.version}</version>
+			<version>Hoxton.SR9</version>
 			<type>pom</type>
 			<scope>import</scope>
 		</dependency>
@@ -175,26 +171,6 @@
 		</dependency>
 
 
-
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-web</artifactId>
-			<version>2.2.1.RELEASE</version>
-		</dependency>
-
-		<dependency>
-			<groupId>org.projectlombok</groupId>
-			<artifactId>lombok</artifactId>
-			<version>${lombok.version}</version>
-		</dependency>
-
-		<!--MyBatis-->
-		<dependency>
-			<groupId>org.mybatis.spring.boot</groupId>
-			<artifactId>mybatis-spring-boot-starter</artifactId>
-			<version>2.1.2</version>
-		</dependency>
-
 		<dependency>
 			<groupId>tk.mybatis</groupId>
 			<artifactId>mapper-spring-boot-starter</artifactId>
@@ -244,7 +220,7 @@
 	</dependencies>
 
 	<build>
-		<finalName>api-manager</finalName>
+		<finalName>imjcker-cloud</finalName>
 		<extensions>
 			<extension>
 				<groupId>com.spotify</groupId>
