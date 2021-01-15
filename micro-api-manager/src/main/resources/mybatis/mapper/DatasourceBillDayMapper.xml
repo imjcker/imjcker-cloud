@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.imjcker.manager.charge.mapper.DatasourceBillDayMapper">
+  <resultMap id="BaseResultMap" type="com.imjcker.manager.charge.po.DatasourceBillDay">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="group_name" jdbcType="VARCHAR" property="groupName" />
+    <result column="called" jdbcType="BIGINT" property="called" />
+    <result column="amount" jdbcType="DECIMAL" property="amount" />
+    <result column="create_time" jdbcType="BIGINT" property="createTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    id, group_name, called, amount, create_time
+  </sql>
+</mapper>

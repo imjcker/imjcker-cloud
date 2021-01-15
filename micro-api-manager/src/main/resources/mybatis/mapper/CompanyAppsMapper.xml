@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.imjcker.manager.charge.mapper.CompanyAppsMapper">
+  <resultMap id="BaseResultMap" type="com.imjcker.manager.charge.po.CompanyApps">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="app_key" jdbcType="VARCHAR" property="appKey" />
+    <result column="app_name" jdbcType="VARCHAR" property="appName" />
+    <result column="create_time" jdbcType="BIGINT" property="createTime" />
+    <result column="update_time" jdbcType="BIGINT" property="updateTime" />
+    <result column="status_flag" jdbcType="INTEGER" property="statusFlag" />
+    <result column="description" jdbcType="VARCHAR" property="description" />
+    <result column="balance" jdbcType="DECIMAL" property="balance" />
+    <result column="strategy_uuid" jdbcType="VARCHAR" property="strategyUuid" />
+    <result column="stock" jdbcType="BIGINT" property="stock" />
+    <result column="price" jdbcType="DECIMAL" property="price" />
+    <result column="public_key" jdbcType="VARCHAR" property="publicKey" />
+    <result column="private_key" jdbcType="VARCHAR" property="privateKey" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    id, app_key, app_name, create_time, update_time, status_flag, description, balance,
+    strategy_uuid, stock, price, public_key, private_key
+  </sql>
+
+  <resultMap id="company" type="com.imjcker.manager.charge.po.CompanyAppsVo">
+    <id column="id" jdbcType="BIGINT" property="id"/>
+    <result column="app_key" jdbcType="VARCHAR" property="appKey"/>
+    <result column="app_name" jdbcType="VARCHAR" property="appName"/>
+    <result column="aCreateTime" jdbcType="BIGINT" property="createTime"/>
+    <result column="aUpdateTime" jdbcType="BIGINT" property="updateTime"/>
+    <result column="status_flag" jdbcType="INTEGER" property="statusFlag"/>
+    <result column="description" jdbcType="VARCHAR" property="description"/>
+    <result column="balance" jdbcType="DECIMAL" property="balance"/>
+    <result column="stock" jdbcType="INTEGER" property="stock"/>
+    <result column="price" jdbcType="DECIMAL" property="price"/>
+    <result column="uuid" jdbcType="VARCHAR" property="strategyUuid"/>
+    <result column="name" jdbcType="VARCHAR" property="strategyName"/>
+  </resultMap>
+
+  <insert id="addCustomer">
+        insert into company_apps (app_key,app_name,create_time,update_time,status_flag,description,balance,strategy_uuid,stock,price,public_key,private_key)
+         values (#{app.appKey},#{app.appName},#{app.createTime},#{app.updateTime},#{app.statusFlag},#{app.description},#{app.balance},#{app.strategyUuid},#{app.stock},#{app.price},
+         #{app.publicKey},#{app.privateKey})
+    </insert>
+
+  <update id="update">
+        update company_apps set app_name = #{app.appName}, balance = #{app.balance}, update_time = #{app.updateTime},strategy_uuid = #{app.strategyUuid},stock = #{app.stock},price = #{app.price} where app_key = #{app.appKey}
+    </update>
+  <delete id="deleteByAppKey">
+        update company_apps set status_flag = 0 where app_key = #{appKey}
+    </delete>
+
+  <select id="queryCustomer" resultMap="company" parameterType="com.imjcker.manager.charge.po.CompanyAppsVo">
+    select a.id,a.app_key,a.app_name,a.create_time as aCreateTime,a.update_time as aUpdateTime,a.status_flag,a.description,a.balance,a.stock,a.price,
+    b.uuid,b.name
+    from company_apps a left join billing_rules b on a.strategy_uuid = b.uuid where a.status_flag = 1
+    <if test="appKey != null and appKey != ''"> and a.app_key like "%"#{appKey}"%" </if>
+  </select>
+
+  <resultMap id="chargeRecord" type="com.imjcker.manager.charge.po.CompanyAppsRecharge">
+    <id column="id" jdbcType="BIGINT" property="id"/>
+    <result column="app_key" jdbcType="VARCHAR" property="appKey"/>
+    <result column="app_name" jdbcType="VARCHAR" property="appName"/>
+    <result column="amount" jdbcType="DECIMAL" property="amount"/>
+    <result column="create_time" jdbcType="BIGINT" property="createTime"/>
+    <result column="remark" jdbcType="VARCHAR" property="remark"/>
+  </resultMap>
+
+  <select id="findCustomerByAppKey" resultMap="company" parameterType="com.imjcker.manager.charge.po.CompanyAppsVo">
+        select a.id,a.app_key,a.app_name,a.create_time as aCreateTime,a.update_time as aUpdateTime,a.status_flag,a.description,a.balance,a.stock,a.price,
+        b.uuid,b.name
+        from company_apps a left join billing_rules b on a.strategy_uuid = b.uuid where a.status_flag = 1 and a.app_key = #{appKey}
+    </select>
+
+  <select id="selectKey" resultType="com.imjcker.manager.charge.vo.response.RespCompanyKey">
+    select app_key,public_key,private_key from company_apps where app_key=#{appKey} and status_flag=1
+  </select>
+
+  <select id="listByAppKeys" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List"></include> from company_apps
+    <where>
+      AND status_flag =1
+      AND app_key in (
+      <foreach collection="list" item="item" separator=",">
+        #{item}
+      </foreach>
+      )
+    </where>
+  </select>
+</mapper>

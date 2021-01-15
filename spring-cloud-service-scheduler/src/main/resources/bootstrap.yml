@@ -1,0 +1,20 @@
+#spring:
+#  application:
+#    name: spring-cloud-service-scheduler
+#  cloud:
+#    config:
+#      discovery:
+#        enabled: true
+#        service-id: spring-cloud-config-server
+#      uri: http://${eureka.instance.hostname}:8888
+#      name: ${spring.application.name}
+#      profile: prod
+#      label: master
+#
+#eureka:
+#  instance:
+#    hostname: ${HOSTNAME:localhost}
+#  client:
+#    service-url:
+#      defaultZone: http://${eureka.instance.hostname}:8761/eureka/
+#

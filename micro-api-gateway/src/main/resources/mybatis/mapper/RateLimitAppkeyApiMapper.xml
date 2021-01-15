@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.imjcker.gateway.mapper.RateLimitAppkeyApiMapper">
+  <resultMap id="BaseResultMap" type="com.imjcker.gateway.po.RateLimitAppkeyApi">
+    <id column="appKey" jdbcType="VARCHAR" property="appKey" />
+    <id column="apiId" jdbcType="INTEGER" property="apiId" />
+    <result column="id" jdbcType="INTEGER" property="id" />
+    <result column="total" jdbcType="INTEGER" property="total" />
+    <result column="strategy" jdbcType="VARCHAR" property="strategy" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    appKey, apiId, id, total, strategy
+  </sql>
+  <select id="selectByExample" parameterType="com.imjcker.gateway.po.RateLimitAppkeyApiExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from rate_limit_appkey_api
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="map" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from rate_limit_appkey_api
+    where appKey = #{appKey,jdbcType=VARCHAR}
+      and apiId = #{apiId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="map">
+    delete from rate_limit_appkey_api
+    where appKey = #{appKey,jdbcType=VARCHAR}
+      and apiId = #{apiId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.imjcker.gateway.po.RateLimitAppkeyApiExample">
+    delete from rate_limit_appkey_api
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.imjcker.gateway.po.RateLimitAppkeyApi">
+    insert into rate_limit_appkey_api (appKey, apiId, id,
+      total, strategy)
+    values (#{appKey,jdbcType=VARCHAR}, #{apiId,jdbcType=INTEGER}, #{id,jdbcType=INTEGER},
+      #{total,jdbcType=INTEGER}, #{strategy,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.imjcker.gateway.po.RateLimitAppkeyApi">
+    insert into rate_limit_appkey_api
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="appKey != null">
+        appKey,
+      </if>
+      <if test="apiId != null">
+        apiId,
+      </if>
+      <if test="id != null">
+        id,
+      </if>
+      <if test="total != null">
+        total,
+      </if>
+      <if test="strategy != null">
+        strategy,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="appKey != null">
+        #{appKey,jdbcType=VARCHAR},
+      </if>
+      <if test="apiId != null">
+        #{apiId,jdbcType=INTEGER},
+      </if>
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="total != null">
+        #{total,jdbcType=INTEGER},
+      </if>
+      <if test="strategy != null">
+        #{strategy,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.imjcker.gateway.po.RateLimitAppkeyApiExample" resultType="java.lang.Long">
+    select count(*) from rate_limit_appkey_api
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update rate_limit_appkey_api
+    <set>
+      <if test="record.appKey != null">
+        appKey = #{record.appKey,jdbcType=VARCHAR},
+      </if>
+      <if test="record.apiId != null">
+        apiId = #{record.apiId,jdbcType=INTEGER},
+      </if>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.total != null">
+        total = #{record.total,jdbcType=INTEGER},
+      </if>
+      <if test="record.strategy != null">
+        strategy = #{record.strategy,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update rate_limit_appkey_api
+    set appKey = #{record.appKey,jdbcType=VARCHAR},
+      apiId = #{record.apiId,jdbcType=INTEGER},
+      id = #{record.id,jdbcType=INTEGER},
+      total = #{record.total,jdbcType=INTEGER},
+      strategy = #{record.strategy,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.imjcker.gateway.po.RateLimitAppkeyApi">
+    update rate_limit_appkey_api
+    <set>
+      <if test="id != null">
+        id = #{id,jdbcType=INTEGER},
+      </if>
+      <if test="total != null">
+        total = #{total,jdbcType=INTEGER},
+      </if>
+      <if test="strategy != null">
+        strategy = #{strategy,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where appKey = #{appKey,jdbcType=VARCHAR}
+      and apiId = #{apiId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.imjcker.gateway.po.RateLimitAppkeyApi">
+    update rate_limit_appkey_api
+    set id = #{id,jdbcType=INTEGER},
+      total = #{total,jdbcType=INTEGER},
+      strategy = #{strategy,jdbcType=VARCHAR}
+    where appKey = #{appKey,jdbcType=VARCHAR}
+      and apiId = #{apiId,jdbcType=INTEGER}
+  </update>
+</mapper>

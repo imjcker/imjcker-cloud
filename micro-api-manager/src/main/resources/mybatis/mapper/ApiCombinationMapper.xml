@@ -1,0 +1,358 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.imjcker.manager.manage.mapper.ApiCombinationMapper">
+  <resultMap id="BaseResultMap" type="com.imjcker.manager.manage.po.ApiCombination">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="combinationId" jdbcType="INTEGER" property="combinationId" />
+    <result column="apiGroupId" jdbcType="INTEGER" property="apiGroupId" />
+    <result column="apiId" jdbcType="INTEGER" property="apiId" />
+    <result column="apiName" jdbcType="VARCHAR" property="apiName" />
+    <result column="weight" jdbcType="INTEGER" property="weight" />
+    <result column="score" jdbcType="DOUBLE" property="score" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="createTime" jdbcType="BIGINT" property="createTime" />
+    <result column="updateTime" jdbcType="BIGINT" property="updateTime" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.imjcker.manager.manage.po.ApiCombination">
+    <result column="httpPath" jdbcType="LONGVARCHAR" property="httpPath" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, combinationId, apiGroupId, apiId, apiName, weight, score, status, createTime,
+    updateTime
+  </sql>
+  <sql id="Blob_Column_List">
+    httpPath
+  </sql>
+  <select id="selectByExampleWithBLOBs" parameterType="com.imjcker.manager.manage.po.ApiCombinationExample" resultMap="ResultMapWithBLOBs">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from api_combination
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" parameterType="com.imjcker.manager.manage.po.ApiCombinationExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from api_combination
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+    select
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from api_combination
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from api_combination
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.imjcker.manager.manage.po.ApiCombinationExample">
+    delete from api_combination
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.imjcker.manager.manage.po.ApiCombination">
+    insert into api_combination (id, combinationId, apiGroupId,
+      apiId, apiName, weight,
+      score, status, createTime,
+      updateTime, httpPath)
+    values (#{id,jdbcType=INTEGER}, #{combinationId,jdbcType=INTEGER}, #{apiGroupId,jdbcType=INTEGER},
+      #{apiId,jdbcType=INTEGER}, #{apiName,jdbcType=VARCHAR}, #{weight,jdbcType=INTEGER},
+      #{score,jdbcType=DOUBLE}, #{status,jdbcType=INTEGER}, #{createTime,jdbcType=BIGINT},
+      #{updateTime,jdbcType=BIGINT}, #{httpPath,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.imjcker.manager.manage.po.ApiCombination">
+    insert into api_combination
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="combinationId != null">
+        combinationId,
+      </if>
+      <if test="apiGroupId != null">
+        apiGroupId,
+      </if>
+      <if test="apiId != null">
+        apiId,
+      </if>
+      <if test="apiName != null">
+        apiName,
+      </if>
+      <if test="weight != null">
+        weight,
+      </if>
+      <if test="score != null">
+        score,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="createTime != null">
+        createTime,
+      </if>
+      <if test="updateTime != null">
+        updateTime,
+      </if>
+      <if test="httpPath != null">
+        httpPath,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="combinationId != null">
+        #{combinationId,jdbcType=INTEGER},
+      </if>
+      <if test="apiGroupId != null">
+        #{apiGroupId,jdbcType=INTEGER},
+      </if>
+      <if test="apiId != null">
+        #{apiId,jdbcType=INTEGER},
+      </if>
+      <if test="apiName != null">
+        #{apiName,jdbcType=VARCHAR},
+      </if>
+      <if test="weight != null">
+        #{weight,jdbcType=INTEGER},
+      </if>
+      <if test="score != null">
+        #{score,jdbcType=DOUBLE},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=BIGINT},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=BIGINT},
+      </if>
+      <if test="httpPath != null">
+        #{httpPath,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.imjcker.manager.manage.po.ApiCombinationExample" resultType="java.lang.Long">
+    select count(*) from api_combination
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update api_combination
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.combinationId != null">
+        combinationId = #{record.combinationId,jdbcType=INTEGER},
+      </if>
+      <if test="record.apiGroupId != null">
+        apiGroupId = #{record.apiGroupId,jdbcType=INTEGER},
+      </if>
+      <if test="record.apiId != null">
+        apiId = #{record.apiId,jdbcType=INTEGER},
+      </if>
+      <if test="record.apiName != null">
+        apiName = #{record.apiName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.weight != null">
+        weight = #{record.weight,jdbcType=INTEGER},
+      </if>
+      <if test="record.score != null">
+        score = #{record.score,jdbcType=DOUBLE},
+      </if>
+      <if test="record.status != null">
+        status = #{record.status,jdbcType=INTEGER},
+      </if>
+      <if test="record.createTime != null">
+        createTime = #{record.createTime,jdbcType=BIGINT},
+      </if>
+      <if test="record.updateTime != null">
+        updateTime = #{record.updateTime,jdbcType=BIGINT},
+      </if>
+      <if test="record.httpPath != null">
+        httpPath = #{record.httpPath,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map">
+    update api_combination
+    set id = #{record.id,jdbcType=INTEGER},
+      combinationId = #{record.combinationId,jdbcType=INTEGER},
+      apiGroupId = #{record.apiGroupId,jdbcType=INTEGER},
+      apiId = #{record.apiId,jdbcType=INTEGER},
+      apiName = #{record.apiName,jdbcType=VARCHAR},
+      weight = #{record.weight,jdbcType=INTEGER},
+      score = #{record.score,jdbcType=DOUBLE},
+      status = #{record.status,jdbcType=INTEGER},
+      createTime = #{record.createTime,jdbcType=BIGINT},
+      updateTime = #{record.updateTime,jdbcType=BIGINT},
+      httpPath = #{record.httpPath,jdbcType=LONGVARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update api_combination
+    set id = #{record.id,jdbcType=INTEGER},
+      combinationId = #{record.combinationId,jdbcType=INTEGER},
+      apiGroupId = #{record.apiGroupId,jdbcType=INTEGER},
+      apiId = #{record.apiId,jdbcType=INTEGER},
+      apiName = #{record.apiName,jdbcType=VARCHAR},
+      weight = #{record.weight,jdbcType=INTEGER},
+      score = #{record.score,jdbcType=DOUBLE},
+      status = #{record.status,jdbcType=INTEGER},
+      createTime = #{record.createTime,jdbcType=BIGINT},
+      updateTime = #{record.updateTime,jdbcType=BIGINT}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.imjcker.manager.manage.po.ApiCombination">
+    update api_combination
+    <set>
+      <if test="combinationId != null">
+        combinationId = #{combinationId,jdbcType=INTEGER},
+      </if>
+      <if test="apiGroupId != null">
+        apiGroupId = #{apiGroupId,jdbcType=INTEGER},
+      </if>
+      <if test="apiId != null">
+        apiId = #{apiId,jdbcType=INTEGER},
+      </if>
+      <if test="apiName != null">
+        apiName = #{apiName,jdbcType=VARCHAR},
+      </if>
+      <if test="weight != null">
+        weight = #{weight,jdbcType=INTEGER},
+      </if>
+      <if test="score != null">
+        score = #{score,jdbcType=DOUBLE},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        createTime = #{createTime,jdbcType=BIGINT},
+      </if>
+      <if test="updateTime != null">
+        updateTime = #{updateTime,jdbcType=BIGINT},
+      </if>
+      <if test="httpPath != null">
+        httpPath = #{httpPath,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.imjcker.manager.manage.po.ApiCombination">
+    update api_combination
+    set combinationId = #{combinationId,jdbcType=INTEGER},
+      apiGroupId = #{apiGroupId,jdbcType=INTEGER},
+      apiId = #{apiId,jdbcType=INTEGER},
+      apiName = #{apiName,jdbcType=VARCHAR},
+      weight = #{weight,jdbcType=INTEGER},
+      score = #{score,jdbcType=DOUBLE},
+      status = #{status,jdbcType=INTEGER},
+      createTime = #{createTime,jdbcType=BIGINT},
+      updateTime = #{updateTime,jdbcType=BIGINT},
+      httpPath = #{httpPath,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.imjcker.manager.manage.po.ApiCombination">
+    update api_combination
+    set combinationId = #{combinationId,jdbcType=INTEGER},
+      apiGroupId = #{apiGroupId,jdbcType=INTEGER},
+      apiId = #{apiId,jdbcType=INTEGER},
+      apiName = #{apiName,jdbcType=VARCHAR},
+      weight = #{weight,jdbcType=INTEGER},
+      score = #{score,jdbcType=DOUBLE},
+      status = #{status,jdbcType=INTEGER},
+      createTime = #{createTime,jdbcType=BIGINT},
+      updateTime = #{updateTime,jdbcType=BIGINT}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

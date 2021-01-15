@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.imjcker.api.handler.mapper.CombInfMapper">
+
+    <select id="findApiWithCombId" resultType="com.imjcker.api.handler.model.ApiCombinationInfo">
+        SELECT
+            ac.*, ai.versionId
+        FROM
+            api_combination ac
+        JOIN api_info_versions_latest ai ON ac.apiId = ai.apiId
+        WHERE
+	      ac.combinationId = #{combinationId} AND `status` = 1
+    </select>
+</mapper>

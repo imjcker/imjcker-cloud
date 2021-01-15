@@ -1,0 +1,21 @@
+spring:
+  application:
+    name: micro-server-eureka
+  cloud:
+    inetutils:
+      preferred-networks: 47.246.46.65
+eureka:
+  instance:
+    hostname: ${instance.hostname:127.0.0.1}
+    prefer-ip-address: true
+  client:
+    fetchRegistry: true
+    registerWithEureka: true
+    serviceUrl:
+      defaultZone: ${eureka.host:http://localhost:8761/eureka/}
+  server:
+    eviction-interval-timer-in-ms: 30000
+    use-read-only-response-cache: false
+    wait-time-in-ms-when-sync-empty: 0
+server:
+  port: 8761

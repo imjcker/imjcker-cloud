@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.imjcker.manager.manage.mapper.RequestParamsVersionsLatestMapper" >
+  <resultMap id="BaseResultMap" type="com.imjcker.manager.manage.po.RequestParamsVersionsLatest" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="versionId" property="versionId" jdbcType="VARCHAR" />
+    <result column="apiId" property="apiId" jdbcType="INTEGER" />
+    <result column="requestParamsId" property="requestParamsId" jdbcType="INTEGER" />
+    <result column="paramName" property="paramName" jdbcType="VARCHAR" />
+    <result column="paramsType" property="paramsType" jdbcType="INTEGER" />
+    <result column="paramsLocation" property="paramsLocation" jdbcType="INTEGER" />
+    <result column="paramsMust" property="paramsMust" jdbcType="INTEGER" />
+    <result column="paramsDefaultValue" property="paramsDefaultValue" jdbcType="VARCHAR" />
+    <result column="paramsExample" property="paramsExample" jdbcType="VARCHAR" />
+    <result column="paramsDescription" property="paramsDescription" jdbcType="VARCHAR" />
+    <result column="minLength" property="minLength" jdbcType="INTEGER" />
+    <result column="maxLength" property="maxLength" jdbcType="INTEGER" />
+    <result column="regularExpress" property="regularExpress" jdbcType="VARCHAR" />
+    <result column="createTime" property="createTime" jdbcType="BIGINT" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, versionId, requestParamsId, paramName, paramsType, paramsLocation, paramsMust,
+    paramsDefaultValue, paramsExample, paramsDescription, minLength, maxLength, regularExpress,
+    createTime
+  </sql>
+  <select id="selectByPrimaryKey" resultType="java.lang.Integer" parameterType="java.lang.Integer" >
+    select count(apiId)
+    from request_params_versions_latest
+    where apiId = #{apiId,jdbcType=INTEGER}
+  </select>
+  <insert id="insert" parameterType="com.imjcker.manager.manage.po.RequestParamsVersionsLatest" useGeneratedKeys="true" keyProperty="id">
+    insert into request_params_versions_latest (id, versionId, apiId, requestParamsId,
+    paramName, paramsType, paramsLocation,
+    paramsMust, paramsDefaultValue, paramsExample,
+    paramsDescription, minLength, maxLength,
+    regularExpress, createTime)
+    values (#{id,jdbcType=INTEGER}, #{versionId,jdbcType=VARCHAR}, #{apiId,jdbcType=INTEGER}, #{requestParamsId,jdbcType=INTEGER},
+    #{paramName,jdbcType=VARCHAR}, #{paramsType,jdbcType=INTEGER}, #{paramsLocation,jdbcType=INTEGER},
+    #{paramsMust,jdbcType=INTEGER}, #{paramsDefaultValue,jdbcType=VARCHAR}, #{paramsExample,jdbcType=VARCHAR},
+    #{paramsDescription,jdbcType=VARCHAR}, #{minLength,jdbcType=INTEGER}, #{maxLength,jdbcType=INTEGER},
+    #{regularExpress,jdbcType=VARCHAR}, #{createTime,jdbcType=BIGINT})
+  </insert>
+
+  <update id="updateByPrimaryKey" parameterType="com.imjcker.manager.manage.po.RequestParamsVersionsLatest" >
+    update request_params_versions_latest
+    set versionId = #{versionId,jdbcType=VARCHAR},
+     apiId = #{apiId,jdbcType=INTEGER},
+    paramName = #{paramName,jdbcType=VARCHAR},
+    requestParamsId = #{requestParamsId,jdbcType=INTEGER},
+    paramName = #{paramName,jdbcType=VARCHAR},
+    paramsType = #{paramsType,jdbcType=INTEGER},
+    paramsLocation = #{paramsLocation,jdbcType=INTEGER},
+    paramsMust = #{paramsMust,jdbcType=INTEGER},
+    paramsDefaultValue = #{paramsDefaultValue,jdbcType=VARCHAR},
+    paramsExample = #{paramsExample,jdbcType=VARCHAR},
+    paramsDescription = #{paramsDescription,jdbcType=VARCHAR},
+    minLength = #{minLength,jdbcType=INTEGER},
+    maxLength = #{maxLength,jdbcType=INTEGER},
+    regularExpress = #{regularExpress,jdbcType=VARCHAR},
+    createTime = #{createTime,jdbcType=BIGINT}
+    where  apiId = #{apiId,jdbcType=INTEGER}
+  </update>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from request_params_versions_latest
+    where apiId = #{apiId,jdbcType=INTEGER}
+  </delete>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.imjcker.manager.manage.po.RequestParamsVersionsExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from request_params_versions_latest
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <update id="updateByApiIdAndRequestParamsId" parameterType="com.imjcker.manager.manage.po.RequestParamsVersionsLatest" >
+    update request_params_versions_latest
+    set versionId = #{versionId,jdbcType=VARCHAR},
+    apiId = #{apiId,jdbcType=INTEGER},
+    paramName = #{paramName,jdbcType=VARCHAR},
+    requestParamsId = #{requestParamsId,jdbcType=INTEGER},
+    paramName = #{paramName,jdbcType=VARCHAR},
+    paramsType = #{paramsType,jdbcType=INTEGER},
+    paramsLocation = #{paramsLocation,jdbcType=INTEGER},
+    paramsMust = #{paramsMust,jdbcType=INTEGER},
+    paramsDefaultValue = #{paramsDefaultValue,jdbcType=VARCHAR},
+    paramsExample = #{paramsExample,jdbcType=VARCHAR},
+    paramsDescription = #{paramsDescription,jdbcType=VARCHAR},
+    minLength = #{minLength,jdbcType=INTEGER},
+    maxLength = #{maxLength,jdbcType=INTEGER},
+    regularExpress = #{regularExpress,jdbcType=VARCHAR},
+    createTime = #{createTime,jdbcType=BIGINT}
+    where versionId = #{versionId,jdbcType=VARCHAR} AND  apiId = #{apiId,jdbcType=INTEGER} AND requestParamsId = #{requestParamsId,jdbcType=INTEGER}
+  </update>
+  <select id="selectApiByApiId" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select *
+    from request_params_versions_latest
+    WHERE apiId = #{apiId, jdbcType=INTEGER}
+  </select>
+</mapper>

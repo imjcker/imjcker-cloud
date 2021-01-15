@@ -1,0 +1,441 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.imjcker.manager.manage.mapper.ApiInfoVersionsLatestMapper" >
+  <resultMap id="BaseResultMap" type="com.imjcker.manager.manage.po.ApiInfoVersions" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="versionId" property="versionId" jdbcType="VARCHAR" />
+    <result column="apiId" property="apiId" jdbcType="INTEGER" />
+    <result column="apiName" property="apiName" jdbcType="VARCHAR" />
+    <result column="apiGroupId" property="apiGroupId" jdbcType="INTEGER" />
+    <result column="httpPath" property="httpPath" jdbcType="VARCHAR" />
+    <result column="httpMethod" property="httpMethod" jdbcType="INTEGER" />
+    <result column="backEndAddress" property="backEndAddress" jdbcType="VARCHAR" />
+    <result column="backEndAddressB" property="backEndAddressB" jdbcType="VARCHAR" />
+    <result column="backEndPath" property="backEndPath" jdbcType="VARCHAR" />
+    <result column="backEndHttpMethod" property="backEndHttpMethod" jdbcType="INTEGER" />
+    <result column="backEndTimeout" property="backEndTimeout" jdbcType="INTEGER" />
+    <result column="isMock" property="isMock" jdbcType="INTEGER" />
+    <result column="callBackType" property="callBackType" jdbcType="INTEGER" />
+    <result column="env" property="env" jdbcType="INTEGER" />
+    <result column="currentVersion" property="currentVersion" jdbcType="INTEGER" />
+    <result column="pubDescription" property="pubDescription" jdbcType="VARCHAR" />
+    <result column="saveMongoDB" property="saveMongoDB" jdbcType="INTEGER" />
+    <result column="mongodbURI" property="mongodbURI" jdbcType="VARCHAR" />
+    <result column="mongodbDBName" property="mongodbDBName" jdbcType="VARCHAR" />
+    <result column="mongodbCollectionName" property="mongodbCollectionName" jdbcType="VARCHAR" />
+    <result column="saveMQ" property="saveMQ" jdbcType="INTEGER" />
+    <result column="mqType" property="mqType" jdbcType="INTEGER" />
+    <result column="mqAddress" property="mqAddress" jdbcType="VARCHAR" />
+    <result column="mqUserName" property="mqUserName" jdbcType="VARCHAR" />
+    <result column="mqPasswd" property="mqPasswd" jdbcType="VARCHAR" />
+    <result column="mqTopicName" property="mqTopicName" jdbcType="VARCHAR" />
+    <result column="createTime" property="createTime" jdbcType="BIGINT" />
+    <result column="weight" property="weight" jdbcType="INTEGER" />
+    <result column="charge" property="charge" jdbcType="INTEGER" />
+    <result column="uniqueUuid" property="uniqueUuid" jdbcType="VARCHAR" />
+    <result column="limitStrategyuuid" property="limitStrategyuuid" jdbcType="VARCHAR" />
+    <result column="limitStrategyTotal" property="limitStrategyTotal" jdbcType="INTEGER" />
+    <result column="interfaceName" property="interfaceName" jdbcType="VARCHAR" />
+    <result column="backendProtocolType" property="backendProtocolType" jdbcType="INTEGER" />
+    <result column="cacheUnit" property="cacheUnit" jdbcType="INTEGER" />
+    <result column="cacheNo" property="cacheNo" jdbcType="INTEGER" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.imjcker.manager.manage.po.ApiInfoVersionsWithBLOBs" extends="BaseResultMap" >
+    <result column="apiDescription" property="apiDescription" jdbcType="LONGVARCHAR" />
+    <result column="mockData" property="mockData" jdbcType="LONGVARCHAR" />
+    <result column="callBackSuccessExample" property="callBackSuccessExample" jdbcType="LONGVARCHAR" />
+    <result column="callBackFailExample" property="callBackFailExample" jdbcType="LONGVARCHAR" />
+    <result column="responseTransParam" property="responseTransParam" jdbcType="LONGVARCHAR" />
+    <result column="jsonConfig" property="jsonConfig" jdbcType="LONGVARCHAR" />
+    <result column="responseConfigJson" property="responseConfigJson" jdbcType="LONGVARCHAR" />
+  </resultMap>
+
+    <resultMap id="AutoTestResult" type="com.imjcker.manager.manage.vo.ApiInfoVersionLatestResponse">
+        <id column="id" property="id" jdbcType="INTEGER" />
+        <result column="apiId" property="apiId" jdbcType="INTEGER" />
+        <result column="autoTest" property="autoTest" jdbcType="VARCHAR" />
+        <result column="apiName" property="apiName" jdbcType="VARCHAR" />
+        <result column="apiGroupId" property="apiGroupId" jdbcType="INTEGER" />
+    </resultMap>
+
+    <resultMap id="ApiInfoBaseResultMap" type="com.imjcker.manager.manage.vo.ApiInfoVersionLatestResponse">
+        <id column="id" property="id" jdbcType="INTEGER" />
+        <result column="apiId" property="apiId" jdbcType="INTEGER" />
+        <result column="autoTest" property="autoTest" jdbcType="VARCHAR" />
+        <result column="apiGroupId" property="apiGroupId" jdbcType="INTEGER" />
+        <result column="apiName" property="apiName" jdbcType="VARCHAR" />
+    </resultMap>
+
+
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, versionId, apiId, apiName, apiGroupId, httpPath, httpMethod, backEndAddress, backEndAddressB,
+    backEndPath, backEndHttpMethod, backEndTimeout, isMock, callBackType, env, currentVersion,
+    pubDescription, saveMongoDB, mongodbURI, mongodbDBName, mongodbCollectionName, saveMQ,
+    mqType, mqAddress, mqUserName, mqPasswd, mqTopicName, createTime, weight, charge,
+    uniqueUuid, limitStrategyuuid, limitStrategyTotal, interfaceName, backendProtocolType, cacheUnit, cacheNo
+  </sql>
+  <sql id="Blob_Column_List" >
+    apiDescription, mockData, callBackSuccessExample, callBackFailExample, responseTransParam,
+    responseConfigJson, jsonConfig
+  </sql>
+
+  <select id="selectByApiId" resultType="java.lang.Integer"  parameterType="java.lang.Integer" >
+    select apiId
+    from api_info_versions_latest
+    where apiId = #{apiId,jdbcType=INTEGER}
+  </select>
+
+  <insert id="insert" parameterType="com.imjcker.manager.manage.po.ApiInfoVersionsWithBLOBs" useGeneratedKeys="true" keyProperty="id">
+    insert into api_info_versions_latest (id, versionId, apiId,
+    apiName, apiGroupId, httpPath,
+    httpMethod, backEndAddress, backEndAddressB, backEndPath,
+    backEndHttpMethod, backEndTimeout, isMock,
+    callBackType, env, currentVersion,
+    pubDescription, saveMongoDB, mongodbURI,
+    mongodbDBName, mongodbCollectionName, saveMQ,
+    mqType, mqAddress, mqUserName,
+    mqPasswd, mqTopicName, createTime,
+    weight, charge, uniqueUuid,
+    limitStrategyuuid, limitStrategyTotal, interfaceName, backendProtocolType,
+    cacheUnit, cacheNo, apiDescription,
+    mockData, callBackSuccessExample,
+    callBackFailExample, responseTransParam,
+    responseConfigJson,jsonConfig)
+    values (#{id,jdbcType=INTEGER}, #{versionId,jdbcType=VARCHAR}, #{apiId,jdbcType=INTEGER},
+    #{apiName,jdbcType=VARCHAR}, #{apiGroupId,jdbcType=INTEGER}, #{httpPath,jdbcType=VARCHAR},
+    #{httpMethod,jdbcType=INTEGER}, #{backEndAddress,jdbcType=VARCHAR}, #{backEndAddressB,jdbcType=VARCHAR},
+    #{backEndPath,jdbcType=VARCHAR},
+    #{backEndHttpMethod,jdbcType=INTEGER}, #{backEndTimeout,jdbcType=INTEGER}, #{isMock,jdbcType=INTEGER},
+    #{callBackType,jdbcType=INTEGER}, #{env,jdbcType=INTEGER}, #{currentVersion,jdbcType=INTEGER},
+    #{pubDescription,jdbcType=VARCHAR}, #{saveMongoDB,jdbcType=INTEGER}, #{mongodbURI,jdbcType=VARCHAR},
+    #{mongodbDBName,jdbcType=VARCHAR}, #{mongodbCollectionName,jdbcType=VARCHAR}, #{saveMQ,jdbcType=INTEGER},
+    #{mqType,jdbcType=INTEGER}, #{mqAddress,jdbcType=VARCHAR}, #{mqUserName,jdbcType=VARCHAR},
+    #{mqPasswd,jdbcType=VARCHAR}, #{mqTopicName,jdbcType=VARCHAR}, #{createTime,jdbcType=BIGINT},
+    #{weight,jdbcType=INTEGER}, #{charge,jdbcType=INTEGER}, #{uniqueUuid,jdbcType=VARCHAR},
+    #{limitStrategyuuid,jdbcType=VARCHAR}, #{limitStrategyTotal, jdbcType=INTEGER}, #{interfaceName,jdbcType=VARCHAR}, #{backendProtocolType,jdbcType=INTEGER},
+    #{cacheUnit,jdbcType=INTEGER}, #{cacheNo,jdbcType=INTEGER}, #{apiDescription,jdbcType=LONGVARCHAR},
+    #{mockData,jdbcType=LONGVARCHAR}, #{callBackSuccessExample,jdbcType=LONGVARCHAR},
+    #{callBackFailExample,jdbcType=LONGVARCHAR}, #{responseTransParam,jdbcType=LONGVARCHAR},
+    #{responseConfigJson,jdbcType=LONGVARCHAR},#{jsonConfig,jdbcType=LONGVARCHAR})
+  </insert>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.imjcker.manager.manage.po.ApiInfoVersionsWithBLOBs" >
+    update api_info_versions_latest
+    set versionId = #{versionId,jdbcType=VARCHAR},
+    apiName = #{apiName,jdbcType=VARCHAR},
+    apiGroupId = #{apiGroupId,jdbcType=INTEGER},
+    httpPath = #{httpPath,jdbcType=VARCHAR},
+    httpMethod = #{httpMethod,jdbcType=INTEGER},
+    backEndAddress = #{backEndAddress,jdbcType=VARCHAR},
+    backEndAddressB = #{backEndAddressB,jdbcType=VARCHAR},
+    backEndPath = #{backEndPath,jdbcType=VARCHAR},
+    backEndHttpMethod = #{backEndHttpMethod,jdbcType=INTEGER},
+    backEndTimeout = #{backEndTimeout,jdbcType=INTEGER},
+    isMock = #{isMock,jdbcType=INTEGER},
+    callBackType = #{callBackType,jdbcType=INTEGER},
+    env = #{env,jdbcType=INTEGER},
+    currentVersion = #{currentVersion,jdbcType=INTEGER},
+    pubDescription = #{pubDescription,jdbcType=VARCHAR},
+    saveMongoDB = #{saveMongoDB,jdbcType=INTEGER},
+    mongodbURI = #{mongodbURI,jdbcType=VARCHAR},
+    mongodbDBName = #{mongodbDBName,jdbcType=VARCHAR},
+    mongodbCollectionName = #{mongodbCollectionName,jdbcType=VARCHAR},
+    saveMQ = #{saveMQ,jdbcType=INTEGER},
+    mqType = #{mqType,jdbcType=INTEGER},
+    mqAddress = #{mqAddress,jdbcType=VARCHAR},
+    mqUserName = #{mqUserName,jdbcType=VARCHAR},
+    mqPasswd = #{mqPasswd,jdbcType=VARCHAR},
+    mqTopicName = #{mqTopicName,jdbcType=VARCHAR},
+    createTime = #{createTime,jdbcType=BIGINT},
+    weight = #{weight,jdbcType=INTEGER},
+    charge = #{charge,jdbcType=INTEGER},
+    uniqueUuid = #{uniqueUuid,jdbcType=VARCHAR},
+    limitStrategyuuid = #{limitStrategyuuid,jdbcType=VARCHAR},
+    limitStrategyTotal = #{limitStrategyTotal,jdbcType=INTEGER},
+    interfaceName = #{interfaceName,jdbcType=VARCHAR},
+    backendProtocolType = #{backendProtocolType,jdbcType=INTEGER},
+    cacheUnit = #{cacheUnit,jdbcType=INTEGER},
+    cacheNo = #{cacheNo,jdbcType=INTEGER},
+    apiDescription = #{apiDescription,jdbcType=LONGVARCHAR},
+    mockData = #{mockData,jdbcType=LONGVARCHAR},
+    callBackSuccessExample = #{callBackSuccessExample,jdbcType=LONGVARCHAR},
+    callBackFailExample = #{callBackFailExample,jdbcType=LONGVARCHAR},
+    responseTransParam = #{responseTransParam,jdbcType=LONGVARCHAR},
+    responseConfigJson = #{responseConfigJson,jdbcType=LONGVARCHAR},
+    jsonConfig = #{jsonConfig,jdbcType=LONGVARCHAR}
+    where apiId = #{apiId,jdbcType=INTEGER}
+  </update>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.imjcker.manager.manage.po.ApiInfoVersionsExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from api_info_versions_latest
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+    <select id="selectByExampleWithBLOBs" resultMap="ResultMapWithBLOBs" parameterType="com.imjcker.manager.manage.po.ApiInfoVersionsExample" >
+        select
+        <if test="distinct" >
+            distinct
+        </if>
+        <include refid="Base_Column_List" />
+        ,
+        <include refid="Blob_Column_List" />
+        from api_info_versions_latest
+        <if test="_parameter != null" >
+            <include refid="Example_Where_Clause" />
+        </if>
+        <if test="orderByClause != null" >
+            order by ${orderByClause}
+        </if>
+    </select>
+    <update id="updateByExampleSelective" parameterType="map" >
+        update api_info_versions_latest
+        <set >
+            <if test="record.id != null" >
+                id = #{record.id,jdbcType=INTEGER},
+            </if>
+            <if test="record.versionId != null" >
+                versionId = #{record.versionId,jdbcType=VARCHAR},
+            </if>
+            <if test="record.apiId != null" >
+                apiId = #{record.apiId,jdbcType=INTEGER},
+            </if>
+            <if test="record.apiName != null" >
+                apiName = #{record.apiName,jdbcType=VARCHAR},
+            </if>
+            <if test="record.apiGroupId != null" >
+                apiGroupId = #{record.apiGroupId,jdbcType=INTEGER},
+            </if>
+            <if test="record.httpPath != null" >
+                httpPath = #{record.httpPath,jdbcType=VARCHAR},
+            </if>
+            <if test="record.httpMethod != null" >
+                httpMethod = #{record.httpMethod,jdbcType=INTEGER},
+            </if>
+            <if test="record.backEndAddress != null" >
+                backEndAddress = #{record.backEndAddress,jdbcType=VARCHAR},
+            </if>
+            <if test="record.backEndAddressB != null" >
+            backEndAddressB = #{record.backEndAddressB,jdbcType=VARCHAR},
+           </if>
+            <if test="record.backEndPath != null" >
+                backEndPath = #{record.backEndPath,jdbcType=VARCHAR},
+            </if>
+            <if test="record.backEndHttpMethod != null" >
+                backEndHttpMethod = #{record.backEndHttpMethod,jdbcType=INTEGER},
+            </if>
+            <if test="record.backEndTimeout != null" >
+                backEndTimeout = #{record.backEndTimeout,jdbcType=INTEGER},
+            </if>
+            <if test="record.isMock != null" >
+                isMock = #{record.isMock,jdbcType=INTEGER},
+            </if>
+            <if test="record.callBackType != null" >
+                callBackType = #{record.callBackType,jdbcType=INTEGER},
+            </if>
+            <if test="record.env != null" >
+                env = #{record.env,jdbcType=INTEGER},
+            </if>
+            <if test="record.currentVersion != null" >
+                currentVersion = #{record.currentVersion,jdbcType=INTEGER},
+            </if>
+            <if test="record.pubDescription != null" >
+                pubDescription = #{record.pubDescription,jdbcType=VARCHAR},
+            </if>
+            <if test="record.saveMongoDB != null" >
+                saveMongoDB = #{record.saveMongoDB,jdbcType=INTEGER},
+            </if>
+            <if test="record.mongodbURI != null" >
+                mongodbURI = #{record.mongodbURI,jdbcType=VARCHAR},
+            </if>
+            <if test="record.mongodbDBName != null" >
+                mongodbDBName = #{record.mongodbDBName,jdbcType=VARCHAR},
+            </if>
+            <if test="record.mongodbCollectionName != null" >
+                mongodbCollectionName = #{record.mongodbCollectionName,jdbcType=VARCHAR},
+            </if>
+            <if test="record.saveMQ != null" >
+                saveMQ = #{record.saveMQ,jdbcType=INTEGER},
+            </if>
+            <if test="record.mqType != null" >
+                mqType = #{record.mqType,jdbcType=INTEGER},
+            </if>
+            <if test="record.mqAddress != null" >
+                mqAddress = #{record.mqAddress,jdbcType=VARCHAR},
+            </if>
+            <if test="record.mqUserName != null" >
+                mqUserName = #{record.mqUserName,jdbcType=VARCHAR},
+            </if>
+            <if test="record.mqPasswd != null" >
+                mqPasswd = #{record.mqPasswd,jdbcType=VARCHAR},
+            </if>
+            <if test="record.mqTopicName != null" >
+                mqTopicName = #{record.mqTopicName,jdbcType=VARCHAR},
+            </if>
+            <if test="record.createTime != null" >
+                createTime = #{record.createTime,jdbcType=BIGINT},
+            </if>
+            <if test="record.weight != null" >
+                weight = #{record.weight,jdbcType=INTEGER},
+            </if>
+            <if test="record.charge != null" >
+                charge = #{record.charge,jdbcType=INTEGER},
+            </if>
+            <if test="record.uniqueUuid != null" >
+                uniqueUuid = #{record.uniqueUuid,jdbcType=VARCHAR},
+            </if>
+            <if test="record.limitStrategyuuid != null" >
+                limitStrategyuuid = #{record.limitStrategyuuid,jdbcType=VARCHAR},
+            </if>
+            <if test="record.limitStrategyTotal != null" >
+                limitStrategyTotal = #{record.limitStrategyTotal,jdbcType=INTEGER},
+            </if>
+            <if test="record.interfaceName != null" >
+                interfaceName = #{record.interfaceName,jdbcType=VARCHAR},
+            </if>
+            <if test="record.backendProtocolType != null" >
+                backendProtocolType = #{record.backendProtocolType,jdbcType=INTEGER},
+            </if>
+            <if test="record.cacheUnit != null" >
+                cacheUnit = #{record.cacheUnit,jdbcType=INTEGER},
+            </if>
+            <if test="record.cacheNo != null" >
+                cacheNo = #{record.cacheNo,jdbcType=INTEGER},
+            </if>
+            <if test="record.apiDescription != null" >
+                apiDescription = #{record.apiDescription,jdbcType=LONGVARCHAR},
+            </if>
+            <if test="record.mockData != null" >
+                mockData = #{record.mockData,jdbcType=LONGVARCHAR},
+            </if>
+            <if test="record.callBackSuccessExample != null" >
+                callBackSuccessExample = #{record.callBackSuccessExample,jdbcType=LONGVARCHAR},
+            </if>
+            <if test="record.callBackFailExample != null" >
+                callBackFailExample = #{record.callBackFailExample,jdbcType=LONGVARCHAR},
+            </if>
+            <if test="record.responseTransParam != null" >
+                responseTransParam = #{record.responseTransParam,jdbcType=LONGVARCHAR},
+            </if>
+            <if test="record.responseConfigJson != null" >
+                responseConfigJson = #{record.responseConfigJson,jdbcType=LONGVARCHAR},
+            </if>
+            <if test="record.jsonConfig != null" >
+                jsonConfig = #{record.jsonConfig,jdbcType=LONGVARCHAR},
+            </if>
+        </set>
+        <if test="_parameter != null" >
+            <include refid="Update_By_Example_Where_Clause" />
+        </if>
+    </update>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+        delete from api_info_versions_latest
+        where apiId = #{apiId,jdbcType=INTEGER}
+    </delete>
+
+    <select id="selectApiInfoLatestForAutoTest" resultMap="AutoTestResult" parameterType="java.lang.Integer">
+        SELECT a.id,a.apiId,a.autoTest,a.apiGroupId,a.apiName
+        FROM api_info_versions_latest a WHERE a.autoTest = 'Y'
+        <if test="groupId != null">
+            AND a.apiGroupId = #{groupId, jdbcType=INTEGER}
+        </if>
+    </select>
+
+    <update id="changeAutoTestStatusAsYes"  parameterType="java.lang.Integer">
+        UPDATE api_info_versions_latest
+        SET autoTest = 'Y'
+        WHERE apiId = #{apiId, jdbcType=INTEGER}
+    </update>
+
+    <update id="changeAutoTestStatusAsNo"  parameterType="java.lang.Integer">
+        UPDATE api_info_versions_latest
+        SET autoTest = 'N'
+        WHERE apiId = #{apiId, jdbcType=INTEGER}
+    </update>
+
+    <select id="selectApiInfoLatestByExample" resultMap="ApiInfoBaseResultMap" parameterType="com.imjcker.manager.manage.po.ApiInfoLatestExample" >
+        SELECT id,apiId,apiName,apiGroupId,autoTest
+        from api_info_versions_latest a
+        <trim prefix="WHERE" prefixOverrides="AND|OR">
+            a.env = 1
+            <if test="apiId != null" >
+                AND a.apiId = #{apiId, jdbcType=INTEGER}
+            </if>
+            <if test="apiGroupId != null" >
+                AND a.apiGroupId = #{apiGroupId, jdbcType=INTEGER}
+            </if>
+            <if test="autoTest != null and autoTest != ''" >
+                AND a.autoTest = #{autoTest, jdbcType=VARCHAR}
+            </if>
+            <if test="apiName != null and autoTest != ''" >
+                AND a.apiName LIKE CONCAT('%', #{apiName, jdbcType=VARCHAR}, '%')
+            </if>
+        </trim>
+        ORDER BY a.apiName ASC
+    </select>
+
+</mapper>

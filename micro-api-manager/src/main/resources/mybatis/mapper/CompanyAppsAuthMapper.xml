@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.imjcker.manager.charge.mapper.CompanyAppsAuthMapper">
+  <resultMap id="BaseResultMap" type="com.imjcker.manager.charge.po.CompanyAppsAuth">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="api_id" jdbcType="INTEGER" property="apiId" />
+    <result column="app_key" jdbcType="VARCHAR" property="appKey" />
+    <result column="start_time" jdbcType="BIGINT" property="startTime" />
+    <result column="end_time" jdbcType="BIGINT" property="endTime" />
+    <result column="create_time" jdbcType="BIGINT" property="createTime" />
+    <result column="update_time" jdbcType="BIGINT" property="updateTime" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="strategy_uuid" jdbcType="VARCHAR" property="strategyUuid" />
+    <result column="stock" jdbcType="BIGINT" property="stock" />
+    <result column="price" jdbcType="DECIMAL" property="price" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    id, api_id, app_key, start_time, end_time, create_time, update_time, status, strategy_uuid,
+    stock, price
+  </sql>
+
+  <select id="findAppKeyAndApiId" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List"></include> from company_apps_auth
+    <where>
+      <if test='appKey != null'>
+        AND app_key =#{appKey}
+      </if>
+      <if test='apiId != null'>
+        AND api_id =#{apiId}
+      </if>
+      <if test='id != null'>
+        AND id =#{id}
+      </if>
+      AND status=1
+    </where>
+  </select>
+
+  <select id="selectAuthByStrategyUuid" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List"></include> from company_apps_auth where strategy_uuid =#{strategyUuid} and status =1
+  </select>
+
+  <select id="queryAuth" resultType="com.imjcker.manager.charge.po.CompanyAppsAuthVo" parameterType="com.imjcker.manager.charge.po.AuthParam">
+    select a.id,a.api_id,a.app_key,a.start_time,a.end_time,a.create_time,a.update_time,a.status,a.stock,a.price,a.strategy_uuid,
+    b.name AS strategyName,
+    ai.apiName
+    from company_apps_auth a
+    left join billing_rules b on a.strategy_uuid = b.uuid
+    left join api_info ai on a.api_id = ai.id
+    where a.status = 1
+    <if test="appKey != null and appKey != ''">
+      and a.app_key like "%"#{appKey}"%"
+    </if>
+    <if test="apiId != null and apiId != ''">
+      and a.api_id = #{apiId}
+    </if>
+  </select>
+
+  <select id="listBySome" resultMap="BaseResultMap" parameterType="com.imjcker.manager.charge.po.CompanyAppsAuth">
+    select <include refid="Base_Column_List"></include> from company_apps_auth
+    <where>
+      <if test="status!=null">
+        AND status = #{status}
+      </if>
+      <if test="apiId!=null">
+        AND api_id = #{apiId}
+      </if>
+      <if test="endTime!=null">
+        AND end_time &gt; #{endTime}
+      </if>
+    </where>
+  </select>
+</mapper>

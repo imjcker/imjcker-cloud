@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.imjcker.manager.manage.mapper.ModifyCombinationParamMapper">
+    <update id="updateCombinationStatus">
+        UPDATE api_combination
+        SET `status` = #{status}
+        WHERE
+            combinationId = #{cId}
+        AND apiId = #{apiId}
+    </update>
+
+    <update id="updateCombInfParamsStatus">
+        UPDATE ${tableName}
+        SET `status` = #{status}
+        WHERE
+            apiId = #{apiId}
+    </update>
+
+    <delete id="deleteCombInfVersionsParams">
+        delete from ${tableName} where versionId = #{versionId}
+    </delete>
+
+    <delete id="deleteCombInfRequestVersionLatest">
+        delete from request_params_versions_latest where versionId = #{versionId} and apiId = #{apiId}
+    </delete>
+
+    <select id="findCombInfByApiId" resultType="com.imjcker.manager.manage.po.ApiCombination">
+      SELECT
+        *
+      FROM
+        api_combination
+      WHERE
+        apiId = #{apiId}
+      AND `status` != 2
+    </select>
+
+    <select id="findCombInfByCid" resultType="com.imjcker.manager.manage.po.ApiCombination">
+        SELECT
+        *
+      FROM
+        api_combination
+      WHERE
+        combinationId = #{cId}
+      AND `status` = 1
+    </select>
+
+    <select id="findVersionIdByApiId" resultType="java.lang.String">
+        SELECT versionId FROM api_info_versions_latest WHERE apiId = #{apiId}
+    </select>
+    <select id="findVersionsParamsByVersionId" resultType="com.imjcker.manager.manage.po.RequestParamsVersions">
+        select * from request_params_versions where versionId = #{versionId}
+    </select>
+    <select id="findHttpPathWithApiId" resultType="java.lang.String">
+        select httpPath from api_info_versions_latest where apiId = #{apiId}
+    </select>
+</mapper>

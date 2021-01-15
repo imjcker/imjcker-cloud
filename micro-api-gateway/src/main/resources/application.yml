@@ -1,0 +1,205 @@
+
+
+eureka:
+  instance:
+    prefer-ip-address: true
+  client:
+    serviceUrl:
+      defaultZone: ${eureka.host:http://localhost:8761/eureka/}
+
+spring:
+  application:
+    name: micro-api-gateway
+#  profiles:
+#    active: ${config.profile:test}
+  cloud:
+    inetutils:
+      preferred-networks: 47.240.46.65
+  #    config:
+  #      discovery:
+  #        enabled: true
+  #        service-id: micro-server-config
+  #      profile: ${config.profile:new-test}
+  kafka:
+    bootstrap-servers: 172.16.11.130:9092,172.16.11.131:9092,172.16.11.132:9092
+    consumer:
+      group-id: zipkin
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+    properties:
+      max.request.size: 4096000
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    url: jdbc:mysql://127.0.0.1:3306/imjcker?useUnicode=true&characterEncoding=UTF-8&characterSetResults=UTF-8&zeroDateTimeBehavior=convertToNull&useSSL=false
+    username: root
+    password: mysql
+    driverClassName: com.mysql.jdbc.Driver
+    druid:
+      initialSize: 1
+      minIdle: 1
+      max-active: 200
+      maxWait: 10000
+      timeBetweenEvictionRunsMillis: 10000
+      minEvictableIdleTimeMillis: 300000
+      validationQuery: select 'x'
+      testWhileIdle: true
+      testOnBorrow: false
+      testOnReturn: false
+      poolPreparedStatements: true
+      maxOpenPreparedStatements: 20
+      filters: stat
+      stat-view-servlet:
+        enabled: true
+        url-pattern: /druid/backend/*
+      aop-patterns: com.imjcker.zuul.*
+
+  redis:
+    host: localhost
+    port: 6379
+
+
+  rabbitmq:
+    addresses: localhost:5672
+    username: admin
+    password: rabbitmq
+mybatis:
+  mapperLocations: classpath:mybatis/mapper/*.xml
+  type-aliases-package: com.imjcker.gateway.*.*.po
+
+pagehelper:
+  helperDialect: mysql
+  reasonable: false
+  supportMethodsArguments: true
+  params: count=countSql
+
+zuul:
+  # 开启重试机制，使ribbon重试配置生效，false时ribbon配置不起效，接口平台目前不启用服务间重试机制
+  retryable: false
+  SendErrorFilter:
+    error:
+      disable: true
+  semaphore:
+    max-semaphores: 10000
+  routes:
+    micro-gateway-client-service:
+      path: /**
+      serviceId: micro-api-handler
+  host:
+    max-per-route-connections: 1024
+    max-total-connections: 1024
+    socket-timeout-millis: 180000
+    connect-timeout-millis: 180000
+  ignored-patterns: "/health, /info, /metrics, /loggers, /loggers/*, /logfile, /jolokia, /env, \
+    /dump, /auditevents, /heapdump, /liquibase, /flyway, /refresh, /trace"
+feign:
+  httpclient:
+    enabled: false
+  okhttp:
+    enabled: true
+  hystrix:
+    # 开启熔断使hystrix配置生效
+    enabled: true
+ribbon:
+  #开启饥饿加载，避免hystrix超时
+  eager-load:
+    enabled: true
+    clients: micro-api-handler
+  ConnectTimeout: 10000
+  ReadTimeout: 62000
+  MaxAutoRetries: 0
+  MaxAutoRetriesNextServer: 1
+  OkToRetryOnAllOperations: true
+  okhttp:
+    enabled: true
+  httpclient:
+    enabled: false
+hystrix:
+  command:
+    default:
+      execution:
+        timeout:
+          # feign中开启hystix后，这里的必须为false，否则hystrix默认超时为2s，当为false是，下面的timeoutInMilliseconds也不起效，超时由ribbon控制，为ribbon的ReadTimeout乘以重试次数
+          enabled: false
+        isolation:
+          strategy: THREAD
+          thread:
+            timeoutInMilliseconds: 75000
+      #此配置意义：在滑动窗口10s内，采样20个请求中，有50%的失败率则触发熔断器,10s后再判断是否关闭熔断器恢复服务。
+      circuitBreaker:
+        #采样量大小，默认值为20
+        requestVolumeThreshold: 20
+        #熔断器触发后几秒恢复(单位：毫秒)，默认值为5000
+        sleepWindowInMilliseconds: 10000
+        #出错百分比阈值(单位：百分比)，默认值为50
+        errorThresholdPercentage: 50
+  threadpool:
+    default:
+      ## 核心线程数
+      coreSize: 400
+      ## 最大线程数，应对超高并发情况
+      maximumSize: 500
+      ## 启用最大线程数
+      allowMaximumSizeToDivergeFromCoreSize: true
+
+
+management:
+  security:
+    enabled: false
+
+auth:
+  basic:
+    address: http://172.32.3.211:7001
+
+messageCenter:
+  url: http://172.32.3.165:8080/msgcenter/
+  reqChannel: 123010110
+  templetNo: 111111
+  msgTheme:
+  mobile: 15378694517
+  empNo: "002531"
+  #短信42,微信73,天府安逸133
+  toChannel: 123010073|123010133
+  phoneChannel: 123010042
+  #发送微信告警间隔时间：
+  #按照每5分钟的频率
+  wxMinute: 5
+  #小每小时一笔的告警频率
+  wxHour: 1
+  #按照1天一笔的告警频率
+  wxDay: 1
+  #发送短信告警间隔时间
+  phoneMinute: 20
+  phoneHour: 1
+  phoneDay: 1
+
+request:
+  default:
+    appkey: lemontest
+    env: test
+
+#码值转换
+inmgr:
+  inmgrCode: 0
+
+server:
+  port: 5560
+  undertow:
+    worker-threads: 500
+    io-threads: 64
+
+#需要更换账户参数的机构  appKey
+agency:
+  api:
+    appKey: appKey-ylhm-account-test,appKey-ychm-account-test,appKey-zjhm-account-test,appKey-jshm-account-test
+
+# 异步服务名称
+asynchronous-service: micro-api-handler
+executor-service:
+  thread-pool-size: 128
+  queue-capacity: 10000
+#下游请求信息存入ES，header中带健康检查和清除缓存标识的不存储
+esCount:
+  ignoreFlag: API_CACHE

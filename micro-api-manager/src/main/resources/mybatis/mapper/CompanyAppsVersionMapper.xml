@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.imjcker.manager.charge.mapper.CompanyAppsVersionMapper">
+  <resultMap id="BaseResultMap" type="com.imjcker.manager.charge.po.CompanyAppsVersion">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="app_key" jdbcType="VARCHAR" property="appKey" />
+    <result column="strategy_uuid" jdbcType="VARCHAR" property="strategyUuid" />
+    <result column="create_time" jdbcType="BIGINT" property="createTime" />
+    <result column="update_time" jdbcType="BIGINT" property="updateTime" />
+    <result column="price" jdbcType="DECIMAL" property="price" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    id, app_key, strategy_uuid, create_time, update_time, price
+  </sql>
+
+</mapper>

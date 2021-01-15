@@ -1,0 +1,258 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.imjcker.manager.manage.mapper.ApiresultsettingsVersionsMapper" >
+  <resultMap id="BaseResultMap" type="com.imjcker.manager.manage.po.ApiresultsettingsVersions" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="apiId" property="apiId" jdbcType="INTEGER" />
+    <result column="versionId" property="versionId" jdbcType="VARCHAR" />
+    <result column="errorCode" property="errorCode" jdbcType="INTEGER" />
+    <result column="errorMsg" property="errorMsg" jdbcType="VARCHAR" />
+    <result column="lookupInfo" property="lookupInfo" jdbcType="VARCHAR" />
+    <result column="errorDescription" property="errorDescription" jdbcType="VARCHAR" />
+    <result column="createTime" property="createTime" jdbcType="BIGINT" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, apiId, versionId, errorCode, errorMsg, lookupInfo, errorDescription, createTime
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.imjcker.manager.manage.po.ApiresultsettingsVersionsExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from apiResultSettings_versions
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select
+    <include refid="Base_Column_List" />
+    from apiResultSettings_versions
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from apiResultSettings_versions
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.imjcker.manager.manage.po.ApiresultsettingsVersionsExample" >
+    delete from apiResultSettings_versions
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.imjcker.manager.manage.po.ApiresultsettingsVersions" useGeneratedKeys="true" keyProperty="id">
+    insert into apiResultSettings_versions (id, apiId, versionId,
+      errorCode, errorMsg, lookupInfo,
+      errorDescription, createTime)
+    values (#{id,jdbcType=INTEGER}, #{apiId,jdbcType=INTEGER}, #{versionId,jdbcType=VARCHAR},
+      #{errorCode,jdbcType=INTEGER}, #{errorMsg,jdbcType=VARCHAR}, #{lookupInfo,jdbcType=VARCHAR},
+      #{errorDescription,jdbcType=VARCHAR}, #{createTime,jdbcType=BIGINT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.imjcker.manager.manage.po.ApiresultsettingsVersions" >
+    insert into apiResultSettings_versions
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="apiId != null" >
+        apiId,
+      </if>
+      <if test="versionId != null" >
+        versionId,
+      </if>
+      <if test="errorCode != null" >
+        errorCode,
+      </if>
+      <if test="errorMsg != null" >
+        errorMsg,
+      </if>
+      <if test="lookupInfo != null" >
+        lookupInfo,
+      </if>
+      <if test="errorDescription != null" >
+        errorDescription,
+      </if>
+      <if test="createTime != null" >
+        createTime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="apiId != null" >
+        #{apiId,jdbcType=INTEGER},
+      </if>
+      <if test="versionId != null" >
+        #{versionId,jdbcType=VARCHAR},
+      </if>
+      <if test="errorCode != null" >
+        #{errorCode,jdbcType=INTEGER},
+      </if>
+      <if test="errorMsg != null" >
+        #{errorMsg,jdbcType=VARCHAR},
+      </if>
+      <if test="lookupInfo != null" >
+        #{lookupInfo,jdbcType=VARCHAR},
+      </if>
+      <if test="errorDescription != null" >
+        #{errorDescription,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=BIGINT},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.imjcker.manager.manage.po.ApiresultsettingsVersionsExample" resultType="java.lang.Integer" >
+    select count(1) from apiResultSettings_versions
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update apiResultSettings_versions
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.apiId != null" >
+        apiId = #{record.apiId,jdbcType=INTEGER},
+      </if>
+      <if test="record.versionId != null" >
+        versionId = #{record.versionId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.errorCode != null" >
+        errorCode = #{record.errorCode,jdbcType=INTEGER},
+      </if>
+      <if test="record.errorMsg != null" >
+        errorMsg = #{record.errorMsg,jdbcType=VARCHAR},
+      </if>
+      <if test="record.lookupInfo != null" >
+        lookupInfo = #{record.lookupInfo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.errorDescription != null" >
+        errorDescription = #{record.errorDescription,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createTime != null" >
+        createTime = #{record.createTime,jdbcType=BIGINT},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update apiResultSettings_versions
+    set id = #{record.id,jdbcType=INTEGER},
+      apiId = #{record.apiId,jdbcType=INTEGER},
+      versionId = #{record.versionId,jdbcType=VARCHAR},
+      errorCode = #{record.errorCode,jdbcType=INTEGER},
+      errorMsg = #{record.errorMsg,jdbcType=VARCHAR},
+      lookupInfo = #{record.lookupInfo,jdbcType=VARCHAR},
+      errorDescription = #{record.errorDescription,jdbcType=VARCHAR},
+      createTime = #{record.createTime,jdbcType=BIGINT}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.imjcker.manager.manage.po.ApiresultsettingsVersions" >
+    update apiResultSettings_versions
+    <set >
+      <if test="apiId != null" >
+        apiId = #{apiId,jdbcType=INTEGER},
+      </if>
+      <if test="versionId != null" >
+        versionId = #{versionId,jdbcType=VARCHAR},
+      </if>
+      <if test="errorCode != null" >
+        errorCode = #{errorCode,jdbcType=INTEGER},
+      </if>
+      <if test="errorMsg != null" >
+        errorMsg = #{errorMsg,jdbcType=VARCHAR},
+      </if>
+      <if test="lookupInfo != null" >
+        lookupInfo = #{lookupInfo,jdbcType=VARCHAR},
+      </if>
+      <if test="errorDescription != null" >
+        errorDescription = #{errorDescription,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        createTime = #{createTime,jdbcType=BIGINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.imjcker.manager.manage.po.ApiresultsettingsVersions" >
+    update apiResultSettings_versions
+    set apiId = #{apiId,jdbcType=INTEGER},
+      versionId = #{versionId,jdbcType=VARCHAR},
+      errorCode = #{errorCode,jdbcType=INTEGER},
+      errorMsg = #{errorMsg,jdbcType=VARCHAR},
+      lookupInfo = #{lookupInfo,jdbcType=VARCHAR},
+      errorDescription = #{errorDescription,jdbcType=VARCHAR},
+      createTime = #{createTime,jdbcType=BIGINT}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

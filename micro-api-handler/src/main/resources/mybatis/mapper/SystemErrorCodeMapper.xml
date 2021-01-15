@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.imjcker.api.handler.mapper.SystemErrorCodeMapper" >
+  <resultMap id="BaseResultMap" type="com.lemon.api.common.po.SystemErrorCode" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="errorCode" property="errorCode" jdbcType="INTEGER" />
+    <result column="errorMsg" property="errorMsg" jdbcType="VARCHAR" />
+    <result column="errorDescription" property="errorDescription" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, errorCode, errorMsg, errorDescription
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.lemon.api.common.po.SystemErrorCodeExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from system_error_code
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select
+    <include refid="Base_Column_List" />
+    from system_error_code
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from system_error_code
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.lemon.api.common.po.SystemErrorCodeExample" >
+    delete from system_error_code
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.lemon.api.common.po.SystemErrorCode" >
+    insert into system_error_code (id, errorCode, errorMsg,
+      errorDescription)
+    values (#{id,jdbcType=INTEGER}, #{errorCode,jdbcType=INTEGER}, #{errorMsg,jdbcType=VARCHAR},
+      #{errorDescription,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.lemon.api.common.po.SystemErrorCode" >
+    insert into system_error_code
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="errorCode != null" >
+        errorCode,
+      </if>
+      <if test="errorMsg != null" >
+        errorMsg,
+      </if>
+      <if test="errorDescription != null" >
+        errorDescription,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="errorCode != null" >
+        #{errorCode,jdbcType=INTEGER},
+      </if>
+      <if test="errorMsg != null" >
+        #{errorMsg,jdbcType=VARCHAR},
+      </if>
+      <if test="errorDescription != null" >
+        #{errorDescription,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.lemon.api.common.po.SystemErrorCodeExample" resultType="java.lang.Integer" >
+    select count(*) from system_error_code
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update system_error_code
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.errorCode != null" >
+        errorCode = #{record.errorCode,jdbcType=INTEGER},
+      </if>
+      <if test="record.errorMsg != null" >
+        errorMsg = #{record.errorMsg,jdbcType=VARCHAR},
+      </if>
+      <if test="record.errorDescription != null" >
+        errorDescription = #{record.errorDescription,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update system_error_code
+    set id = #{record.id,jdbcType=INTEGER},
+      errorCode = #{record.errorCode,jdbcType=INTEGER},
+      errorMsg = #{record.errorMsg,jdbcType=VARCHAR},
+      errorDescription = #{record.errorDescription,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.lemon.api.common.po.SystemErrorCode" >
+    update system_error_code
+    <set >
+      <if test="errorCode != null" >
+        errorCode = #{errorCode,jdbcType=INTEGER},
+      </if>
+      <if test="errorMsg != null" >
+        errorMsg = #{errorMsg,jdbcType=VARCHAR},
+      </if>
+      <if test="errorDescription != null" >
+        errorDescription = #{errorDescription,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.lemon.api.common.po.SystemErrorCode" >
+    update system_error_code
+    set errorCode = #{errorCode,jdbcType=INTEGER},
+      errorMsg = #{errorMsg,jdbcType=VARCHAR},
+      errorDescription = #{errorDescription,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

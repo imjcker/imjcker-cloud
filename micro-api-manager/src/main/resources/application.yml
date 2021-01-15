@@ -1,0 +1,205 @@
+spring:
+  application:
+    name: micro-web-manager
+  redis:
+    host: localhost
+    port: 6379
+  mvc:
+    throw-exception-if-no-handler-found: true
+    static-path-pattern: /static/**
+  #  resources:
+#    add-mappings: true
+
+  #  jpa:
+#    hibernate:
+#      ddl-auto: update
+  data:
+    mongodb:
+      host: localhost
+      port: 27017
+      authentication-database: admin
+      username: admin
+      password: mongo
+    elasticsearch:
+      cluster-name: imjcker-es-cluster
+      cluster-nodes: 172.16.11.130:9200,172.16.11.131:9200,172.16.11.132:9200
+#  kafka:
+#    bootstrap-servers: 172.16.11.130:9092,172.16.11.131:9092,172.16.11.132:9092
+#    consumer:
+#      group-id: zipkin
+#      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+#      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+#    producer:
+#      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+#      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+#    properties:
+#      max.request.size: 4096000
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    url: jdbc:mysql://127.0.0.1:3306/imjcker?useUnicode=true&characterEncoding=UTF-8&characterSetResults=UTF-8&zeroDateTimeBehavior=convertToNull&useSSL=false
+    username: root
+    password: mysql
+    driverClassName: com.mysql.jdbc.Driver
+    druid:
+      initialSize: 1
+      minIdle: 1
+      max-active: 200
+      maxWait: 10000
+      timeBetweenEvictionRunsMillis: 10000
+      minEvictableIdleTimeMillis: 300000
+      validationQuery: select 'x'
+      testWhileIdle: true
+      testOnBorrow: false
+      testOnReturn: false
+      poolPreparedStatements: true
+      maxOpenPreparedStatements: 20
+      filters: stat
+      stat-view-servlet:
+        enabled: true
+        url-pattern: /druid/backend/*
+      aop-patterns: com.lemon.gateway.*
+
+#eureka:
+#  instance:
+#    prefer-ip-address: true
+#  client:
+#    serviceUrl:
+#      defaultZone: ${eureka.host:http://localhost:8761/eureka/}
+
+management:
+  security:
+    enabled: false
+
+notify-cache:
+  service:
+    name: micro-api-gateway
+
+netTime:
+  cron: 0 */50 * * * ?
+
+#文档模板地址
+docs:
+  template-path: ${user.home}/microservice/scripts/template
+  temporary-path: ${user.home}/microservice/scripts/temporary
+  word-extension: .docx
+
+
+#微服务
+microservice:
+  url: http://172.32.4.90:5556/gateway/gateway/
+
+server:
+  tomcat:
+    accesslog:
+      enabled: true
+      directory: ${user.home}/logs/
+      pattern: "%t %A %h %B %H %m %r %s %I %T"
+
+mybatis:
+  mapperLocations: classpath:mybatis/mapper/*.xml
+  type-aliases-package: com.imjcker.*.*.po
+  configuration:
+    localCacheScope: statement
+    mapUnderscoreToCamelCase: true
+mapper:
+  notEmpty: false
+  identity: MYSQL
+
+pagehelper:
+  helperDialect: mysql
+  reasonable: false
+  supportMethodsArguments: true
+  params: count=countSql
+messageCenter:
+  url: http://172.32.3.165:8080/msgcenter/
+  reqChannel: 123010110
+  templetNo: 111111
+  msgTheme:
+  mobile: 15378694517
+  empNo: "002531"
+  #短信42,微信73,天府安逸133
+  toChannel: 123010073|123010133
+  phoneChannel: 123010042
+  #发送微信告警间隔时间：
+  #按照每5分钟的频率
+  wxMinute: 5
+  #小每小时一笔的告警频率
+  wxHour: 1
+  #按照1天一笔的告警频率
+  wxDay: 1
+  #发送短信告警间隔时间
+  phoneMinute: 20
+  phoneHour: 1
+  phoneDay: 1
+request:
+  back:
+    appkey: lemontest
+    env: test
+
+feign:
+  httpclient:
+    enabled: false
+  okhttp:
+    enabled: true
+
+exeCMD:
+  ignoreIp: 127.0.0.1
+
+health-check:
+  period: 10
+
+#ES索引和类型
+es:
+  index: inmgr210
+  type: inmgr210
+  indexZuul: inmgr_zuul210
+  typeZuul: inmgr_zuul210
+
+logPlatform:
+  url: http://172.32.5.233:8080
+  loginPath: /chaos/security/login
+  logPath: /chaos/hawkeye/transLog/v2/queryKeyArrAndLogs
+  username: inmgr
+  password: inmgr
+
+hystrix:
+  command:
+    default:
+      execution:
+        #E版RELEASE必须开启此配置，否则默认超时时间为2s
+        timeout:
+          enabled: false
+        #隔离策略(可以是线程隔离或者是信号量隔离->THREAD/SEMAPHORE)
+        isolation:
+          strategy: THREAD
+          thread:
+            #E版RELEASE配置此时间无效。默认超时时间2s，参考类AbstractRibbonCommand中源码。
+            timeoutInMilliseconds: 180000
+      #            #设置HystrixCommand.run()的执行是否在超时发生时被中断
+      #            interruptOnTimeout: true
+      #此配置意义：在滑动窗口10s内，采样20个请求中，有50%的失败率则触发熔断器,5s后再判断是否关闭熔断器恢复服务。
+      circuitBreaker:
+        #采样量大小，默认值为20
+        requestVolumeThreshold: 20
+        #熔断器触发后几秒恢复(单位：毫秒)，默认值为5000
+        sleepWindowInMilliseconds: 5000
+        #出错百分比阈值(单位：百分比)，默认值为50
+        errorThresholdPercentage: 50
+ribbon:
+  #开启饥饿加载，避免hystrix超时
+  eager-load:
+    enabled: true
+    clients: micro-web-manager
+  ConnectTimeout: 30000
+  ReadTimeout: 120000
+  MaxAutoRetries: 1
+  MaxAutoRetriesNextServer: 1
+  OkToRetryOnAllOperations: true
+  okhttp:
+    enabled: true
+  httpclient:
+    enabled: false
+
+#下游请求信息存入ES，header中带健康检查和清除缓存标识的不存储
+esCount:
+  ignoreFlag: API_CACHE

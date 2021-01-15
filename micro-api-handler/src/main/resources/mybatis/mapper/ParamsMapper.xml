@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.imjcker.api.handler.mapper.ParamsMapper">
+
+    <resultMap id="BaseResultMap" type="com.lemon.api.common.po.ApiInfoVersions" >
+        <id column="id" property="id" jdbcType="INTEGER" />
+        <result column="versionId" property="versionId" jdbcType="VARCHAR" />
+        <result column="apiId" property="apiId" jdbcType="INTEGER" />
+        <result column="apiName" property="apiName" jdbcType="VARCHAR" />
+        <result column="apiGroupId" property="apiGroupId" jdbcType="INTEGER" />
+        <result column="httpPath" property="httpPath" jdbcType="VARCHAR" />
+        <result column="httpMethod" property="httpMethod" jdbcType="INTEGER" />
+        <result column="backEndAddress" property="backEndAddress" jdbcType="VARCHAR" />
+        <result column="backEndAddressB" property="backEndAddressB" jdbcType="VARCHAR" />
+        <result column="backEndPath" property="backEndPath" jdbcType="VARCHAR" />
+        <result column="backEndHttpMethod" property="backEndHttpMethod" jdbcType="INTEGER" />
+        <result column="backEndTimeout" property="backEndTimeout" jdbcType="INTEGER" />
+        <result column="isMock" property="isMock" jdbcType="INTEGER" />
+        <result column="callBackType" property="callBackType" jdbcType="INTEGER" />
+        <result column="env" property="env" jdbcType="INTEGER" />
+        <result column="currentVersion" property="currentVersion" jdbcType="INTEGER" />
+        <result column="pubDescription" property="pubDescription" jdbcType="VARCHAR" />
+        <result column="saveMongoDB" property="saveMongoDB" jdbcType="INTEGER" />
+        <result column="mongodbURI" property="mongodbURI" jdbcType="VARCHAR" />
+        <result column="mongodbDBName" property="mongodbDBName" jdbcType="VARCHAR" />
+        <result column="mongodbCollectionName" property="mongodbCollectionName" jdbcType="VARCHAR" />
+        <result column="saveMQ" property="saveMQ" jdbcType="INTEGER" />
+        <result column="mqType" property="mqType" jdbcType="INTEGER" />
+        <result column="mqAddress" property="mqAddress" jdbcType="VARCHAR" />
+        <result column="mqUserName" property="mqUserName" jdbcType="VARCHAR" />
+        <result column="mqPasswd" property="mqPasswd" jdbcType="VARCHAR" />
+        <result column="mqTopicName" property="mqTopicName" jdbcType="VARCHAR" />
+        <result column="createTime" property="createTime" jdbcType="BIGINT" />
+        <result column="weight" property="weight" jdbcType="INTEGER" />
+        <result column="charge" property="charge" jdbcType="INTEGER" />
+        <result column="uniqueUuid" property="uniqueUuid" jdbcType="VARCHAR" />
+        <result column="limitStrategyuuid" property="limitStrategyuuid" jdbcType="VARCHAR" />
+        <result column="limitStrategyTotal" property="limitStrategyTotal" jdbcType="INTEGER" />
+        <result column="interfaceName" property="interfaceName" jdbcType="VARCHAR" />
+        <result column="backendProtocolType" property="backendProtocolType" jdbcType="INTEGER" />
+        <result column="cacheUnit" property="cacheUnit" jdbcType="INTEGER" />
+        <result column="cacheNo" property="cacheNo" jdbcType="INTEGER" />
+    </resultMap>
+    <resultMap id="ResultMapWithBLOBs" type="com.lemon.api.common.po.ApiInfoVersionsWithBLOBs" extends="BaseResultMap" >
+        <result column="apiDescription" property="apiDescription" jdbcType="LONGVARCHAR" />
+        <result column="mockData" property="mockData" jdbcType="LONGVARCHAR" />
+        <result column="callBackSuccessExample" property="callBackSuccessExample" jdbcType="LONGVARCHAR" />
+        <result column="callBackFailExample" property="callBackFailExample" jdbcType="LONGVARCHAR" />
+        <result column="responseTransParam" property="responseTransParam" jdbcType="LONGVARCHAR" />
+    </resultMap>
+
+    <sql id="Base_Column_List" >
+    id, versionId, apiId, apiName, apiGroupId, httpPath, httpMethod, backEndAddress,backEndAddressB,
+    backEndPath, backEndHttpMethod, backEndTimeout, isMock, callBackType, env, currentVersion,
+    pubDescription, saveMongoDB, mongodbURI, mongodbDBName, mongodbCollectionName, saveMQ,
+    mqType, mqAddress, mqUserName, mqPasswd, mqTopicName, createTime, weight, charge,
+    uniqueUuid, limitStrategyuuid, limitStrategyTotal, interfaceName, backendProtocolType, cacheUnit, cacheNo
+  </sql>
+    <sql id="Blob_Column_List" >
+    apiDescription, mockData, callBackSuccessExample, callBackFailExample, responseTransParam
+  </sql>
+
+    <sql id="Example_Where_Clause" >
+        <where >
+            <foreach collection="oredCriteria" item="criteria" separator="or" >
+                <if test="criteria.valid" >
+                    <trim prefix="(" suffix=")" prefixOverrides="and" >
+                        <foreach collection="criteria.criteria" item="criterion" >
+                            <choose >
+                                <when test="criterion.noValue" >
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue" >
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue" >
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue" >
+                                    and ${criterion.condition}
+                                    <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+
+    <select id="selectByExampleWithBLOBs" resultMap="ResultMapWithBLOBs" parameterType="com.lemon.api.common.po.ApiInfoVersionsExample" >
+        select
+        <if test="distinct" >
+            distinct
+        </if>
+        <include refid="Base_Column_List" />
+        ,
+        <include refid="Blob_Column_List" />
+        from api_info_versions
+        <if test="_parameter != null" >
+            <include refid="Example_Where_Clause" />
+        </if>
+        <if test="orderByClause != null" >
+            order by ${orderByClause}
+        </if>
+    </select>
+
+
+    <select id="selectBackExample" resultMap="BackResultMap" parameterType="com.lemon.api.common.po.BackendRequestParamsVersionsExample">
+        select
+        <if test="distinct" >
+            distinct
+        </if>
+        <include refid="Base_Back_List" />
+        from backend_request_params_versions
+        <if test="_parameter != null" >
+            <include refid="Example_Where_Clause_Back" />
+        </if>
+        <if test="orderByClause != null" >
+            order by ${orderByClause}
+        </if>
+    </select>
+
+    <sql id="Base_Back_List" >
+    id, versionId, requestParamsId, paramsType, paramName, paramValue, paramsLocation,
+    paramDescription, createTime
+  </sql>
+
+    <sql id="Example_Where_Clause_Back" >
+        <where >
+            <foreach collection="oredCriteria" item="criteria" separator="or" >
+                <if test="criteria.valid" >
+                    <trim prefix="(" suffix=")" prefixOverrides="and" >
+                        <foreach collection="criteria.criteria" item="criterion" >
+                            <choose >
+                                <when test="criterion.noValue" >
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue" >
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue" >
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue" >
+                                    and ${criterion.condition}
+                                    <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+
+    <resultMap id="BackResultMap" type="com.lemon.api.common.po.BackendRequestParamsVersions" >
+        <id column="id" property="id" jdbcType="INTEGER" />
+        <result column="versionId" property="versionId" jdbcType="VARCHAR" />
+        <result column="requestParamsId" property="requestParamsId" jdbcType="INTEGER" />
+        <result column="paramsType" property="paramsType" jdbcType="INTEGER" />
+        <result column="paramName" property="paramName" jdbcType="VARCHAR" />
+        <result column="paramValue" property="paramValue" jdbcType="VARCHAR" />
+        <result column="paramsLocation" property="paramsLocation" jdbcType="INTEGER" />
+        <result column="paramDescription" property="paramDescription" jdbcType="VARCHAR" />
+        <result column="createTime" property="createTime" jdbcType="BIGINT" />
+    </resultMap>
+
+
+    <select id="selectRequestExample" resultMap="RequestResultMap" parameterType="com.lemon.api.common.po.RequestParamsVersionsExample" >
+        select
+        <if test="distinct" >
+            distinct
+        </if>
+        <include refid="Base_Request_List" />
+        from request_params_versions
+        <if test="_parameter != null" >
+            <include refid="Example_Where_Clause_Request" />
+        </if>
+        <if test="orderByClause != null" >
+            order by ${orderByClause}
+        </if>
+    </select>
+
+    <resultMap id="RequestResultMap" type="com.lemon.api.common.po.RequestParamsVersions" >
+        <id column="id" property="id" jdbcType="INTEGER" />
+        <result column="versionId" property="versionId" jdbcType="VARCHAR" />
+        <result column="requestParamsId" property="requestParamsId" jdbcType="INTEGER" />
+        <result column="paramName" property="paramName" jdbcType="VARCHAR" />
+        <result column="paramsType" property="paramsType" jdbcType="INTEGER" />
+        <result column="paramsLocation" property="paramsLocation" jdbcType="INTEGER" />
+        <result column="paramsMust" property="paramsMust" jdbcType="INTEGER" />
+        <result column="paramsDefaultValue" property="paramsDefaultValue" jdbcType="VARCHAR" />
+        <result column="paramsExample" property="paramsExample" jdbcType="VARCHAR" />
+        <result column="paramsDescription" property="paramsDescription" jdbcType="VARCHAR" />
+        <result column="minLength" property="minLength" jdbcType="INTEGER" />
+        <result column="maxLength" property="maxLength" jdbcType="INTEGER" />
+        <result column="regularExpress" property="regularExpress" jdbcType="VARCHAR" />
+        <result column="createTime" property="createTime" jdbcType="BIGINT" />
+    </resultMap>
+
+    <sql id="Base_Request_List" >
+    id, versionId, requestParamsId, paramName, paramsType, paramsLocation, paramsMust,
+    paramsDefaultValue, paramsExample, paramsDescription, minLength, maxLength, regularExpress,
+    createTime
+    </sql>
+
+    <sql id="Example_Where_Clause_Request" >
+        <where >
+            <foreach collection="oredCriteria" item="criteria" separator="or" >
+                <if test="criteria.valid" >
+                    <trim prefix="(" suffix=")" prefixOverrides="and" >
+                        <foreach collection="criteria.criteria" item="criterion" >
+                            <choose >
+                                <when test="criterion.noValue" >
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue" >
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue" >
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue" >
+                                    and ${criterion.condition}
+                                    <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+</mapper>

@@ -1,0 +1,270 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.imjcker.manager.manage.mapper.DictionaryMapper" >
+  <resultMap id="BaseResultMap" type="com.imjcker.manager.manage.po.Dictionary" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="typeId" property="typeId" jdbcType="INTEGER" />
+    <result column="dictName" property="dictName" jdbcType="VARCHAR" />
+    <result column="dictValue" property="dictValue" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+    <result column="createTime" property="createTime" jdbcType="BIGINT" />
+    <result column="updateTime" property="updateTime" jdbcType="BIGINT" />
+  </resultMap>
+  <resultMap id="BaseResultMapConfuse" type="com.imjcker.manager.manage.po.DictionaryWithQuery" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="typeId" property="typeId" jdbcType="INTEGER" />
+    <result column="dictName" property="dictName" jdbcType="VARCHAR" />
+    <result column="dictValue" property="dictValue" jdbcType="VARCHAR" />
+    <result column="typeName" property="typeName" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+    <result column="createTime" property="createTime" jdbcType="BIGINT" />
+    <result column="updateTime" property="updateTime" jdbcType="BIGINT" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, typeId, dictName, dictValue, status, createTime, updateTime
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.imjcker.manager.manage.po.DictionaryExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from dictionary
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select
+    <include refid="Base_Column_List" />
+    from dictionary
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from dictionary
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.imjcker.manager.manage.po.DictionaryExample" >
+    delete from dictionary
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.imjcker.manager.manage.po.Dictionary" useGeneratedKeys="true" keyProperty="id">
+    insert into dictionary (id, typeId, dictName,
+      dictValue, status, createTime,
+      updateTime)
+    values (#{id,jdbcType=INTEGER}, #{typeId,jdbcType=INTEGER}, #{dictName,jdbcType=VARCHAR},
+      #{dictValue,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}, #{createTime,jdbcType=BIGINT},
+      #{updateTime,jdbcType=BIGINT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.imjcker.manager.manage.po.Dictionary" >
+    insert into dictionary
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="typeId != null" >
+        typeId,
+      </if>
+      <if test="dictName != null" >
+        dictName,
+      </if>
+      <if test="dictValue != null" >
+        dictValue,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="createTime != null" >
+        createTime,
+      </if>
+      <if test="updateTime != null" >
+        updateTime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="typeId != null" >
+        #{typeId,jdbcType=INTEGER},
+      </if>
+      <if test="dictName != null" >
+        #{dictName,jdbcType=VARCHAR},
+      </if>
+      <if test="dictValue != null" >
+        #{dictValue,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=BIGINT},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=BIGINT},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.imjcker.manager.manage.po.DictionaryExample" resultType="java.lang.Integer" >
+    select count(*) from dictionary
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update dictionary
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.typeId != null" >
+        typeId = #{record.typeId,jdbcType=INTEGER},
+      </if>
+      <if test="record.dictName != null" >
+        dictName = #{record.dictName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.dictValue != null" >
+        dictValue = #{record.dictValue,jdbcType=VARCHAR},
+      </if>
+      <if test="record.status != null" >
+        status = #{record.status,jdbcType=INTEGER},
+      </if>
+      <if test="record.createTime != null" >
+        createTime = #{record.createTime,jdbcType=BIGINT},
+      </if>
+      <if test="record.updateTime != null" >
+        updateTime = #{record.updateTime,jdbcType=BIGINT},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update dictionary
+    set id = #{record.id,jdbcType=INTEGER},
+      typeId = #{record.typeId,jdbcType=INTEGER},
+      dictName = #{record.dictName,jdbcType=VARCHAR},
+      dictValue = #{record.dictValue,jdbcType=VARCHAR},
+      status = #{record.status,jdbcType=INTEGER},
+      createTime = #{record.createTime,jdbcType=BIGINT},
+      updateTime = #{record.updateTime,jdbcType=BIGINT}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.imjcker.manager.manage.po.Dictionary" >
+    update dictionary
+    <set >
+      <if test="typeId != null" >
+        typeId = #{typeId,jdbcType=INTEGER},
+      </if>
+      <if test="dictName != null" >
+        dictName = #{dictName,jdbcType=VARCHAR},
+      </if>
+      <if test="dictValue != null" >
+        dictValue = #{dictValue,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        createTime = #{createTime,jdbcType=BIGINT},
+      </if>
+      <if test="updateTime != null" >
+        updateTime = #{updateTime,jdbcType=BIGINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.imjcker.manager.manage.po.Dictionary" >
+    update dictionary
+    set typeId = #{typeId,jdbcType=INTEGER},
+      dictName = #{dictName,jdbcType=VARCHAR},
+      dictValue = #{dictValue,jdbcType=VARCHAR},
+      status = #{status,jdbcType=INTEGER},
+      createTime = #{createTime,jdbcType=BIGINT},
+      updateTime = #{updateTime,jdbcType=BIGINT}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+  <select id="selectConfuse" resultMap="BaseResultMapConfuse" parameterType="java.util.Map" >
+    select
+      a.id, a.typeId, a.dictName, a.dictValue, a.status, a.createTime, a.updateTime,b.name as typeName
+    from dictionary a LEFT JOIN dictionary_type b on a.typeId = b.id
+    where a.status = 1
+    <if test="dictName != null" >
+      and a.dictName like #{dictName,jdbcType=VARCHAR}
+    </if>
+    <if test="dictValue != null" >
+      and a.dictValue like #{dictValue,jdbcType=VARCHAR}
+    </if>
+    <if test="typeId != null" >
+      and a.typeId = #{typeId,jdbcType=INTEGER}
+    </if>
+    order by a.createTime DESC
+  </select>
+</mapper>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.imjcker.manager.charge.mapper.CompanyBillYearMapper">
+  <resultMap id="BaseResultMap" type="com.imjcker.manager.charge.po.CompanyBillYear">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="app_key" jdbcType="VARCHAR" property="appKey" />
+    <result column="called" jdbcType="BIGINT" property="called" />
+    <result column="stock" jdbcType="BIGINT" property="stock" />
+    <result column="amount" jdbcType="DECIMAL" property="amount" />
+    <result column="balance" jdbcType="DECIMAL" property="balance" />
+    <result column="create_time" jdbcType="BIGINT" property="createTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    id, app_key, called, stock, amount, balance, create_time
+  </sql>
+</mapper>

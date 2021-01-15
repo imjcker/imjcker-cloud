@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.imjcker.manager.scheduled.mapper.ApiScheduledMapper">
+
+    <select id="findApiAddr" resultType="java.util.Map">
+        SELECT
+            g.groupName,
+            a.backEndAddress
+        FROM
+            api_info a
+        JOIN api_group g ON a.apiGroupId = g.id
+        WHERE
+            a.apiGroupId IS NOT NULL
+        AND a.`status` = 1
+        AND a.productEnvVersion IS NOT NULL
+        AND a.testEnvVersion IS NOT NULL
+        AND a.jsonConfig LIKE '%type%'
+        GROUP BY
+            a.backEndAddress
+        ORDER BY
+            a.apiGroupId
+    </select>
+</mapper>

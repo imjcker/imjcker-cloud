@@ -1,0 +1,463 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.imjcker.api.handler.mapper.ApiRateDistributeMapper" >
+  <resultMap id="BaseResultMap" type="com.lemon.api.common.po.ApiRateDistribute" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="apiId" property="apiId" jdbcType="INTEGER" />
+    <result column="uniqueUuid" property="uniqueUuid" jdbcType="VARCHAR" />
+    <result column="interfaceName" property="interfaceName" jdbcType="VARCHAR" />
+    <result column="backEndAddress" property="backEndAddress" jdbcType="VARCHAR" />
+    <result column="backEndAddressB" property="backEndAddressB" jdbcType="VARCHAR" />
+    <result column="backEndPath" property="backEndPath" jdbcType="VARCHAR" />
+    <result column="backEndHttpMethod" property="backEndHttpMethod" jdbcType="INTEGER" />
+    <result column="backEndTimeout" property="backEndTimeout" jdbcType="INTEGER" />
+    <result column="callBackType" property="callBackType" jdbcType="INTEGER" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+    <result column="weight" property="weight" jdbcType="INTEGER" />
+    <result column="createTime" property="createTime" jdbcType="BIGINT" />
+    <result column="updateTime" property="updateTime" jdbcType="BIGINT" />
+    <result column="backendProtocolType" property="backendProtocolType" jdbcType="INTEGER" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.lemon.api.common.po.ApiRateDistributeWithBLOBs" extends="BaseResultMap" >
+    <result column="responseTransParam" property="responseTransParam" jdbcType="LONGVARCHAR" />
+    <result column="responseConfigJson" property="responseConfigJson" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, apiId, uniqueUuid, interfaceName, backEndAddress, backEndAddressB, backEndPath, backEndHttpMethod,
+    backEndTimeout, callBackType, status, weight, createTime, updateTime, backendProtocolType
+  </sql>
+  <sql id="Blob_Column_List" >
+    responseTransParam, responseConfigJson
+  </sql>
+  <select id="selectByExampleWithBLOBs" resultMap="ResultMapWithBLOBs" parameterType="com.lemon.api.common.po.ApiRateDistributeExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from api_rate_distribute
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.lemon.api.common.po.ApiRateDistributeExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from api_rate_distribute
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
+    select
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from api_rate_distribute
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from api_rate_distribute
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.lemon.api.common.po.ApiRateDistributeExample" >
+    delete from api_rate_distribute
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.lemon.api.common.po.ApiRateDistributeWithBLOBs" >
+    insert into api_rate_distribute (id, apiId, uniqueUuid,
+      interfaceName, backEndAddress, backEndAddressB,backEndPath,
+      backEndHttpMethod, backEndTimeout, callBackType,
+      status, weight, createTime,
+      updateTime, backendProtocolType, responseTransParam,
+      responseConfigJson)
+    values (#{id,jdbcType=INTEGER}, #{apiId,jdbcType=INTEGER}, #{uniqueUuid,jdbcType=VARCHAR},
+      #{interfaceName,jdbcType=VARCHAR}, #{backEndAddress,jdbcType=VARCHAR},#{backEndAddressB,jdbcType=VARCHAR},
+       #{backEndPath,jdbcType=VARCHAR},
+      #{backEndHttpMethod,jdbcType=INTEGER}, #{backEndTimeout,jdbcType=INTEGER}, #{callBackType,jdbcType=INTEGER},
+      #{status,jdbcType=INTEGER}, #{weight,jdbcType=INTEGER}, #{createTime,jdbcType=BIGINT},
+      #{updateTime,jdbcType=BIGINT}, #{backendProtocolType,jdbcType=INTEGER}, #{responseTransParam,jdbcType=LONGVARCHAR},
+      #{responseConfigJson,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.lemon.api.common.po.ApiRateDistributeWithBLOBs" >
+    insert into api_rate_distribute
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="apiId != null" >
+        apiId,
+      </if>
+      <if test="uniqueUuid != null" >
+        uniqueUuid,
+      </if>
+      <if test="interfaceName != null" >
+        interfaceName,
+      </if>
+      <if test="backEndAddress != null" >
+        backEndAddress,
+      </if>
+      <if test="backEndAddressB != null" >
+        backEndAddressB,
+      </if>
+      <if test="backEndPath != null" >
+        backEndPath,
+      </if>
+      <if test="backEndHttpMethod != null" >
+        backEndHttpMethod,
+      </if>
+      <if test="backEndTimeout != null" >
+        backEndTimeout,
+      </if>
+      <if test="callBackType != null" >
+        callBackType,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="weight != null" >
+        weight,
+      </if>
+      <if test="createTime != null" >
+        createTime,
+      </if>
+      <if test="updateTime != null" >
+        updateTime,
+      </if>
+      <if test="backendProtocolType != null" >
+        backendProtocolType,
+      </if>
+      <if test="responseTransParam != null" >
+        responseTransParam,
+      </if>
+      <if test="responseConfigJson != null" >
+        responseConfigJson,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="apiId != null" >
+        #{apiId,jdbcType=INTEGER},
+      </if>
+      <if test="uniqueUuid != null" >
+        #{uniqueUuid,jdbcType=VARCHAR},
+      </if>
+      <if test="interfaceName != null" >
+        #{interfaceName,jdbcType=VARCHAR},
+      </if>
+      <if test="backEndAddress != null" >
+        #{backEndAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="backEndAddressB != null" >
+        #{backEndAddressB,jdbcType=VARCHAR},
+      </if>
+      <if test="backEndPath != null" >
+        #{backEndPath,jdbcType=VARCHAR},
+      </if>
+      <if test="backEndHttpMethod != null" >
+        #{backEndHttpMethod,jdbcType=INTEGER},
+      </if>
+      <if test="backEndTimeout != null" >
+        #{backEndTimeout,jdbcType=INTEGER},
+      </if>
+      <if test="callBackType != null" >
+        #{callBackType,jdbcType=INTEGER},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="weight != null" >
+        #{weight,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=BIGINT},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=BIGINT},
+      </if>
+      <if test="backendProtocolType != null" >
+        #{backendProtocolType,jdbcType=INTEGER},
+      </if>
+      <if test="responseTransParam != null" >
+        #{responseTransParam,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="responseConfigJson != null" >
+        #{responseConfigJson,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.lemon.api.common.po.ApiRateDistributeExample" resultType="java.lang.Integer" >
+    select count(*) from api_rate_distribute
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update api_rate_distribute
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.apiId != null" >
+        apiId = #{record.apiId,jdbcType=INTEGER},
+      </if>
+      <if test="record.uniqueUuid != null" >
+        uniqueUuid = #{record.uniqueUuid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.interfaceName != null" >
+        interfaceName = #{record.interfaceName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.backEndAddress != null" >
+        backEndAddress = #{record.backEndAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="record.backEndAddressB != null" >
+        backEndAddressB = #{record.backEndAddressB,jdbcType=VARCHAR},
+      </if>
+      <if test="record.backEndPath != null" >
+        backEndPath = #{record.backEndPath,jdbcType=VARCHAR},
+      </if>
+      <if test="record.backEndHttpMethod != null" >
+        backEndHttpMethod = #{record.backEndHttpMethod,jdbcType=INTEGER},
+      </if>
+      <if test="record.backEndTimeout != null" >
+        backEndTimeout = #{record.backEndTimeout,jdbcType=INTEGER},
+      </if>
+      <if test="record.callBackType != null" >
+        callBackType = #{record.callBackType,jdbcType=INTEGER},
+      </if>
+      <if test="record.status != null" >
+        status = #{record.status,jdbcType=INTEGER},
+      </if>
+      <if test="record.weight != null" >
+        weight = #{record.weight,jdbcType=INTEGER},
+      </if>
+      <if test="record.createTime != null" >
+        createTime = #{record.createTime,jdbcType=BIGINT},
+      </if>
+      <if test="record.updateTime != null" >
+        updateTime = #{record.updateTime,jdbcType=BIGINT},
+      </if>
+      <if test="record.backendProtocolType != null" >
+        backendProtocolType = #{record.backendProtocolType,jdbcType=INTEGER},
+      </if>
+      <if test="record.responseTransParam != null" >
+        responseTransParam = #{record.responseTransParam,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="record.responseConfigJson != null" >
+        responseConfigJson = #{record.responseConfigJson,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map" >
+    update api_rate_distribute
+    set id = #{record.id,jdbcType=INTEGER},
+      apiId = #{record.apiId,jdbcType=INTEGER},
+      uniqueUuid = #{record.uniqueUuid,jdbcType=VARCHAR},
+      interfaceName = #{record.interfaceName,jdbcType=VARCHAR},
+      backEndAddress = #{record.backEndAddress,jdbcType=VARCHAR},
+    backEndAddressB = #{record.backEndAddressB,jdbcType=VARCHAR},
+      backEndPath = #{record.backEndPath,jdbcType=VARCHAR},
+      backEndHttpMethod = #{record.backEndHttpMethod,jdbcType=INTEGER},
+      backEndTimeout = #{record.backEndTimeout,jdbcType=INTEGER},
+      callBackType = #{record.callBackType,jdbcType=INTEGER},
+      status = #{record.status,jdbcType=INTEGER},
+      weight = #{record.weight,jdbcType=INTEGER},
+      createTime = #{record.createTime,jdbcType=BIGINT},
+      updateTime = #{record.updateTime,jdbcType=BIGINT},
+      backendProtocolType = #{record.backendProtocolType,jdbcType=INTEGER},
+      responseTransParam = #{record.responseTransParam,jdbcType=LONGVARCHAR},
+      responseConfigJson = #{record.responseConfigJson,jdbcType=LONGVARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update api_rate_distribute
+    set id = #{record.id,jdbcType=INTEGER},
+      apiId = #{record.apiId,jdbcType=INTEGER},
+      uniqueUuid = #{record.uniqueUuid,jdbcType=VARCHAR},
+      interfaceName = #{record.interfaceName,jdbcType=VARCHAR},
+      backEndAddress = #{record.backEndAddress,jdbcType=VARCHAR},
+    backEndAddressB = #{record.backEndAddressB,jdbcType=VARCHAR},
+      backEndPath = #{record.backEndPath,jdbcType=VARCHAR},
+      backEndHttpMethod = #{record.backEndHttpMethod,jdbcType=INTEGER},
+      backEndTimeout = #{record.backEndTimeout,jdbcType=INTEGER},
+      callBackType = #{record.callBackType,jdbcType=INTEGER},
+      status = #{record.status,jdbcType=INTEGER},
+      weight = #{record.weight,jdbcType=INTEGER},
+      createTime = #{record.createTime,jdbcType=BIGINT},
+      updateTime = #{record.updateTime,jdbcType=BIGINT},
+      backendProtocolType = #{record.backendProtocolType,jdbcType=INTEGER}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.lemon.api.common.po.ApiRateDistributeWithBLOBs" >
+    update api_rate_distribute
+    <set >
+      <if test="apiId != null" >
+        apiId = #{apiId,jdbcType=INTEGER},
+      </if>
+      <if test="uniqueUuid != null" >
+        uniqueUuid = #{uniqueUuid,jdbcType=VARCHAR},
+      </if>
+      <if test="interfaceName != null" >
+        interfaceName = #{interfaceName,jdbcType=VARCHAR},
+      </if>
+      <if test="backEndAddress != null" >
+        backEndAddress = #{backEndAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="backEndAddressB != null" >
+        backEndAddressB = #{backEndAddressB,jdbcType=VARCHAR},
+      </if>
+      <if test="backEndPath != null" >
+        backEndPath = #{backEndPath,jdbcType=VARCHAR},
+      </if>
+      <if test="backEndHttpMethod != null" >
+        backEndHttpMethod = #{backEndHttpMethod,jdbcType=INTEGER},
+      </if>
+      <if test="backEndTimeout != null" >
+        backEndTimeout = #{backEndTimeout,jdbcType=INTEGER},
+      </if>
+      <if test="callBackType != null" >
+        callBackType = #{callBackType,jdbcType=INTEGER},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="weight != null" >
+        weight = #{weight,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        createTime = #{createTime,jdbcType=BIGINT},
+      </if>
+      <if test="updateTime != null" >
+        updateTime = #{updateTime,jdbcType=BIGINT},
+      </if>
+      <if test="backendProtocolType != null" >
+        backendProtocolType = #{backendProtocolType,jdbcType=INTEGER},
+      </if>
+      <if test="responseTransParam != null" >
+        responseTransParam = #{responseTransParam,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="responseConfigJson != null" >
+        responseConfigJson = #{responseConfigJson,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.lemon.api.common.po.ApiRateDistributeWithBLOBs" >
+    update api_rate_distribute
+    set apiId = #{apiId,jdbcType=INTEGER},
+      uniqueUuid = #{uniqueUuid,jdbcType=VARCHAR},
+      interfaceName = #{interfaceName,jdbcType=VARCHAR},
+      backEndAddress = #{backEndAddress,jdbcType=VARCHAR},
+       backEndAddressB = #{backEndAddressB,jdbcType=VARCHAR},
+      backEndPath = #{backEndPath,jdbcType=VARCHAR},
+      backEndHttpMethod = #{backEndHttpMethod,jdbcType=INTEGER},
+      backEndTimeout = #{backEndTimeout,jdbcType=INTEGER},
+      callBackType = #{callBackType,jdbcType=INTEGER},
+      status = #{status,jdbcType=INTEGER},
+      weight = #{weight,jdbcType=INTEGER},
+      createTime = #{createTime,jdbcType=BIGINT},
+      updateTime = #{updateTime,jdbcType=BIGINT},
+      backendProtocolType = #{backendProtocolType,jdbcType=INTEGER},
+      responseTransParam = #{responseTransParam,jdbcType=LONGVARCHAR},
+      responseConfigJson = #{responseConfigJson,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.lemon.api.common.po.ApiRateDistribute" >
+    update api_rate_distribute
+    set apiId = #{apiId,jdbcType=INTEGER},
+      uniqueUuid = #{uniqueUuid,jdbcType=VARCHAR},
+      interfaceName = #{interfaceName,jdbcType=VARCHAR},
+      backEndAddress = #{backEndAddress,jdbcType=VARCHAR},
+       backEndAddressB = #{backEndAddressB,jdbcType=VARCHAR},
+      backEndPath = #{backEndPath,jdbcType=VARCHAR},
+      backEndHttpMethod = #{backEndHttpMethod,jdbcType=INTEGER},
+      backEndTimeout = #{backEndTimeout,jdbcType=INTEGER},
+      callBackType = #{callBackType,jdbcType=INTEGER},
+      status = #{status,jdbcType=INTEGER},
+      weight = #{weight,jdbcType=INTEGER},
+      createTime = #{createTime,jdbcType=BIGINT},
+      updateTime = #{updateTime,jdbcType=BIGINT},
+      backendProtocolType = #{backendProtocolType,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

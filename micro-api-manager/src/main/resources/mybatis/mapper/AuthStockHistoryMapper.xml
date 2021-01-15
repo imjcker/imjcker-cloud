@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.imjcker.manager.charge.mapper.AuthStockHistoryMapper">
+  <resultMap id="BaseResultMap" type="com.imjcker.manager.charge.po.AuthStockHistory">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="api_id" jdbcType="INTEGER" property="apiId" />
+    <result column="app_key" jdbcType="VARCHAR" property="appKey" />
+    <result column="stock" jdbcType="INTEGER" property="stock" />
+    <result column="create_time" jdbcType="BIGINT" property="createTime" />
+    <result column="record_time" jdbcType="DATE" property="recordTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    id, api_id, app_key, stock, create_time, record_time
+  </sql>
+  <select id="listForPage" resultType="com.imjcker.manager.charge.vo.response.RespAuthStockHistory"
+          parameterType="com.imjcker.manager.charge.vo.request.ReqStockByPage">
+    select <include refid="Base_Column_List"></include> from auth_stock_history
+    where api_id=#{apiId} and app_key=#{appKey}
+  </select>
+
+  <select id="findNewestAuthStock" resultType="com.imjcker.manager.charge.vo.response.RespAuthStockHistory">
+    select <include refid="Base_Column_List"></include> from auth_stock_history
+    where api_id=#{apiId} and app_key=#{appKey} and create_time &gt; #{timeStamp} order by id desc limit 1
+  </select>
+
+  <insert id="inserByList">
+    insert into auth_stock_history(api_id, app_key, stock, create_time, record_time) values
+    <foreach collection="list" item="item" separator=",">
+      (#{item.apiId},#{item.appKey},#{item.stock},#{item.createTime},#{item.recordTime})
+    </foreach>
+  </insert>
+</mapper>

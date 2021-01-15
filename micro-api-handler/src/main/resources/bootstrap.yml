@@ -1,0 +1,155 @@
+
+
+eureka:
+  instance:
+    prefer-ip-address: true
+  client:
+    serviceUrl:
+      defaultZone: ${eureka.host:http://172.32.3.210:8761/eureka/}
+
+spring:
+  application:
+    name: micro-api-handler-service
+  cloud:
+    inetutils:
+      preferred-networks: 47.240.46.65
+    config:
+      discovery:
+        enabled: true
+        service-id: micro-server-config
+      profile: ${config.profile:test}
+    loadbalancer:
+      retry:
+        enabled: false
+  mvc:
+    throw-exception-if-no-handler-found: true
+  resources:
+    add-mappings: false
+  # redis 配置
+  redis:
+    cluster:
+      nodes: 172.32.3.210:6379,172.32.3.210:6380,172.32.3.211:6381,172.32.3.211:6382,172.32.3.212:6383,172.32.3.212:6384
+    password: lemonkz9*l
+    timeout: 10000
+    pool:
+      max-active: 100
+      max-idle: 50
+  rabbitmq:
+    addresses: 172.32.3.210:5672,172.32.3.211:5672,172.32.3.212:5672
+    username: guest
+    password: guest
+
+  kafka:
+    bootstrap-servers: 172.32.3.210:9092,172.32.3.211:9092,172.32.3.212:9092
+    consumer:
+      group-id: zipkin
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+    properties:
+      max.request.size: 4096000
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    url: jdbc:mysql://localhost:3306/imjcker?useUnicode=true&characterEncoding=UTF-8&characterSetResults=UTF-8&zeroDateTimeBehavior=convertToNull&useSSL=false
+    username: root
+    password: mysql
+    driverClassName: com.mysql.jdbc.Driver
+    druid:
+      initialSize: 1
+      minIdle: 1
+      maxActive: 200
+      maxWait: 10000
+      timeBetweenEvictionRunsMillis: 10000
+      minEvictableIdleTimeMillis: 300000
+      validationQuery: select 'x'
+      testWhileIdle: true
+      testOnBorrow: false
+      testOnReturn: false
+      poolPreparedStatements: true
+      maxOpenPreparedStatements: 20
+      filters: stat
+      stat-view-servlet:
+        enabled: true
+        url-pattern: /druid/gateway/*
+      aop-patterns: com.lemon.*
+
+mybatis:
+  mapperLocations: classpath:mybatis/mapper/*.xml
+  typeAliasPackage: com.lemon.*.*.po
+
+pagehelper:
+  helperDialect: mysql
+  reasonable: false
+  supportMethodsArguments: true
+  params: count=countSql
+
+server:
+  port: 6090
+  undertow:
+    worker-threads: 500
+    io-threads: 64
+
+management:
+  security:
+    enabled: false
+  health:
+    rabbit:
+      enabled: false
+
+#区分环境(test/A/B)
+gatewayClientService:
+  environment: test
+
+executor-service:
+  thread-pool-size: 128
+  queue-capacity: 10000
+
+feign:
+  hystrix:
+    enabled: true
+  httpclient:
+    enabled: false
+  okhttp:
+    enabled: true
+ribbon:
+  ConnectTimeout: 10000
+  ReadTimeout: 61000
+  MaxAutoRetries: 0
+  MaxAutoRetriesNextServer: 0
+  OkToRetryOnAllOperations: true
+  okhttp:
+    enabled: true
+  httpclient:
+    enabled: false
+hystrix:
+  command:
+    default:
+      execution:
+        timeout:
+          enabled: false
+        isolation:
+          thread:
+            timeoutInMilliseconds: 75000
+      circuitBreaker:
+        requestVolumeThreshold: 100
+        sleepWindowInMilliseconds: 10000
+        errorThresholdPercentage: 70
+  threadpool:
+    default:
+      coreSize: 400
+      maximumSize: 500
+      allowMaximumSizeToDivergeFromCoreSize: true
+
+
+
+kafka:
+  exitTopicName: inmgr-flink-interfaceLogInfo
+
+
+#需要更换账户参数的机构  appKey
+agency:
+  api:
+    appKey: appKey-ylhm-account-test,appKey-ychm-account-test,appKey-zjhm-account-test,appKey-jshm-account-test
+

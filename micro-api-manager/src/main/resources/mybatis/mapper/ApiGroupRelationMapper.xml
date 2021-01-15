@@ -1,0 +1,234 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.imjcker.manager.manage.mapper.ApiGroupRelationMapper" >
+  <resultMap id="BaseResultMap" type="com.imjcker.manager.manage.po.ApiGroupRelation" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="apiId" property="apiId" jdbcType="INTEGER" />
+    <result column="groupId" property="groupId" jdbcType="INTEGER" />
+    <result column="path" property="path" jdbcType="VARCHAR" />
+    <result column="createTime" property="createTime" jdbcType="BIGINT" />
+    <result column="fullPathName" property="fullPathName" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, apiId, groupId, path, createTime, fullPathName
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.imjcker.manager.manage.po.ApiGroupRelationExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from api_group_relation
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select
+    <include refid="Base_Column_List" />
+    from api_group_relation
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectByApiId" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select
+    <include refid="Base_Column_List" />
+    from api_group_relation
+    where apiId = #{apiId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from api_group_relation
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.imjcker.manager.manage.po.ApiGroupRelationExample" >
+    delete from api_group_relation
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.imjcker.manager.manage.po.ApiGroupRelation" useGeneratedKeys="true" keyProperty="id">
+    insert into api_group_relation (id, apiId, groupId,
+      path, createTime, fullPathName
+      )
+    values (#{id,jdbcType=INTEGER}, #{apiId,jdbcType=INTEGER}, #{groupId,jdbcType=INTEGER},
+      #{path,jdbcType=VARCHAR}, #{createTime,jdbcType=BIGINT}, #{fullPathName,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.imjcker.manager.manage.po.ApiGroupRelation" >
+    insert into api_group_relation
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="apiId != null" >
+        apiId,
+      </if>
+      <if test="groupId != null" >
+        groupId,
+      </if>
+      <if test="path != null" >
+        path,
+      </if>
+      <if test="createTime != null" >
+        createTime,
+      </if>
+      <if test="fullPathName != null" >
+        fullPathName,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="apiId != null" >
+        #{apiId,jdbcType=INTEGER},
+      </if>
+      <if test="groupId != null" >
+        #{groupId,jdbcType=INTEGER},
+      </if>
+      <if test="path != null" >
+        #{path,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=BIGINT},
+      </if>
+      <if test="fullPathName != null" >
+        #{fullPathName,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.imjcker.manager.manage.po.ApiGroupRelationExample" resultType="java.lang.Integer" >
+    select count(0) from api_group_relation
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update api_group_relation
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.apiId != null" >
+        apiId = #{record.apiId,jdbcType=INTEGER},
+      </if>
+      <if test="record.groupId != null" >
+        groupId = #{record.groupId,jdbcType=INTEGER},
+      </if>
+      <if test="record.path != null" >
+        path = #{record.path,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createTime != null" >
+        createTime = #{record.createTime,jdbcType=BIGINT},
+      </if>
+      <if test="record.fullPathName != null" >
+        fullPathName = #{record.fullPathName,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update api_group_relation
+    set id = #{record.id,jdbcType=INTEGER},
+      apiId = #{record.apiId,jdbcType=INTEGER},
+      groupId = #{record.groupId,jdbcType=INTEGER},
+      path = #{record.path,jdbcType=VARCHAR},
+      createTime = #{record.createTime,jdbcType=BIGINT},
+      fullPathName = #{record.fullPathName,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.imjcker.manager.manage.po.ApiGroupRelation" >
+    update api_group_relation
+    <set >
+      <if test="apiId != null" >
+        apiId = #{apiId,jdbcType=INTEGER},
+      </if>
+      <if test="groupId != null" >
+        groupId = #{groupId,jdbcType=INTEGER},
+      </if>
+      <if test="path != null" >
+        path = #{path,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        createTime = #{createTime,jdbcType=BIGINT},
+      </if>
+      <if test="fullPathName != null" >
+        fullPathName = #{fullPathName,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.imjcker.manager.manage.po.ApiGroupRelation" >
+    update api_group_relation
+    set apiId = #{apiId,jdbcType=INTEGER},
+      groupId = #{groupId,jdbcType=INTEGER},
+      path = #{path,jdbcType=VARCHAR},
+      createTime = #{createTime,jdbcType=BIGINT},
+      fullPathName = #{fullPathName,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
