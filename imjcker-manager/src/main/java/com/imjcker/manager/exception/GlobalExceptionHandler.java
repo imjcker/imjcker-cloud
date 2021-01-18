@@ -1,7 +1,7 @@
 package com.imjcker.manager.exception;
 
-import javax.servlet.http.HttpServletRequest;
-
+import com.imjcker.manager.vo.CommonResult;
+import com.imjcker.manager.vo.ResultStatusEnum;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -9,11 +9,8 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.lemon.common.exception.vo.BusinessException;
-import com.lemon.common.exception.vo.DataValidationException;
-import com.lemon.common.exception.vo.MyCompanyRechargeException;
-import com.lemon.common.vo.CommonResult;
-import com.lemon.common.vo.ResultStatusEnum;
+import javax.servlet.http.HttpServletRequest;
+
 
 /**
  * <p>Title: GlobalExceptionHandler.java
@@ -27,15 +24,6 @@ import com.lemon.common.vo.ResultStatusEnum;
 @ControllerAdvice
 public class GlobalExceptionHandler {
     private static Logger logger = LoggerFactory.getLogger(GlobalExceptionHandler.class);
-
-    @ExceptionHandler(value = MyCompanyRechargeException.class)
-    @ResponseBody
-    public CommonResult myCompanyRechargeExceptionHandler(HttpServletRequest req, MyCompanyRechargeException ex) {
-        logger.warn("全局异常处理器捕获到自定义异常.", ex);
-        CommonResult commonResult = new CommonResult(ResultStatusEnum.WARN, null);
-        commonResult.setMessage(ex.getMessage());
-        return commonResult;
-    }
 
     @ExceptionHandler(value = BusinessException.class)
     @ResponseBody
@@ -57,9 +45,9 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(value = Exception.class)
     @ResponseBody
-    public CommonResult defaultHandler(HttpServletRequest req, Exception ex){
+    public CommonResult defaultHandler(HttpServletRequest req, Exception ex) {
         logger.error("全局异常处理器捕获到未知异常.", ex);
-        return CommonResult.ex(ResultStatusEnum.ERROR.getCode(), ex.getMessage(), null);
+        return CommonResult.ex(ResultStatusEnum.ERROR, ex.getMessage());
     }
 
 }

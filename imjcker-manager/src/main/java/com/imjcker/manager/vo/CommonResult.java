@@ -54,11 +54,16 @@ public class CommonResult {
 
     public CommonResult() {}
 
-    @Override
-    public String toString() {
-        return "CommonResult{" + "code=" + code +
-                ", message='" + message + '\'' +
-                ", data=" + data +
-                '}';
+    public CommonResult ex(ResultStatusEnum status) {
+        return new CommonResult(status, null);
     }
+
+    public CommonResult success(Object data) {
+        return new CommonResult(ResultStatusEnum.SUCCESS, data);
+    }
+
+    public static CommonResult ex(ResultStatusEnum status, Object message) {
+        return new CommonResult(status, message);
+    }
+
 }

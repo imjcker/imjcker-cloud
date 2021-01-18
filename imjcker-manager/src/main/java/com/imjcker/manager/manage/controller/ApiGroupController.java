@@ -2,16 +2,16 @@ package com.imjcker.manager.manage.controller;
 
 import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.PageInfo;
-import com.lemon.common.exception.ExceptionInfo;
-import com.lemon.common.exception.vo.DataValidationException;
-import com.lemon.common.vo.CommonResult;
-import com.lemon.common.vo.ResultStatusEnum;
+import com.imjcker.manager.exception.DataValidationException;
+import com.imjcker.manager.exception.ExceptionInfo;
 import com.imjcker.manager.manage.po.ApiGroup;
 import com.imjcker.manager.manage.service.ApiGroupService;
 import com.imjcker.manager.manage.service.ApiService;
 import com.imjcker.manager.manage.validator.GroupValidate;
 import com.imjcker.manager.manage.vo.ApiGroupQuery;
 import com.imjcker.manager.manage.vo.MultiLevelGroup;
+import com.imjcker.manager.vo.CommonResult;
+import com.imjcker.manager.vo.ResultStatusEnum;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang3.StringUtils;
@@ -117,7 +117,7 @@ public class ApiGroupController {
      */
     @ApiOperation(value = "删除分组", notes = "删除分组")
     @PostMapping("logicDelete")
-    public CommonResult logicDelete(@RequestBody JSONObject jsonObject) {
+    public CommonResult logicDelete(@RequestBody JSONObject jsonObject) throws DataValidationException {
         String groupUUID = String.valueOf(jsonObject.get("groupUUID"));
         if (StringUtils.isBlank(groupUUID)) {
             throw new DataValidationException(ExceptionInfo.NOT_NULL_APIGROUPUUID);

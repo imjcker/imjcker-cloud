@@ -3,9 +3,10 @@ package com.imjcker.manager.manage.controller;
 import com.alibaba.fastjson.JSONObject;
 import com.imjcker.manager.manage.po.Agency;
 import com.imjcker.manager.manage.po.query.AgencyQuery;
-import com.lemon.common.vo.CommonResult;
-import com.lemon.common.vo.ResultStatusEnum;
+
 import com.imjcker.manager.manage.service.impl.AgencyService;
+import com.imjcker.manager.vo.CommonResult;
+import com.imjcker.manager.vo.ResultStatusEnum;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang3.StringUtils;
@@ -65,7 +66,7 @@ public class AgencyController {
         //校验
         List<Agency> list = agencyService.checkUnique(agency);
         if (list!=null && list.size()>0)
-            return new CommonResult(ResultStatusEnum.AGENCY_EXITE,false);
+            return new CommonResult(ResultStatusEnum.AGENCY_EXIT,false);
         agencyService.add(agency);
         LOGGER.info("appKey={},sourceFlag={},apiGroupName={},apiName={},dataConfig={}添加成功", agency.getAppKey(),agency.getSourceFlag(),agency.getApiGroupName(),agency.getApiName(),agency.getDataConfig());
         return new CommonResult(ResultStatusEnum.SUCCESS,true);
@@ -91,7 +92,7 @@ public class AgencyController {
         List<Agency> list = agencyService.checkUnique(agency);
         list = list.stream().filter(agency1 -> !agency.getId().equals(agency1.getId())).collect(Collectors.toList());
         if (list!=null && list.size()>0){
-            return new CommonResult(ResultStatusEnum.AGENCY_EXITE,false);
+            return new CommonResult(ResultStatusEnum.AGENCY_EXIT,false);
         }
         agencyService.update(agency);
         LOGGER.info("id={},dataConfig={}修改成功", agency.getId(),agency.getDataConfig());

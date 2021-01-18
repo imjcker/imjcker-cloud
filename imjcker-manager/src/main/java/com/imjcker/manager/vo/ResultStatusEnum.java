@@ -13,7 +13,9 @@ public enum ResultStatusEnum {
     SUCCESS(2000, "Success"),
     WARN(3000, "Warn"),
     NOT_FOUND(4000, "Not Found"),
-    ERROR(5000, "Error");
+    ERROR(5000, "Error"),
+    AGENCY_EXIT(5000, "Error"),
+    AGENCY_SOURCE(1, "1");
 
     private final int code;
     private final String message;
