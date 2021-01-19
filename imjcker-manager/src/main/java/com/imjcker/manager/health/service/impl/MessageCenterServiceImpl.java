@@ -4,7 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.imjcker.manager.config.MessageCenterConfig;
 import com.imjcker.manager.health.service.MessageCenterService;
-import com.imjcker.manager.health.util.HttpClientUtils;
+import com.imjcker.manager.util.http.HttpClientUtils;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.http.HttpEntity;

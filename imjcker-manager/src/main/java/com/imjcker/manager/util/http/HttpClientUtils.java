@@ -1,21 +1,28 @@
 package com.imjcker.manager.util.http;
 
+import org.apache.http.HttpEntity;
 import org.apache.http.HttpStatus;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.*;
 import org.apache.http.client.utils.URIBuilder;
+import org.apache.http.conn.HttpHostConnectException;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
 import java.util.*;
 
 public class HttpClientUtils {
+
+    private static final Logger log = LoggerFactory.getLogger(HttpClientUtils.class);
 
     // 编码格式。发送编码格式统一用UTF-8
     private static final String ENCODING = "UTF-8";
@@ -319,6 +326,71 @@ public class HttpClientUtils {
         }
         if (httpClient != null) {
             httpClient.close();
+        }
+    }
+
+    public static String get(String url) {
+        CloseableHttpClient httpClient = HttpClients.createDefault();
+        CloseableHttpResponse response = null;
+        String result = "";
+        try {
+            HttpGet get = new HttpGet(url);
+            response = httpClient.execute(get);
+            HttpEntity entity = response.getEntity();
+            if (entity != null) {
+                result = EntityUtils.toString(entity);
+                return result;
+            }
+        } catch (HttpHostConnectException e) {
+            log.error("连接失败：{}, {}", e.getHost(), e.getMessage());
+            return "{\"status\":\"999\"}";
+        } catch (IOException e) {
+            log.error("http client get error");
+        } finally {
+            release(httpClient, response);
+        }
+        return "";
+    }
+
+
+    public static String post(HttpPost httpPost) {
+        RequestConfig requestConfig = RequestConfig
+                .custom()
+                .setSocketTimeout(30000)
+                .setConnectTimeout(30000)
+                .build();
+        httpPost.setConfig(requestConfig);
+        CloseableHttpClient httpClient = HttpClients.createDefault();
+        CloseableHttpResponse response = null;
+        String result = "";
+        try {
+            response = httpClient.execute(httpPost);
+            HttpEntity entity = response.getEntity();
+            if (entity != null) {
+                result = EntityUtils.toString(entity, StandardCharsets.UTF_8);
+                log.info("result: {}", result);
+                return result;
+            }
+        } catch (IOException ex) {
+            log.error("{}", ex.getMessage());
+        } finally {
+            release(httpClient, response);
+        }
+
+        return result;
+    }
+
+
+    public static void release(CloseableHttpClient httpClient, CloseableHttpResponse response) {
+        try {
+            if (response != null) {
+                response.close();
+            }
+            if (httpClient != null) {
+                httpClient.close();
+            }
+        } catch (IOException e) {
+            log.error("{}", e.getMessage());
         }
     }
 

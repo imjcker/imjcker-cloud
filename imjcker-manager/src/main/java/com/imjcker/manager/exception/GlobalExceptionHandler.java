@@ -1,7 +1,7 @@
 package com.imjcker.manager.exception;
 
-import com.imjcker.manager.vo.CommonResult;
-import com.imjcker.manager.vo.ResultStatusEnum;
+import com.imjcker.manager.common.CommonResult;
+import com.imjcker.manager.common.ResultStatusEnum;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.ControllerAdvice;

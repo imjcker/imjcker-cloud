@@ -2,14 +2,10 @@ package com.imjcker.manager.health.controller;
 
 import com.alibaba.fastjson.JSONObject;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.imjcker.manager.health.repository.InstanceRepository;
-import com.imjcker.manager.vo.CommonResult;
 import com.imjcker.manager.health.model.Instance;
-import com.imjcker.manager.health.util.HttpClientUtils;
-import com.netflix.appinfo.InstanceInfo;
-import com.netflix.discovery.EurekaClient;
-import com.netflix.discovery.shared.Application;
-import com.netflix.discovery.shared.Applications;
+import com.imjcker.manager.health.repository.InstanceRepository;
+import com.imjcker.manager.util.http.HttpClientUtils;
+import com.imjcker.manager.common.CommonResult;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.http.HttpEntity;
 import org.apache.http.client.config.RequestConfig;
@@ -20,6 +16,8 @@ import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
 import org.springframework.beans.BeanUtils;
+import org.springframework.cloud.client.ServiceInstance;
+import org.springframework.cloud.client.discovery.DiscoveryClient;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -42,11 +40,11 @@ import java.util.concurrent.Executors;
 @RequestMapping("/health")
 public class DiscoverClientController {
     private static final ObjectMapper objectMapper = new ObjectMapper();
-    private final EurekaClient eurekaClient;
+    private final DiscoveryClient discoveryClient;
     private final InstanceRepository instanceRepository;
 
-    public DiscoverClientController(EurekaClient eurekaClient, InstanceRepository instanceRepository) {
-        this.eurekaClient = eurekaClient;
+    public DiscoverClientController(DiscoveryClient eurekaClient, InstanceRepository instanceRepository) {
+        this.discoveryClient = eurekaClient;
         this.instanceRepository = instanceRepository;
     }
 
@@ -57,23 +55,22 @@ public class DiscoverClientController {
      */
     @PostMapping("/getApps")
     public CommonResult getApps() {
-        Applications applications = eurekaClient.getApplications();
-        List<Application> applicationList = applications.getRegisteredApplications();
         //所有已经注册的节点
         List<Instance> instanceListAll = new ArrayList<>();
-        applicationList.forEach(application -> {
-            List<InstanceInfo> instances = application.getInstances();
-            instances.forEach(instanceInfo -> {
-                Instance instance = new Instance();
-                BeanUtils.copyProperties(instanceInfo, instance);
-                instance.setStatus("gray");
-                instanceListAll.add(instance);
+        List<String> services = discoveryClient.getServices();
+        services.forEach(service -> {
+            List<ServiceInstance> instances = discoveryClient.getInstances(service);
+            instances.forEach(instance -> {
+                Instance inst = new Instance();
+                BeanUtils.copyProperties(instance, inst);
+                inst.setStatus("gray");
+                instanceListAll.add(inst);
             });
+
         });
         //健康检查的节点
         List<Instance> instanceListRegistered = instanceRepository.findAll();
         //发送请求，确定状态
-//        ConcurrentSkipListSet instances = new ConcurrentSkipListSet<Instance>();
         ArrayList<Instance> instances = new ArrayList<>();
         ExecutorService pool = Executors.newFixedThreadPool(10);
         try {
@@ -112,9 +109,9 @@ public class DiscoverClientController {
     @PostMapping("/addHealthCheck")
     public CommonResult addHealthCheck(@RequestBody JSONObject jsonObject) {
 
-        List<Application> applications = eurekaClient.getApplications().getRegisteredApplications();
-        applications.forEach(application ->
-                application.getInstances().forEach(instanceInfo -> {
+        List<String> services = discoveryClient.getServices();//
+        services.forEach(service ->
+                discoveryClient.getInstances(service).forEach(instanceInfo -> {
                     if (jsonObject.getString("instanceId").equalsIgnoreCase(instanceInfo.getInstanceId())) {
                         Instance instance = new Instance();
                         BeanUtils.copyProperties(instanceInfo, instance);
@@ -131,8 +128,8 @@ public class DiscoverClientController {
      * @return list
      */
     @PostMapping("/delHealthCheck")
-    public CommonResult delHealthCheck(@RequestBody JSONObject jsonObject) {
-        instanceRepository.delete(jsonObject.getString("instanceId"));
+    public CommonResult delHealthCheck(@RequestBody Instance instance) {
+        instanceRepository.deleteById(instance.getInstanceId());
         return CommonResult.success();
     }
 

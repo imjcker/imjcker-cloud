@@ -2,8 +2,8 @@ package com.imjcker.manager.health.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.imjcker.manager.health.repository.InstanceRepository;
-import com.lemon.common.util.SpringUtils;
 import com.imjcker.manager.health.model.Instance;
+import com.imjcker.manager.util.SpringContextUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.quartz.Job;
 import org.quartz.JobExecutionContext;
@@ -24,8 +24,8 @@ public class HealthCheckService implements Job {
 
     @Override
     public void execute(JobExecutionContext jobExecutionContext) throws JobExecutionException {
-        MessageCenterService messageCenterService = SpringUtils.getBean(MessageCenterService.class);
-        InstanceRepository serviceInfoRepository = SpringUtils.getBean(InstanceRepository.class);
+        MessageCenterService messageCenterService = SpringContextUtils.getBean(MessageCenterService.class);
+        InstanceRepository serviceInfoRepository = SpringContextUtils.getBean(InstanceRepository.class);
         List<Instance> instances = serviceInfoRepository.findAll();
         log.info("开始执行服务健康检查任务");
         // todo 后续发送公众号告警
