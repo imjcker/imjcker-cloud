@@ -57,7 +57,7 @@ public class ApiGroupController {
     public CommonResult list(@RequestBody JSONObject jsonObject) {
         ApiGroupQuery apiGroupQuery = jsonObject.toJavaObject(ApiGroupQuery.class);
         PageInfo<ApiGroup> apiGroupPageInfo = apiGroupService.findPageInfo(apiGroupQuery);
-        return new CommonResult(ResultStatusEnum.SUCCESS, apiGroupPageInfo);
+        return CommonResult.success( apiGroupPageInfo);
     }
 
     /**
@@ -70,7 +70,7 @@ public class ApiGroupController {
     @PostMapping("allList")
     public CommonResult allList() {
         List<ApiGroup> apiGroupList = apiGroupService.findAll();
-        return new CommonResult(ResultStatusEnum.SUCCESS, apiGroupList);
+        return CommonResult.success( apiGroupList);
     }
 
     /**
@@ -87,7 +87,7 @@ public class ApiGroupController {
         //参数校验
         GroupValidate.GroupCheck(apiGroup);
         Integer id = apiGroupService.save(apiGroup);
-        return new CommonResult(ResultStatusEnum.SUCCESS, id);
+        return CommonResult.success( id);
     }
 
     /**
@@ -106,7 +106,7 @@ public class ApiGroupController {
         //参数校验
         GroupValidate.GroupCheck(apiGroup);
         apiGroupService.update(apiGroup);
-        return new CommonResult(ResultStatusEnum.SUCCESS, null);
+        return CommonResult.success();
     }
 
     /**
@@ -123,7 +123,7 @@ public class ApiGroupController {
             throw new DataValidationException(ExceptionInfo.NOT_NULL_APIGROUPUUID);
         }
         String message = apiGroupService.logicDelete(groupUUID);
-        return new CommonResult(ResultStatusEnum.SUCCESS, message);
+        return CommonResult.success( message);
     }
 
     /**
@@ -137,7 +137,7 @@ public class ApiGroupController {
     public CommonResult checkUnique(@RequestBody JSONObject jsonObject) {
         ApiGroupQuery apiGroupQuery = jsonObject.toJavaObject(ApiGroupQuery.class);
         boolean unique = apiGroupService.checkUnique(apiGroupQuery);
-        return new CommonResult(ResultStatusEnum.SUCCESS, unique);
+        return CommonResult.success( unique);
     }
 
 
@@ -153,7 +153,7 @@ public class ApiGroupController {
     public CommonResult hasNoneOfLowerLevelGroup(@RequestBody JSONObject jsonObject) {
         Integer groupId = Integer.parseInt(jsonObject.get("groupId").toString());
         boolean unique = apiGroupService.hasNoneOfLowerLevelGroup(groupId);
-        return new CommonResult(ResultStatusEnum.SUCCESS, unique);
+        return CommonResult.success( unique);
     }
 
     @ApiOperation(value = "返回可以绑定API的分组", notes = "返回可以绑定API的分组")
@@ -162,7 +162,7 @@ public class ApiGroupController {
 
         List<ApiGroup> groupList = apiGroupService.listOfNoLowerLevelGroup();
         if (groupList!=null && groupList.size()>0)
-            return new CommonResult(ResultStatusEnum.SUCCESS, groupList);
+            return CommonResult.success( groupList);
         return new CommonResult(ResultStatusEnum.WARN, null);
     }
 
@@ -172,7 +172,7 @@ public class ApiGroupController {
 
         ApiGroup apiGroup = jsonObject.toJavaObject(ApiGroup.class);
         List<MultiLevelGroup> multiLevelGroupList = apiGroupService.listByLevel(apiGroup);
-        return new CommonResult(ResultStatusEnum.SUCCESS, multiLevelGroupList);
+        return CommonResult.success( multiLevelGroupList);
     }
 
     @ApiOperation(value = "按层级结构返回分组", notes = "按层级结构返回分组")
@@ -181,7 +181,7 @@ public class ApiGroupController {
 
         ApiGroup apiGroup = jsonObject.toJavaObject(ApiGroup.class);
         List<MultiLevelGroup> multiLevelGroupList = apiGroupService.listByLevel(apiGroup);
-        return new CommonResult(ResultStatusEnum.SUCCESS, multiLevelGroupList);
+        return CommonResult.success( multiLevelGroupList);
     }
 
     @ApiOperation(value = "分页按层级结构返回分组", notes = "分页按层级结构返回分组")
@@ -190,7 +190,7 @@ public class ApiGroupController {
 
         ApiGroupQuery apiGroupQuery = jsonObject.toJavaObject(ApiGroupQuery.class);
         PageInfo<MultiLevelGroup> multiLevelGroupList = apiGroupService.pageInfoListByLevel(apiGroupQuery);
-        return new CommonResult(ResultStatusEnum.SUCCESS, multiLevelGroupList);
+        return CommonResult.success( multiLevelGroupList);
     }
 
     /**
@@ -205,6 +205,6 @@ public class ApiGroupController {
 
         ApiGroupQuery apiGroupQuery = jsonObject.toJavaObject(ApiGroupQuery.class);
         PageInfo<ApiGroup> apiGroupPageInfo = apiGroupService.listByParentIdPageInfo(apiGroupQuery);
-        return new CommonResult(ResultStatusEnum.SUCCESS, apiGroupPageInfo);
+        return CommonResult.success( apiGroupPageInfo);
     }
 }

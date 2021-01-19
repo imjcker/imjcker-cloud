@@ -15,6 +15,7 @@ public enum ResultStatusEnum {
     NOT_FOUND(4000, "Not Found"),
     ERROR(5000, "Error"),
     AGENCY_EXIT(5000, "Error"),
+    PARAMS_INPUT_NULL(5000, "Error"),
     AGENCY_SOURCE(1, "1");
 
     private final int code;

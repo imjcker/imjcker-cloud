@@ -7,9 +7,9 @@ import com.imjcker.manager.manage.mapper.RequestParamsVersionsLatestMapper;
 import com.imjcker.manager.manage.po.*;
 import com.imjcker.manager.manage.vo.DebugApiQuery;
 import com.imjcker.manager.manage.vo.DebugParams;
-import com.lemon.common.vo.CommonResult;
+import com.imjcker.manager.vo.CommonResult;
 import com.lemon.common.vo.CommonStatus;
-import com.lemon.common.vo.ResultStatusEnum;
+import com.imjcker.manager.vo.ResultStatusEnum;
 import com.imjcker.manager.manage.mapper.ApiInfoVersionsLatestMapper;
 import com.imjcker.manager.manage.po.*;
 import com.imjcker.manager.manage.service.RedisService;
@@ -105,7 +105,7 @@ public class DebugServiceImpl implements DebugService {
 		map.put("querys", querys);
 		map.put("bodys", bodys);
 		// 为风控调用接口信息的缓存,key: debugInfo + apiId
-		redisService.setToCaches("debugInfo:" + query.getApiId(), new CommonResult(ResultStatusEnum.SUCCESS, map));
+		redisService.setToCaches("debugInfo:" + query.getApiId(), CommonResult.success( map));
 		return map;
 	}
 }

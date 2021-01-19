@@ -1,14 +1,9 @@
 package com.imjcker.manager;
 
-import com.imjcker.manager.charge.plugin.queue.ExecutorServiceProperties;
 import com.imjcker.manager.config.DocumentConfigurationProperties;
-import com.lemon.common.util.SpringUtils;
+import de.codecentric.boot.admin.server.config.EnableAdminServer;
 import lombok.extern.slf4j.Slf4j;
 import org.mybatis.spring.annotation.MapperScan;
-import org.quartz.JobDetail;
-import org.quartz.Scheduler;
-import org.quartz.SchedulerException;
-import org.quartz.Trigger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -18,10 +13,7 @@ import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 import org.springframework.cloud.netflix.feign.EnableFeignClients;
 import org.springframework.context.ApplicationContext;
-import org.springframework.context.annotation.Bean;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
-
-import java.util.Map;
 
 
 /**
@@ -36,16 +28,15 @@ import java.util.Map;
 @EnableEurekaClient
 @EnableFeignClients
 @SpringBootApplication
+@EnableAdminServer
 @EnableConfigurationProperties({
-        DocumentConfigurationProperties.class, ExecutorServiceProperties.class
+        DocumentConfigurationProperties.class
 })
 public class ManagerApplication implements CommandLineRunner {
-    private final Scheduler scheduler;
     private final ApplicationContext applicationContext;
 
     @Autowired
-    public ManagerApplication(Scheduler scheduler, ApplicationContext applicationContext) {
-        this.scheduler = scheduler;
+    public ManagerApplication(ApplicationContext applicationContext) {
         this.applicationContext = applicationContext;
     }
 
@@ -62,12 +53,6 @@ public class ManagerApplication implements CommandLineRunner {
         registration.setOrder(1);
         return registration;
     }*/
-
-    @Bean
-    public SpringUtils springUtils() {
-        return new SpringUtils();
-    }
-
     public static void main(String[] args) {
         SpringApplication.run(ManagerApplication.class, args);
     }
@@ -78,26 +63,6 @@ public class ManagerApplication implements CommandLineRunner {
         log.info("启动参数：");
         for (String arg : strings) {
             log.info(arg);
-        }
-        try {
-            log.info("开始加载后台任务");
-            Map<String, JobDetail> jobDetailMap = applicationContext.getBeansOfType(JobDetail.class);
-            Map<String, Trigger> triggerMap = applicationContext.getBeansOfType(Trigger.class);
-            jobDetailMap.forEach(((jobDetailName, jobDetail) ->
-                    triggerMap.forEach(((triggerName, trigger) -> {
-                        if (jobDetail.getKey().getName().equalsIgnoreCase(trigger.getKey().getName())) {
-                            try {
-                                log.info("JobDetail:{} TriggerName:{}", jobDetailName, triggerName);
-                                scheduler.scheduleJob(jobDetail, trigger);
-                            } catch (SchedulerException e) {
-                                log.error("注册任务失败", e);
-                            }
-                        }
-                    }))
-            ));
-            scheduler.start();
-        } catch (Exception e) {
-            log.error("启动任务失败", e);
         }
     }
 }

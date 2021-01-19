@@ -1,5 +1,4 @@
-package com.imjcker.common.ajax;
-
+package com.imjcker.manager.util.ajax;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import lombok.Data;

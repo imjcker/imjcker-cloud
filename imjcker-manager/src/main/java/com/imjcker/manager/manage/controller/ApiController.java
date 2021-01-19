@@ -18,8 +18,8 @@ import com.lemon.common.exception.vo.DataValidationException;
 import com.lemon.common.util.BeanCustomUtils;
 import com.lemon.common.util.DateUtil;
 import com.lemon.common.util.DownloadUtils;
-import com.lemon.common.vo.CommonResult;
-import com.lemon.common.vo.ResultStatusEnum;
+import com.imjcker.manager.vo.CommonResult;
+import com.imjcker.manager.vo.ResultStatusEnum;
 import com.imjcker.manager.config.DocumentConfigurationProperties;
 import com.imjcker.manager.manage.po.*;
 import com.imjcker.manager.manage.po.query.ApiInfoLatestQuery;
@@ -129,7 +129,7 @@ public class ApiController {
         }
 
         apiService.update(apiInfo, requestParamsList, backendList);
-        return new CommonResult(ResultStatusEnum.SUCCESS, null);
+        return CommonResult.success();
     }
 
     @ApiOperation(value = "更新指定API参数", notes = "更新指定API参数")
@@ -164,7 +164,7 @@ public class ApiController {
             apiService.paramNameCheck(backendparamNamesList);
         }
         apiService.updateApiParams(apiInfo, requestParamsList, backendList);
-        return new CommonResult(ResultStatusEnum.SUCCESS, null);
+        return CommonResult.success();
     }
 
 
@@ -211,7 +211,7 @@ public class ApiController {
         }
         Integer id = apiService.save(apiInfo, requestParamsList, backendList);
 
-        return new CommonResult(ResultStatusEnum.SUCCESS, id);
+        return CommonResult.success( id);
     }
 //接口2.0------------------------------------------下面-----------------------------------------------------------------
 
@@ -328,7 +328,7 @@ public class ApiController {
         JSONObject result = new JSONObject();
         result.put("apiList", apiExpandPageInfo);
         result.put("apiIdList", validApiIdList);
-        return new CommonResult(ResultStatusEnum.SUCCESS, result);
+        return CommonResult.success( result);
     }
 
     /**
@@ -365,7 +365,7 @@ public class ApiController {
             result = "没有需要发布的接口";
             LOG.info("env= {},没有需要发布的接口", env);
         }
-        return new CommonResult(ResultStatusEnum.SUCCESS, result);
+        return CommonResult.success( result);
     }
 
     @ApiOperation(value = "自动测试api", notes = "自动测试api")
@@ -398,7 +398,7 @@ public class ApiController {
             pool.shutdown();
         }
 
-        return new CommonResult(ResultStatusEnum.SUCCESS, null);
+        return CommonResult.success();
     }
 
     @ApiOperation(value = "配置测试api列表", notes = "配置测试api列表")
@@ -406,7 +406,7 @@ public class ApiController {
     public CommonResult pageInAutoTestConfig(@RequestBody ApiInfoLatestQuery query) {
 
         PageInfo<ApiInfoVersionLatestResponse> apiList = apiService.selectApiInfoLatestExample(query);
-        return new CommonResult(ResultStatusEnum.SUCCESS, apiList);
+        return CommonResult.success( apiList);
     }
 
     @ApiOperation(value = "自动测试结果分页", notes = "自动测试结果分页列表")
@@ -414,7 +414,7 @@ public class ApiController {
     public CommonResult pageInAutoTestResult(@RequestBody AutoTestQuery query) {
 
         PageInfo<AutoTestResult> testResultPageInfo = apiService.autoTestList(query);
-        return new CommonResult(ResultStatusEnum.SUCCESS, testResultPageInfo);
+        return CommonResult.success( testResultPageInfo);
     }
 
     @ApiOperation(value = "上线测试配置", notes = "下线测试配置")
@@ -422,7 +422,7 @@ public class ApiController {
     public CommonResult autoTestOn(@PathVariable Integer apiId) {
 
         apiService.configAutoTestOn(apiId);
-        return new CommonResult(ResultStatusEnum.SUCCESS, null);
+        return CommonResult.success();
     }
 
     @ApiOperation(value = "下线测试配置", notes = "下线测试配置")
@@ -430,7 +430,7 @@ public class ApiController {
     public CommonResult autoTestOff(@PathVariable Integer apiId) {
 
         apiService.configAutoTestOff(apiId);
-        return new CommonResult(ResultStatusEnum.SUCCESS, null);
+        return CommonResult.success();
     }
 
     /**
@@ -444,7 +444,7 @@ public class ApiController {
     public CommonResult offline(@RequestBody JSONObject jsonObject) {
         ApiExpand apiExpand = jsonObject.toJavaObject(ApiExpand.class);
         apiService.offline(apiExpand);
-        return new CommonResult(ResultStatusEnum.SUCCESS, null);
+        return CommonResult.success();
     }
 
     /**
@@ -458,7 +458,7 @@ public class ApiController {
     public CommonResult delete(@RequestBody JSONObject jsonObject) {
         ApiInfoWithBLOBs apiInfo = jsonObject.toJavaObject(ApiInfoWithBLOBs.class);
         String message = apiService.delete(apiInfo);
-        return new CommonResult(ResultStatusEnum.SUCCESS, message);
+        return CommonResult.success( message);
     }
 
     /**
@@ -472,7 +472,7 @@ public class ApiController {
     public CommonResult checkUnique(@RequestBody JSONObject jsonObject) {
         ApiQuery apiQuery = jsonObject.toJavaObject(ApiQuery.class);
         boolean unique = apiService.checkUnique(apiQuery);
-        return new CommonResult(ResultStatusEnum.SUCCESS, unique);
+        return CommonResult.success( unique);
     }
 
     @ApiOperation(value = "分组内API名称唯一性", notes = "分组内API名称唯一性")
@@ -480,7 +480,7 @@ public class ApiController {
     public CommonResult checkUniqueApiNameGlobal(@RequestBody JSONObject jsonObject) {
         ApiQuery apiQuery = jsonObject.toJavaObject(ApiQuery.class);
         boolean unique = apiService.checkUniqueApiNameGlobal(apiQuery);
-        return new CommonResult(ResultStatusEnum.SUCCESS, unique);
+        return CommonResult.success( unique);
     }
 
     //接口2.0------------------------------------------下面-----------------------------------------------------------------
@@ -489,7 +489,7 @@ public class ApiController {
     public CommonResult checkUniqueInterfaceName(@RequestBody JSONObject jsonObject) {
         ApiQuery apiQuery = jsonObject.toJavaObject(ApiQuery.class);
         boolean unique = apiService.checkUniqueInterfaceName(apiQuery);
-        return new CommonResult(ResultStatusEnum.SUCCESS, unique);
+        return CommonResult.success( unique);
     }
 
     @ApiOperation(value = "全局上游接口httpPath唯一性", notes = "全局上游接口httpPath唯一性")
@@ -497,7 +497,7 @@ public class ApiController {
     public CommonResult checkUniqueInterfaceHttpPath(@RequestBody JSONObject jsonObject) {
         ApiQuery apiQuery = jsonObject.toJavaObject(ApiQuery.class);
         boolean unique = apiService.checkUniqueInterfaceHttpPath(apiQuery);
-        return new CommonResult(ResultStatusEnum.SUCCESS, unique);
+        return CommonResult.success( unique);
     }
     //接口2.0------------------------------------------上面-----------------------------------------------------------------
 
@@ -512,7 +512,7 @@ public class ApiController {
     public CommonResult httpPathUnique(@RequestBody JSONObject jsonObject) {
         ApiInfoWithBLOBs apiInfo = jsonObject.toJavaObject(ApiInfoWithBLOBs.class);
         String resultMsg = apiService.httpPathUnique(apiInfo);
-        return new CommonResult(ResultStatusEnum.SUCCESS, resultMsg);
+        return CommonResult.success( resultMsg);
     }
 
     /**
@@ -530,7 +530,7 @@ public class ApiController {
         }
         List<ParamNames> paramNameList = jsonArray.toJavaList(ParamNames.class);
         apiService.paramNameCheck(paramNameList);
-        return new CommonResult(ResultStatusEnum.SUCCESS, null);
+        return CommonResult.success();
     }
 
     /**
@@ -545,7 +545,7 @@ public class ApiController {
     public CommonResult reswitchVersion(@RequestBody JSONObject jsonObject) {
         ApiInfoVersionsWithBLOBs apiInfoVersion = jsonObject.toJavaObject(ApiInfoVersionsWithBLOBs.class);
         apiService.reswitchVersion(apiInfoVersion);
-        return new CommonResult(ResultStatusEnum.SUCCESS, null);
+        return CommonResult.success();
     }
 
     /**
@@ -559,7 +559,7 @@ public class ApiController {
     public CommonResult copyToEdit(@RequestBody JSONObject jsonObject) {
         ApiInfoVersionsWithBLOBs apiInfoVersion = jsonObject.toJavaObject(ApiInfoVersionsWithBLOBs.class);
         apiService.copyToEdit(apiInfoVersion);
-        return new CommonResult(ResultStatusEnum.SUCCESS, null);
+        return CommonResult.success();
     }
 
     /**
@@ -572,7 +572,7 @@ public class ApiController {
     public CommonResult findApiInfoByApiIdAndGroupId(@RequestBody JSONObject jsonObject) {
         ApiInfoWithBLOBs apiInfo = jsonObject.toJavaObject(ApiInfoWithBLOBs.class);
         Map<String, Object> result = apiService.findAllByApiId(apiInfo);
-        return new CommonResult(ResultStatusEnum.SUCCESS, result);
+        return CommonResult.success( result);
     }
 
     @ApiOperation(value = "指定API参数信息", notes = "指定API参数信息")
@@ -580,7 +580,7 @@ public class ApiController {
     public CommonResult getApiParams(@RequestBody JSONObject jsonObject) {
         ApiInfoWithBLOBs apiInfo = jsonObject.toJavaObject(ApiInfoWithBLOBs.class);
         Map<String, Object> result = apiService.getApiParams(apiInfo);
-        return new CommonResult(ResultStatusEnum.SUCCESS, result);
+        return CommonResult.success( result);
     }
 
     /**
@@ -594,7 +594,7 @@ public class ApiController {
     public CommonResult findApiInfoVersion(@RequestBody JSONObject jsonObject) {
         ApiInfoVersionsWithBLOBs apiInfoVersion = jsonObject.toJavaObject(ApiInfoVersionsWithBLOBs.class);
         Map<String, Object> result = apiService.findApiInfoVersion(apiInfoVersion);
-        return new CommonResult(ResultStatusEnum.SUCCESS, result);
+        return CommonResult.success( result);
     }
 
     /**
@@ -608,7 +608,7 @@ public class ApiController {
     public CommonResult apiInfoList(@RequestBody JSONObject jsonObject) {
         ApiInfoQuery apiInfoQuery = jsonObject.toJavaObject(ApiInfoQuery.class);
         PageInfo<ApiExpand> apiExpandPageInfo = apiService.apiInfoList(apiInfoQuery);
-        return new CommonResult(ResultStatusEnum.SUCCESS, apiExpandPageInfo);
+        return CommonResult.success( apiExpandPageInfo);
     }
 
     /**
@@ -622,7 +622,7 @@ public class ApiController {
     public CommonResult apiInfoListByGroup(@RequestBody JSONObject jsonObject) {
         ApiInfoQuery apiInfoQuery = jsonObject.toJavaObject(ApiInfoQuery.class);
         PageInfo<ApiExpand> apiExpandPageInfo = apiService.apiInfoListByGroup(apiInfoQuery);
-        return new CommonResult(ResultStatusEnum.SUCCESS, apiExpandPageInfo);
+        return CommonResult.success( apiExpandPageInfo);
     }
 
     /**
@@ -636,7 +636,7 @@ public class ApiController {
     public CommonResult apiInfoVersionsList(@RequestBody JSONObject jsonObject) {
         ApiInfoVersionQuery apiInfoVersionQuery = jsonObject.toJavaObject(ApiInfoVersionQuery.class);
         PageInfo<ApiVersionExpand> apiVersionExpandPageInfo = apiService.apiInfoVersionList(apiInfoVersionQuery);
-        return new CommonResult(ResultStatusEnum.SUCCESS, apiVersionExpandPageInfo);
+        return CommonResult.success( apiVersionExpandPageInfo);
     }
 
     @ApiOperation(value = "apiInfoVersionsLatest列表", notes = "apiInfoVersionsLatest列表")
@@ -644,7 +644,7 @@ public class ApiController {
     public CommonResult apiInfoVersionsListForFindAPI(@RequestBody JSONObject jsonObject) {
         ApiInfoVersionQuery apiInfoVersionQuery = jsonObject.toJavaObject(ApiInfoVersionQuery.class);
         PageInfo<ApiVersionExpand> apiVersionExpandPageInfo = apiService.apiInfoVersionLatestList(apiInfoVersionQuery);
-        return new CommonResult(ResultStatusEnum.SUCCESS, apiVersionExpandPageInfo);
+        return CommonResult.success( apiVersionExpandPageInfo);
     }
 
     /**
@@ -693,7 +693,7 @@ public class ApiController {
         try {
             List<App> list = appOldService.findNotAccredit(query);
             query.setElements(list);
-            return new CommonResult(ResultStatusEnum.SUCCESS, query);
+            return CommonResult.success( query);
         } catch (Exception e) {
             LOG.error("AppController findApp error...", e);
             return ExceptionHelper.handleException(e, null, 0);
@@ -710,7 +710,7 @@ public class ApiController {
         try {
             List<App> list = appOldService.queryAppPageByApiId(appQuery);
             appQuery.setElements(list);
-            return new CommonResult(ResultStatusEnum.SUCCESS, appQuery);
+            return CommonResult.success( appQuery);
         } catch (Exception e) {
             LOG.error("AppController findAccreditApps error...", e);
             return ExceptionHelper.handleException(e, null, 0);
@@ -727,7 +727,7 @@ public class ApiController {
         com.imjcker.manager.manage.po.Api api = jsonObject.toJavaObject(com.imjcker.manager.manage.po.Api.class);
         try {
             api = appOldService.findApiByApiId(api);
-            return new CommonResult(ResultStatusEnum.SUCCESS, api);
+            return CommonResult.success( api);
         } catch (Exception e) {
             LOG.error("AppController details error...", e);
             return ExceptionHelper.handleException(e, null, 0);
@@ -745,7 +745,7 @@ public class ApiController {
         if (StringUtils.isNotBlank(appName)) queryApiApp.setAppName(appName.replace("_", "\\_"));
         try {
             List<App> list = appOldService.findNoAccreditApps(queryApiApp);
-            return new CommonResult(ResultStatusEnum.SUCCESS, list);
+            return CommonResult.success( list);
         } catch (Exception e) {
             LOG.error("AppController findNoAccreditApis error...", e);
             return ExceptionHelper.handleException(e, null, 0);
@@ -776,7 +776,7 @@ public class ApiController {
                 }
                 appOldService.accredit(apiFindApp);
             }
-            return new CommonResult(ResultStatusEnum.SUCCESS, null);
+            return CommonResult.success();
         } catch (Exception e) {
             LOG.error("ApiController apiToApp error...", e);
             return ExceptionHelper.handleException(e, null, 0);
@@ -796,7 +796,7 @@ public class ApiController {
         if (result == null) {
             return new CommonResult(ResultStatusEnum.ERROR, "接口不存在");
         }
-        return new CommonResult(ResultStatusEnum.SUCCESS, result);
+        return CommonResult.success( result);
     }
 
     /**
@@ -807,7 +807,7 @@ public class ApiController {
     @PostMapping("/getServerURL")
     public CommonResult getServerURL() {
         String serverIpAndPort = apiService.getServerIpAndPort();
-        return new CommonResult(ResultStatusEnum.SUCCESS, serverIpAndPort);
+        return CommonResult.success( serverIpAndPort);
     }
 
     /* api接口文档先关方法*/
@@ -833,7 +833,7 @@ public class ApiController {
             return new CommonResult(ResultStatusEnum.PARAM_NULL, null);
         }
         Map<String, Object> result = apiService.showDocx(jsonObject.getString("apiId"), jsonObject.getString("versionId"));
-        return new CommonResult(ResultStatusEnum.SUCCESS, result);
+        return CommonResult.success( result);
     }
 
     @PostMapping("/parseJson")
@@ -844,7 +844,7 @@ public class ApiController {
         List<CallBackParam> result = apiService.parseJson(jsonObject.getString("apiId"), jsonObject.getString("json"));
         Map<String, Object> map = new HashMap<>();
         map.put("responseList", result);
-        return new CommonResult(ResultStatusEnum.SUCCESS, map);
+        return CommonResult.success( map);
     }
 
 //    @PostMapping("/saveDocx")
@@ -853,7 +853,7 @@ public class ApiController {
 //            return new CommonResult(ResultStatusEnum.PARAM_NULL,null);
 //        }
 //        if(apiService.saveDocx(jsonObject)){
-//            return new CommonResult(ResultStatusEnum.SUCCESS,null);
+//            return CommonResult.success();
 //        }else {
 //            return new CommonResult(ResultStatusEnum.ERROR,null);
 //        }
@@ -865,9 +865,9 @@ public class ApiController {
             return new CommonResult(ResultStatusEnum.PARAM_NULL, null);
         }
         if (apiService.editDocx(jsonObject)) {
-            return new CommonResult(ResultStatusEnum.SUCCESS, null);
+            return CommonResult.success();
         } else {
-            return new CommonResult(ResultStatusEnum.ERROR, null);
+            return CommonResult.error();
         }
     }
 
@@ -877,9 +877,9 @@ public class ApiController {
             return new CommonResult(ResultStatusEnum.PARAM_NULL, null);
         }
         if (apiService.deleteDocx(jsonObject)) {
-            return new CommonResult(ResultStatusEnum.SUCCESS, null);
+            return CommonResult.success();
         } else {
-            return new CommonResult(ResultStatusEnum.ERROR, null);
+            return CommonResult.error();
         }
     }
 
@@ -903,7 +903,7 @@ public class ApiController {
             throw new DataValidationException(ExceptionInfo.NOT_NULL_APIID);
         }
         apiService.apibindingStrategy(apiInfo.getId(), apiInfo.getLimitStrategyuuid(), apiInfo.getLimitStrategyTotal());
-        return new CommonResult(ResultStatusEnum.SUCCESS, null);
+        return CommonResult.success();
     }
 
     /**
@@ -921,7 +921,7 @@ public class ApiController {
             throw new DataValidationException(ExceptionInfo.NOT_NULL_LIMIT_STRATEGY_UUID);
         }
         PageInfo<ApiInfoVersionsWithBLOBs> list = apiService.findApiByStrategy(strategyQuery);
-        return new CommonResult(ResultStatusEnum.SUCCESS, list);
+        return CommonResult.success( list);
     }
 
     @ApiOperation(value = "无分组API", notes = "无分组API")
@@ -929,7 +929,7 @@ public class ApiController {
     public CommonResult findApiAndNoGroup(@RequestBody JSONObject jsonObject) {
         ApiInfoQuery apiInfoQuery = jsonObject.toJavaObject(ApiInfoQuery.class);
         PageInfo<ApiExpand> list = apiService.findApiAndNoGroup(apiInfoQuery);
-        return new CommonResult(ResultStatusEnum.SUCCESS, list);
+        return CommonResult.success( list);
     }
 
     @ApiOperation(value = "检查分组下是否存在Api", notes = "检查分组下是否存在Api")
@@ -937,7 +937,7 @@ public class ApiController {
     public CommonResult hasNoneOfApi(@RequestBody JSONObject jsonObject) {
         Integer groupId = Integer.parseInt(jsonObject.get("groupId").toString());
         boolean unique = apiService.hasNoneOfApi(groupId);
-        return new CommonResult(ResultStatusEnum.SUCCESS, unique);
+        return CommonResult.success( unique);
     }
 
     @ApiOperation(value = "给分组增加已存在的API", notes = "给分组增加已存在的API")
@@ -946,7 +946,7 @@ public class ApiController {
         Integer groupId = Integer.parseInt(jsonObject.get("groupId").toString());
         Integer apiId = Integer.parseInt(jsonObject.get("apiId").toString());
         apiService.addExistedApi(groupId, apiId);
-        return new CommonResult(ResultStatusEnum.SUCCESS, null);
+        return CommonResult.success();
     }
 
     @ApiOperation(value = "上传码值映射Excel", notes = "给API导入码值映射")
@@ -954,7 +954,7 @@ public class ApiController {
     public CommonResult uploadExcel(@PathVariable(value = "id") Integer id, @RequestBody byte[] bytes) throws IOException {
 
         excelService.convertToPreviewModel(id, bytes);
-        return new CommonResult(ResultStatusEnum.SUCCESS, null);
+        return CommonResult.success();
     }
 
     @ApiOperation(value = "转换码值映射为json字符串并格式化json串", notes = "转换码值映射为json字符串并格式化json串")
@@ -964,7 +964,7 @@ public class ApiController {
         LOG.info("Starting format json come from api that id is %s : ", id);
         String prettyJson = excelService.formatJson(jsonObject.getString("responseTransParam"));
 
-        return new CommonResult(ResultStatusEnum.SUCCESS, prettyJson);
+        return CommonResult.success( prettyJson);
     }
 
     @PostMapping(value = "/{apiId}/riskIndex", produces = "application/json;text/html;charset=UTF-8")
@@ -990,7 +990,7 @@ public class ApiController {
             bodyList = jsonArray3.toJavaList(RequestParamAndValue.class);
         }
         String result = apiService.convertApiRiskIndex(idInfo, headerList, queryList, bodyList, apiId);
-        return new CommonResult(ResultStatusEnum.SUCCESS, result);
+        return CommonResult.success( result);
     }
 
     @PostMapping(value = "/{apiId}/removeKey", produces = "application/json;text/html;charset=UTF-8")
@@ -1016,7 +1016,7 @@ public class ApiController {
             bodyList = jsonArray3.toJavaList(RequestParamAndValue.class);
         }
         String result = apiService.removeRedisKey(idInfo, headerList, queryList, bodyList, apiId);
-        return new CommonResult(ResultStatusEnum.SUCCESS, result);
+        return CommonResult.success( result);
     }
 
     /**
@@ -1042,7 +1042,7 @@ public class ApiController {
     public CommonResult findApiByGroupId(@RequestBody JSONObject jsonObject) {
         Integer groupId = jsonObject.getInteger("id");
         List<ApiInfoWithBLOBs> list = apiService.findByGroupIdAndStatus(groupId);
-        return new CommonResult(ResultStatusEnum.SUCCESS, list);
+        return CommonResult.success( list);
     }
 
     /**
@@ -1096,7 +1096,7 @@ public class ApiController {
                 apiExpand.setId(apiId);
                 apiService.offline(apiExpand);//下线
             }
-            return new CommonResult(ResultStatusEnum.SUCCESS, null);
+            return CommonResult.success();
         }
         return new CommonResult(ResultStatusEnum.API_NULL, null);
     }
@@ -1114,7 +1114,7 @@ public class ApiController {
         //接口id校验
         ApiValidate.apiIdCheck(apiExpand);
         Integer id = apiService.copy(apiExpand);
-        return new CommonResult(ResultStatusEnum.SUCCESS, "接口id=" + id);
+        return CommonResult.success( "接口id=" + id);
     }
 
     /**
@@ -1167,7 +1167,7 @@ public class ApiController {
     public CommonResult combinationApiList(@RequestBody JSONObject jsonObject) {
         ApiInfoQuery apiInfoQuery = jsonObject.toJavaObject(ApiInfoQuery.class);
         PageInfo<ApiExpand> apiExpandPageInfo = apiService.combinationApiList(apiInfoQuery);
-        return new CommonResult(ResultStatusEnum.SUCCESS, apiExpandPageInfo);
+        return CommonResult.success( apiExpandPageInfo);
     }
 
     /**
@@ -1188,7 +1188,7 @@ public class ApiController {
         }
         if (null != apiIdList && apiIdList.size() > 0) {
             boolean isSuccess = apiService.createProContract(apiIdList, appKey);
-            return new CommonResult(ResultStatusEnum.SUCCESS, isSuccess);
+            return CommonResult.success( isSuccess);
         }
         return new CommonResult(ResultStatusEnum.API_NULL, null);
     }

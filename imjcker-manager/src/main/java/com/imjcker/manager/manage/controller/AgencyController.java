@@ -37,7 +37,7 @@ public class AgencyController {
         AgencyQuery agencyQuery = jsonObject.toJavaObject(AgencyQuery.class);
         List<Agency> agencyPageInfo = agencyService.agencyInfoList(agencyQuery);
         agencyQuery.setElements(agencyPageInfo);
-        return new CommonResult(ResultStatusEnum.SUCCESS, agencyQuery);
+        return CommonResult.success( agencyQuery);
     }
     /**删除*/
     @PostMapping("/delete")
@@ -45,7 +45,7 @@ public class AgencyController {
         Agency agency=jsonObject.toJavaObject(Agency.class);
         agencyService.delete(agency);
         LOGGER.info("id={}删除成功",agency.getId());
-        return new CommonResult(ResultStatusEnum.SUCCESS,null);
+        return CommonResult.success();
     }
 
     /**新增*/
@@ -69,7 +69,7 @@ public class AgencyController {
             return new CommonResult(ResultStatusEnum.AGENCY_EXIT,false);
         agencyService.add(agency);
         LOGGER.info("appKey={},sourceFlag={},apiGroupName={},apiName={},dataConfig={}添加成功", agency.getAppKey(),agency.getSourceFlag(),agency.getApiGroupName(),agency.getApiName(),agency.getDataConfig());
-        return new CommonResult(ResultStatusEnum.SUCCESS,true);
+        return CommonResult.success(true);
     }
 
     /**更新*/
@@ -96,7 +96,7 @@ public class AgencyController {
         }
         agencyService.update(agency);
         LOGGER.info("id={},dataConfig={}修改成功", agency.getId(),agency.getDataConfig());
-        return new CommonResult(ResultStatusEnum.SUCCESS,true);
+        return CommonResult.success(true);
     }
 
 }

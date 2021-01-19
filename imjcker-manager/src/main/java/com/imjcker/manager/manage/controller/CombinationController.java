@@ -2,8 +2,8 @@ package com.imjcker.manager.manage.controller;
 
 import com.alibaba.fastjson.JSONObject;
 import com.imjcker.manager.manage.po.ApiCombination;
-import com.lemon.common.vo.CommonResult;
-import com.lemon.common.vo.ResultStatusEnum;
+import com.imjcker.manager.vo.CommonResult;
+import com.imjcker.manager.vo.ResultStatusEnum;
 import com.imjcker.manager.manage.service.ApiCombinationService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -37,7 +37,7 @@ public class CombinationController {
     public CommonResult query(@RequestBody JSONObject jsonObject) {
        Integer combinationId =  jsonObject.getInteger("combinationId");
        List<ApiCombination> list = apiCombinationService.selectById(combinationId);
-       return new CommonResult(ResultStatusEnum.SUCCESS, list);
+       return CommonResult.success( list);
     }
     /**
      * 新增所属接口
@@ -47,7 +47,7 @@ public class CombinationController {
     public CommonResult add(@RequestBody JSONObject jsonObject) {
         ApiCombination apiCombination = jsonObject.toJavaObject(ApiCombination.class);
         Integer id = apiCombinationService.insert(apiCombination);
-        return new CommonResult(ResultStatusEnum.SUCCESS, null);
+        return CommonResult.success();
     }
     /**
      * 编辑所属接口
@@ -57,7 +57,7 @@ public class CombinationController {
     public CommonResult update(@RequestBody JSONObject jsonObject) {
         ApiCombination apiCombination = jsonObject.toJavaObject(ApiCombination.class);
         Integer id = apiCombinationService.update(apiCombination);
-        return new CommonResult(ResultStatusEnum.SUCCESS, null);
+        return CommonResult.success();
     }
     /**
      * 删除所属接口
@@ -67,6 +67,6 @@ public class CombinationController {
     public CommonResult delete(@RequestBody JSONObject jsonObject) {
         ApiCombination apiCombination = jsonObject.toJavaObject(ApiCombination.class);
         Integer id = apiCombinationService.delete(apiCombination);
-        return new CommonResult(ResultStatusEnum.SUCCESS, null);
+        return CommonResult.success();
     }
 }

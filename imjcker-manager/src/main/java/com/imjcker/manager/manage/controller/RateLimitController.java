@@ -4,7 +4,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.imjcker.manager.manage.po.RateLimitAppkey;
 import com.imjcker.manager.manage.po.query.RateLimitAppKeyApiQuery;
 import com.imjcker.manager.manage.po.query.RateLimitAppKeyQuery;
-import com.lemon.common.vo.CommonResult;
+import com.imjcker.manager.vo.CommonResult;
 import com.imjcker.manager.manage.po.RateLimitAppkeyApi;
 import com.imjcker.manager.manage.service.RateLimitService;
 import org.apache.commons.lang3.StringUtils;

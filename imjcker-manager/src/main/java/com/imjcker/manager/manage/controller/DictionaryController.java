@@ -11,8 +11,8 @@ import com.imjcker.manager.manage.po.query.DictionaryTypeQuery;
 import com.imjcker.manager.manage.vo.dictionary.DictValueMapping;
 import com.lemon.common.exception.ExceptionInfo;
 import com.lemon.common.exception.vo.DataValidationException;
-import com.lemon.common.vo.CommonResult;
-import com.lemon.common.vo.ResultStatusEnum;
+import com.imjcker.manager.vo.CommonResult;
+import com.imjcker.manager.vo.ResultStatusEnum;
 import com.imjcker.manager.manage.po.*;
 import com.imjcker.manager.manage.service.DictionaryService;
 import com.imjcker.manager.manage.service.SubUpStreamApiService;
@@ -61,7 +61,7 @@ public class DictionaryController {
             }
         }
 
-        return new CommonResult(ResultStatusEnum.SUCCESS, pageInfo);
+        return CommonResult.success( pageInfo);
 
     }
 
@@ -70,7 +70,7 @@ public class DictionaryController {
     public CommonResult queryDict(@RequestBody JSONObject jsonObject) {
         DictionaryQuery dictionary = jsonObject.toJavaObject(DictionaryQuery.class);
         PageInfo<DictionaryWithQuery> pageInfo = dictionaryService.queryDictionary(dictionary);
-        return new CommonResult(ResultStatusEnum.SUCCESS, pageInfo);
+        return CommonResult.success( pageInfo);
     }
 
     @ApiOperation(value = "码值映射查询", notes = "码值映射查询")
@@ -78,7 +78,7 @@ public class DictionaryController {
     public CommonResult queryDictItem(@RequestBody JSONObject jsonObject) {
         DictionaryItemQuery dictionary = jsonObject.toJavaObject(DictionaryItemQuery.class);
         PageInfo<DictionaryItemWithQuery> pageInfo = dictionaryService.queryDictionaryItem(dictionary);
-        return new CommonResult(ResultStatusEnum.SUCCESS, pageInfo);
+        return CommonResult.success( pageInfo);
     }
 
     @ApiOperation(value = "码值类型查询", notes = "码值类型查询")
@@ -86,7 +86,7 @@ public class DictionaryController {
     public CommonResult queryDictType(@RequestBody JSONObject jsonObject) {
         DictionaryTypeQuery dictionaryTypeQuery = jsonObject.toJavaObject(DictionaryTypeQuery.class);
         PageInfo<DictionaryType> pageInfo = dictionaryService.queryDictionaryType(dictionaryTypeQuery);
-        return new CommonResult(ResultStatusEnum.SUCCESS, pageInfo);
+        return CommonResult.success( pageInfo);
     }
 
 
@@ -101,7 +101,7 @@ public class DictionaryController {
 
         ApiValidate.checkDictionary(dictionary);
         int id = dictionaryService.saveOrUpateDictionary(dictionary);
-        return new CommonResult(ResultStatusEnum.SUCCESS, id);
+        return CommonResult.success( id);
     }
 
 
@@ -112,7 +112,7 @@ public class DictionaryController {
         if (dictionary.getId() == null)
             throw new DataValidationException(ExceptionInfo.NOT_NULL_DICTIONARY_ID);
         dictionaryService.delDictionary(dictionary);
-        return new CommonResult(ResultStatusEnum.SUCCESS, dictionary);
+        return CommonResult.success( dictionary);
     }
 
     @ApiOperation(value = "更新字典类型信息", notes = "更新字典类型信息")
@@ -126,7 +126,7 @@ public class DictionaryController {
         //校验基本信息
         ApiValidate.checkDictionaryType(dictionaryType);
         int id = dictionaryService.saveOrUpateDictionaryType(dictionaryType);
-        return new CommonResult(ResultStatusEnum.SUCCESS, id);
+        return CommonResult.success( id);
     }
 
     @ApiOperation(value = "删除字典类型", notes = "删除字典类型")
@@ -136,7 +136,7 @@ public class DictionaryController {
         if (dictionaryType.getId() == null)
             throw new DataValidationException(ExceptionInfo.NOT_NULL_DICTIONARY_TYPE_ID);
         dictionaryService.delDictionaryType(dictionaryType);
-        return new CommonResult(ResultStatusEnum.SUCCESS, dictionaryType);
+        return CommonResult.success( dictionaryType);
     }
 
 
@@ -152,7 +152,7 @@ public class DictionaryController {
         //校验基本信息
         ApiValidate.checkDictionaryItem(dictionaryItem);
         int id = dictionaryService.saveOrUpateDictionaryItem(dictionaryItem);
-        return new CommonResult(ResultStatusEnum.SUCCESS, id);
+        return CommonResult.success( id);
     }
 
 
@@ -163,7 +163,7 @@ public class DictionaryController {
         if (dictionaryItem.getId() == null)
             throw new DataValidationException(ExceptionInfo.NOT_NULL_DICTIONARY_ITEM_ID);
         dictionaryService.delDictionaryItem(dictionaryItem);
-        return new CommonResult(ResultStatusEnum.SUCCESS, dictionaryItem);
+        return CommonResult.success( dictionaryItem);
     }
 
 

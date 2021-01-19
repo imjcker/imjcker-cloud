@@ -1,9 +1,9 @@
 package com.imjcker.manager.manage.controller;
 
 import com.alibaba.fastjson.JSONObject;
-import com.lemon.common.vo.CommonResult;
+import com.imjcker.manager.vo.CommonResult;
 import com.lemon.common.vo.CompanyApp;
-import com.lemon.common.vo.ResultStatusEnum;
+import com.imjcker.manager.vo.ResultStatusEnum;
 import com.imjcker.manager.manage.service.AppService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -34,7 +34,7 @@ public class AppController {
     @PostMapping("/search")
     public CommonResult search(@RequestBody JSONObject jsonObject) {
         Map<String, Object> result = appService.search(jsonObject);
-        return new CommonResult(ResultStatusEnum.SUCCESS, result);
+        return CommonResult.success( result);
     }
 
     /**
@@ -48,9 +48,9 @@ public class AppController {
         if (jsonObject.isEmpty() || null == jsonObject.getInteger("id"))
             return new CommonResult(ResultStatusEnum.PARAMS_INPUT_NULL, null);
         if (!appService.delete(jsonObject.getInteger("id"))) {
-            return new CommonResult(ResultStatusEnum.ERROR, null);
+            return CommonResult.error();
         }
-        return new CommonResult(ResultStatusEnum.SUCCESS, null);
+        return CommonResult.success();
     }
 
     /**
@@ -63,9 +63,9 @@ public class AppController {
     @PostMapping("/save")
     public CommonResult save(@RequestBody JSONObject jsonObject) throws ParseException {
         if (!appService.save(jsonObject)) {
-            return new CommonResult(ResultStatusEnum.ERROR, null);
+            return CommonResult.error();
         }
-        return new CommonResult(ResultStatusEnum.SUCCESS, null);
+        return CommonResult.success();
     }
 
     /**
@@ -78,9 +78,9 @@ public class AppController {
     @PostMapping("/edit")
     public CommonResult edit(@RequestBody JSONObject jsonObject) throws ParseException {
         if (!appService.edit(jsonObject)) {
-            return new CommonResult(ResultStatusEnum.ERROR, null);
+            return CommonResult.error();
         }
-        return new CommonResult(ResultStatusEnum.SUCCESS, null);
+        return CommonResult.success();
     }
     /**
      * 客户列表页面
@@ -91,7 +91,7 @@ public class AppController {
     @PostMapping("/findApp")
     public CommonResult findApp() {
         List<CompanyApp> result = appService.findApp();
-        return new CommonResult(ResultStatusEnum.SUCCESS, result);
+        return CommonResult.success( result);
     }
 
 }

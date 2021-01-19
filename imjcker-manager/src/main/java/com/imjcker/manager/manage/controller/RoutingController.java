@@ -3,8 +3,8 @@ package com.imjcker.manager.manage.controller;
 import com.alibaba.fastjson.JSONObject;
 import com.imjcker.manager.manage.po.RoutingStrategy;
 import com.imjcker.manager.manage.po.query.RoutingQuery;
-import com.lemon.common.vo.CommonResult;
-import com.lemon.common.vo.ResultStatusEnum;
+import com.imjcker.manager.vo.CommonResult;
+import com.imjcker.manager.vo.ResultStatusEnum;
 import com.imjcker.manager.manage.po.*;
 import com.imjcker.manager.manage.service.RoutingService;
 import org.apache.commons.lang3.StringUtils;
@@ -40,14 +40,14 @@ public class RoutingController {
         boolean pathFlag = routingService.checkPath(newStrategy);
         if (!pathFlag) return new CommonResult(ResultStatusEnum.PATH_REPEAT, null);
         routingService.addNew(newStrategy);
-        return new CommonResult(ResultStatusEnum.SUCCESS,null);
+        return CommonResult.success();
     }
     /**删除*/
     @RequestMapping("/delete")
     public CommonResult delete(@RequestBody JSONObject jsonObject) {
         RoutingStrategy strategy=jsonObject.toJavaObject(RoutingStrategy.class);
         routingService.delete(strategy);
-        return new CommonResult(ResultStatusEnum.SUCCESS,null);
+        return CommonResult.success();
     }
     /**更新*/
     @RequestMapping(value = "/update",method = RequestMethod.POST)
@@ -61,7 +61,7 @@ public class RoutingController {
         boolean pathFlag = routingService.checkPath(updateStrategy);
         if (!pathFlag) return new CommonResult(ResultStatusEnum.PATH_REPEAT, null);
         routingService.update(updateStrategy);
-        return new CommonResult(ResultStatusEnum.SUCCESS,null);
+        return CommonResult.success();
     }
     /**
      * index查询
@@ -71,6 +71,6 @@ public class RoutingController {
         RoutingQuery query = jsonObject.toJavaObject(RoutingQuery.class);
         List<RoutingStrategy> list=routingService.queryByPage(query);
         query.setElements(list);
-        return new CommonResult(ResultStatusEnum.SUCCESS,query);
+        return CommonResult.success(query);
     }
 }

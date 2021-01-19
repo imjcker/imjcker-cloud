@@ -3,8 +3,8 @@ package com.imjcker.manager.manage.controller;
 import com.alibaba.fastjson.JSONObject;
 import com.imjcker.manager.manage.model.CountApiByAppKeyVO;
 import com.imjcker.manager.manage.model.ShowVO;
-import com.lemon.common.vo.CommonResult;
-import com.lemon.common.vo.ResultStatusEnum;
+import com.imjcker.manager.vo.CommonResult;
+import com.imjcker.manager.vo.ResultStatusEnum;
 import com.imjcker.manager.manage.service.AppKeyCountService;
 
 import com.imjcker.manager.elastic.model.AppKeyCount;
@@ -40,7 +40,7 @@ public class AppKeyCountControl {
     public CommonResult index(@RequestBody JSONObject jsonObject) {
         AppKeyQuery query = jsonObject.toJavaObject(AppKeyQuery.class);
         ShowVO result = appKeyCountService.index(index, type, query);
-        return new CommonResult(ResultStatusEnum.SUCCESS, result);
+        return CommonResult.success( result);
     }
 
 
@@ -52,7 +52,7 @@ public class AppKeyCountControl {
         try {
             AppKeyQuery query = jsonObject.toJavaObject(AppKeyQuery.class);
             CountApiByAppKeyVO result = appKeyCountService.countApiByAppKey(index, type, query);
-            return new CommonResult(ResultStatusEnum.SUCCESS, result);
+            return CommonResult.success( result);
         } catch (Exception e) {
             return CommonResult.ex(500, e.getMessage(), null);
         }
@@ -63,6 +63,6 @@ public class AppKeyCountControl {
     public CommonResult test(@RequestBody JSONObject jsonObject) {
         AppKeyQuery query = jsonObject.toJavaObject(AppKeyQuery.class);
         List<AppKeyCount> result = appKeyCountService.test(index, type, query);
-        return new CommonResult(ResultStatusEnum.SUCCESS, result);
+        return CommonResult.success( result);
     }
 }

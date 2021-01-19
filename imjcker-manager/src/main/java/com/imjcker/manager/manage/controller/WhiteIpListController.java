@@ -1,8 +1,8 @@
 package com.imjcker.manager.manage.controller;
 
 import com.alibaba.fastjson.JSONObject;
-import com.lemon.common.vo.CommonResult;
-import com.lemon.common.vo.ResultStatusEnum;
+import com.imjcker.manager.vo.CommonResult;
+import com.imjcker.manager.vo.ResultStatusEnum;
 import com.imjcker.manager.manage.service.WhiteIpListService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -20,7 +20,7 @@ public class WhiteIpListController {
     @PostMapping("/show")
     public CommonResult show(@RequestBody JSONObject jsonObject){
         Map<String, Object> result = whiteIpListService.show(jsonObject);
-        return new CommonResult(ResultStatusEnum.SUCCESS,result);
+        return CommonResult.success(result);
     }
 
     @PostMapping("/delete")
@@ -28,13 +28,13 @@ public class WhiteIpListController {
         if(!whiteIpListService.delete(jsonObject)) {
             return new CommonResult(ResultStatusEnum.ERROR,null);
         }
-        return new CommonResult(ResultStatusEnum.SUCCESS,null);
+        return CommonResult.success();
     }
 
     @PostMapping("/search")
     public CommonResult search(@RequestBody JSONObject jsonObject){
         Map<String, Object> result = whiteIpListService.search(jsonObject);
-        return new CommonResult(ResultStatusEnum.SUCCESS,result);
+        return CommonResult.success(result);
     }
 
     @PostMapping("/save")
@@ -42,7 +42,7 @@ public class WhiteIpListController {
         if (!whiteIpListService.save(jsonObject)) {
             return new CommonResult(ResultStatusEnum.ERROR,null);
         }
-        return new CommonResult(ResultStatusEnum.SUCCESS,null);
+        return CommonResult.success();
     }
 
     @PostMapping("/edit")
@@ -50,11 +50,11 @@ public class WhiteIpListController {
         if (!whiteIpListService.edit(jsonObject)) {
             return new CommonResult(ResultStatusEnum.ERROR,null);
         }
-        return new CommonResult(ResultStatusEnum.SUCCESS,null);
+        return CommonResult.success();
     }
     @GetMapping("/syncRedis")
     public CommonResult syncRedis() {
         whiteIpListService.syncRedis();
-        return new CommonResult(ResultStatusEnum.SUCCESS,null);
+        return CommonResult.success();
     }
 }

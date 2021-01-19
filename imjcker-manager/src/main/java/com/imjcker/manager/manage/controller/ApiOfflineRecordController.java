@@ -4,7 +4,7 @@ package com.imjcker.manager.manage.controller;
 import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.PageInfo;
 import com.imjcker.manager.manage.vo.ApiOfflineRecordVO;
-import com.lemon.common.vo.CommonResult;
+import com.imjcker.manager.vo.CommonResult;
 import com.imjcker.manager.manage.po.ApiOfflineRecord;
 import com.imjcker.manager.manage.service.ApiOfflineRecordService;
 import org.springframework.beans.factory.annotation.Autowired;

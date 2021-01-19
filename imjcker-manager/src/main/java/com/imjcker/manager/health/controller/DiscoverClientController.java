@@ -3,7 +3,7 @@ package com.imjcker.manager.health.controller;
 import com.alibaba.fastjson.JSONObject;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.imjcker.manager.health.repository.InstanceRepository;
-import com.lemon.common.vo.CommonResult;
+import com.imjcker.manager.vo.CommonResult;
 import com.imjcker.manager.health.model.Instance;
 import com.imjcker.manager.health.util.HttpClientUtils;
 import com.netflix.appinfo.InstanceInfo;

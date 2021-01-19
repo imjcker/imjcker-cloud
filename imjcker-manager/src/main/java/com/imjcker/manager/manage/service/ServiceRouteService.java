@@ -1,7 +1,7 @@
 package com.imjcker.manager.manage.service;
 
 import com.imjcker.manager.manage.po.ServiceRouter;
-import com.lemon.common.vo.ResultStatusEnum;
+import com.imjcker.manager.vo.ResultStatusEnum;
 
 public interface ServiceRouteService extends BaseService<ServiceRouter> {
 

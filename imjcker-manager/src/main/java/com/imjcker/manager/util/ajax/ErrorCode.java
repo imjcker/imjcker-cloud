@@ -1,5 +1,4 @@
-package com.imjcker.common.ajax;
-
+package com.imjcker.manager.util.ajax;
 /**
  * 定义系统错误代码
  * 定义规则：

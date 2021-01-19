@@ -2,8 +2,8 @@ package com.imjcker.manager.manage.controller;
 
 import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.PageInfo;
-import com.lemon.common.vo.CommonResult;
-import com.lemon.common.vo.ResultStatusEnum;
+import com.imjcker.manager.vo.CommonResult;
+import com.imjcker.manager.vo.ResultStatusEnum;
 import com.imjcker.manager.manage.po.ServiceRouter;
 import com.imjcker.manager.manage.service.ServiceRouteService;
 import org.apache.commons.lang3.StringUtils;
@@ -65,6 +65,6 @@ public class ServiceRouteController {
         if (!status.equals(ResultStatusEnum.SUCCESS))
             return CommonResult.fail(status);
         serviceRouteService.update(serviceRouter);
-        return new CommonResult(ResultStatusEnum.SUCCESS, null);
+        return CommonResult.success();
     }
 }

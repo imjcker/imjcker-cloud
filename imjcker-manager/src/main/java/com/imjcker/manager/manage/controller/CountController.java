@@ -3,8 +3,8 @@ package com.imjcker.manager.manage.controller;
 import com.alibaba.fastjson.JSONObject;
 import com.imjcker.manager.manage.model.IndexVO;
 import com.imjcker.manager.manage.vo.ShowVOSourceLogInfo;
-import com.lemon.common.vo.CommonResult;
-import com.lemon.common.vo.ResultStatusEnum;
+import com.imjcker.manager.vo.CommonResult;
+import com.imjcker.manager.vo.ResultStatusEnum;
 import com.imjcker.manager.manage.service.CountService;
 import com.imjcker.manager.elastic.model.SourceQuery;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,14 +48,14 @@ public class CountController {
     public CommonResult index(@RequestBody JSONObject jsonObject) {
         SourceQuery sourceQuery = jsonObject.toJavaObject(SourceQuery.class);
         IndexVO result = countService.index(index, type, sourceQuery);
-        return new CommonResult(ResultStatusEnum.SUCCESS, result);
+        return CommonResult.success( result);
     }
 
     @PostMapping("/searchBySourceName")
     public CommonResult searchBySourceName(@RequestBody JSONObject jsonObject) {
         SourceQuery sourceQuery = jsonObject.toJavaObject(SourceQuery.class);
         IndexVO result = countService.searchBySourceName(index, type, sourceQuery);
-        return new CommonResult(ResultStatusEnum.SUCCESS, result);
+        return CommonResult.success( result);
     }
 
     @PostMapping("/getInfoByUid")
@@ -63,15 +63,15 @@ public class CountController {
         if (null != jsonObject) {
             String uid = jsonObject.getString("uid");
             JSONObject result = countService.getInfoByUid(index, type, indexZuul, typeZuul, uid);
-            return new CommonResult(ResultStatusEnum.SUCCESS, result);
+            return CommonResult.success( result);
         }
-        return new CommonResult(ResultStatusEnum.ERROR, null);
+        return CommonResult.error();
     }
 
     @PostMapping("/test")
     public CommonResult test(@RequestBody JSONObject jsonObject) {
         countService.test();
-        return new CommonResult(ResultStatusEnum.SUCCESS, null);
+        return CommonResult.success();
     }
 
     /**
@@ -84,7 +84,7 @@ public class CountController {
     public CommonResult errorListPage(@RequestBody JSONObject jsonObject) {
         SourceQuery sourceQuery = jsonObject.toJavaObject(SourceQuery.class);
         ShowVOSourceLogInfo result=countService.errorListPage(index, type, sourceQuery,1000);
-        return new CommonResult(ResultStatusEnum.SUCCESS, result);
+        return CommonResult.success( result);
     }
 
     /**
@@ -95,7 +95,7 @@ public class CountController {
     @PostMapping("/queryLogByUid")
     public CommonResult queryLogByUid(@RequestBody JSONObject jsonObject) {
         List<String> result=countService.queryLogByUid(jsonObject);
-        return new CommonResult(ResultStatusEnum.SUCCESS, result);
+        return CommonResult.success( result);
     }
 
 }

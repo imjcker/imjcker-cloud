@@ -1,4 +1,4 @@
-package com.imjcker.common.http;
+package com.imjcker.manager.util.http;
 
 
 import org.apache.commons.lang3.StringUtils;

@@ -3,7 +3,7 @@ package com.imjcker.manager.config;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
-@ConfigurationProperties(prefix = "messageCenter")
+@ConfigurationProperties(prefix = "message-center")
 @Component
 public class MessageCenterConfig {
 

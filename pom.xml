@@ -9,7 +9,6 @@
 
 	<modules>
 		<module>imjcker-manager</module>
-		<module>imjcker-gateway</module>
 	</modules>
 
 	<properties>

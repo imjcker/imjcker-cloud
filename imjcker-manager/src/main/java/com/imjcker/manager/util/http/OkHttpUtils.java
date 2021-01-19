@@ -1,9 +1,8 @@
-package com.imjcker.common.http;
+package com.imjcker.manager.util.http;
 
-import com.imjcker.common.spring.SpringContextUtils;
+import com.imjcker.manager.util.SpringContextUtils;
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.*;
-import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
 import java.util.Map;
@@ -12,7 +11,7 @@ import java.util.concurrent.TimeUnit;
 
 @Slf4j
 public class OkHttpUtils {
-    public static final MediaType JSON = MediaType.get("application/json; charset=utf-8");
+    public static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
     private static final MediaType xml = MediaType.parse("text/plain; charset=utf-8");
 
     public static String get(String url, Map<String, String> headers, Map<String, String> data) {
@@ -30,7 +29,7 @@ public class OkHttpUtils {
     public static String post(String url, Map<String, String> headers, String json) {
         Request.Builder builder = new Request.Builder();
         headers.forEach(builder::header);
-        RequestBody requestBody = RequestBody.create(json, JSON);
+        RequestBody requestBody = RequestBody.create(JSON, json);
         Request request = builder
                 .url(url)
                 .post(requestBody)
@@ -80,9 +79,8 @@ public class OkHttpUtils {
             this.retryCount = retryCount;
         }
 
-        @NotNull
         @Override
-        public Response intercept(@NotNull Chain chain) throws IOException {
+        public Response intercept(Chain chain) throws IOException {
             Request request = chain.request();
             int count = 0;
             while (count < retryCount) {

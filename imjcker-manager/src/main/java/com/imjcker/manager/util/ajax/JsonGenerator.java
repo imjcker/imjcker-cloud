@@ -1,4 +1,3 @@
-package com.imjcker.common.ajax;
-
+package com.imjcker.manager.util.ajax;
 public class JsonGenerator {
 }

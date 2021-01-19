@@ -38,8 +38,8 @@ import com.github.pagehelper.PageInfo;
 import com.lemon.common.exception.vo.BusinessException;
 import com.lemon.common.exception.vo.DataValidationException;
 import com.lemon.common.vo.BaseQuery;
-import com.lemon.common.vo.CommonResult;
-import com.lemon.common.vo.ResultStatusEnum;
+import com.imjcker.manager.vo.CommonResult;
+import com.imjcker.manager.vo.ResultStatusEnum;
 import com.imjcker.manager.manage.po.App;
 import com.imjcker.manager.manage.po.Strategy;
 import com.imjcker.manager.manage.service.ApiService;
@@ -72,7 +72,7 @@ public class StrategyController {
         if(StringUtils.isNotBlank(limitName)) query.setName(limitName.replace("_","\\_"));
         List<Strategy> list=service.queryByPage(query);
         query.setElements(list);
-        return new CommonResult(ResultStatusEnum.SUCCESS,query);
+        return CommonResult.success(query);
     }
     /**删除*/
     @RequestMapping("/delete")
@@ -90,7 +90,7 @@ public class StrategyController {
             LOG.error("StrategyController delete error...", e);
             return ExceptionHelper.handleException(e, null, 0);
         }
-        return new CommonResult(ResultStatusEnum.SUCCESS,null);
+        return CommonResult.success();
     }
     /**新增*/
     @RequestMapping(value = "/add",method = RequestMethod.POST)
@@ -113,7 +113,7 @@ public class StrategyController {
             LOG.error("StrategyController add error...", e);
             return ExceptionHelper.handleException(e, null, 0);
         }
-        return new CommonResult(ResultStatusEnum.SUCCESS,null);
+        return CommonResult.success();
     }
     /**更新*/
     @RequestMapping(value = "/update",method = RequestMethod.POST)
@@ -127,7 +127,7 @@ public class StrategyController {
             LOG.error("StrategyController updateLevel error...", e);
             return ExceptionHelper.handleException(e, null, 0);
         }
-        return new CommonResult(ResultStatusEnum.SUCCESS,null);
+        return CommonResult.success();
     }
     /**流量控制-绑定的app列表-解除授权*/
     @RequestMapping(value = "/unAccredit", method = RequestMethod.POST)
@@ -140,7 +140,7 @@ public class StrategyController {
             LOG.error("StrategyController unAccredit error...", e);
             return ExceptionHelper.handleException(e, null, 0);
         }
-        return new CommonResult(ResultStatusEnum.SUCCESS,null);
+        return CommonResult.success();
     }
     /**查找策略所对应的所有绑定的APP*/
     @RequestMapping(value = "/findApps", method = RequestMethod.POST)
@@ -149,7 +149,7 @@ public class StrategyController {
         try {
             List<App> list=service.findApp(query);
             query.setElements(list);
-            return new CommonResult(ResultStatusEnum.SUCCESS,query);
+            return CommonResult.success(query);
         } catch (Exception e) {
             LOG.error("AppController findApis error...", e);
             return ExceptionHelper.handleException(e, null, 0);
@@ -162,7 +162,7 @@ public class StrategyController {
         try {
             List<App> list=service.findNotAccredit(query);
             query.setElements(list);
-            return new CommonResult(ResultStatusEnum.SUCCESS,query);
+            return CommonResult.success(query);
         } catch (Exception e) {
             LOG.error("AppController findApis error...", e);
             return ExceptionHelper.handleException(e, null, 0);
@@ -180,7 +180,7 @@ public class StrategyController {
                 record.setId(Integer.parseInt(id));
                 service.accredit(record);
             }
-            return new CommonResult(ResultStatusEnum.SUCCESS,null);
+            return CommonResult.success();
         } catch (Exception e) {
             LOG.error("AppController accredit error...", e);
             return ExceptionHelper.handleException(e, null, 0);
@@ -192,7 +192,7 @@ public class StrategyController {
         Strategy strategy=jsonObject.toJavaObject(Strategy.class);
         try {
             strategy=service.findOne(strategy);
-            return new CommonResult(ResultStatusEnum.SUCCESS,strategy);
+            return CommonResult.success(strategy);
         } catch (Exception e) {
             LOG.error("AppController findApp error...", e);
             return ExceptionHelper.handleException(e, null, 0);
@@ -203,35 +203,35 @@ public class StrategyController {
     public CommonResult getStrategyList(@RequestBody JSONObject jsonObject){
     	BaseQuery query = jsonObject.toJavaObject(BaseQuery.class);
     	PageInfo<AppCertification> pageInfo = authService.getStrategyList(query);
-    	return new CommonResult(ResultStatusEnum.SUCCESS, pageInfo);
+    	return CommonResult.success( pageInfo);
     }
     //绑定app
     @PostMapping("/strategyAuth")
     public CommonResult strategyAuth(@RequestBody JSONObject jsonObject){
     	StrategyAuthQuery query = jsonObject.toJavaObject(StrategyAuthQuery.class);
     	Boolean res = authService.strategyAuth(query);
-    	return new CommonResult(ResultStatusEnum.SUCCESS, res);
+    	return CommonResult.success( res);
     }
     //得到所有已绑定的app
     @PostMapping("/getAllAuthed")
     public CommonResult getAllAuthed(@RequestBody JSONObject jsonObject){
     	String strategyUuid = jsonObject.getString("strategyUuid");
     	List<AppCertification> res = authService.getAllAuthed(strategyUuid);
-    	return new CommonResult(ResultStatusEnum.SUCCESS, res);
+    	return CommonResult.success( res);
     }
     //获取所有可用的策略
     @PostMapping("/getAllStrategy")
     public CommonResult getAllStrategy(@RequestBody JSONObject jsonObject){
     	String strategyName = jsonObject.getString("strategyName");
     	List<CurrentLimitStrategy> res = authService.getAllStrategy(strategyName);
-    	return new CommonResult(ResultStatusEnum.SUCCESS, res);
+    	return CommonResult.success( res);
     }
     //移除所有可用的策略
     @PostMapping("/removeApp")
     public CommonResult removeApp(@RequestBody JSONObject jsonObject){
     	Integer appId = jsonObject.getInteger("id");
     	boolean res = authService.removeApp(appId);
-    	return new CommonResult(ResultStatusEnum.SUCCESS, res);
+    	return CommonResult.success( res);
     }
     /**检验limitname是否重复*/
     @PostMapping(value = "/checkName")
@@ -246,7 +246,7 @@ public class StrategyController {
                 return ExceptionHelper.handleException(e, null, 0);
             }
         }
-        return new CommonResult(ResultStatusEnum.SUCCESS, flag);
+        return CommonResult.success( flag);
     }
     private Boolean checkName(String name){
         String regEx = "^[a-zA-Z\u4e00-\u9fa5][a-zA-Z0-9\u4e00-\u9fa5_]{3,49}$";
@@ -268,7 +268,7 @@ public class StrategyController {
     public CommonResult checkStrategyUnique(@RequestBody JSONObject jsonObject){
     	String name = jsonObject.getString("strategyName");
     	boolean res = authService.checkStrategyUnique(name);
-    	return new CommonResult(ResultStatusEnum.SUCCESS, res);
+    	return CommonResult.success( res);
     }
 
     @PostMapping("/interfaceCount")
@@ -289,6 +289,6 @@ public class StrategyController {
         }
         result.put("dataList",dataList);
         result.put("count",list.size());
-        return new CommonResult(ResultStatusEnum.SUCCESS,result);
+        return CommonResult.success(result);
     }
 }

@@ -10,8 +10,8 @@ import com.imjcker.manager.manage.po.Api;
 import com.imjcker.manager.manage.po.query.ApiQuery;
 import com.imjcker.manager.manage.po.query.AppQuery;
 import com.imjcker.manager.manage.vo.QueryApiApp;
-import com.lemon.common.vo.CommonResult;
-import com.lemon.common.vo.ResultStatusEnum;
+import com.imjcker.manager.vo.CommonResult;
+import com.imjcker.manager.vo.ResultStatusEnum;
 import com.imjcker.manager.manage.po.ApiAccreditApp;
 import com.imjcker.manager.manage.po.ApiFindApp;
 import com.imjcker.manager.manage.po.App;
@@ -48,7 +48,7 @@ public class AppOldController {
         if(StringUtils.isNotBlank(appName)) query.setAppName(appName.replace("_","\\_"));
         List<App> list = appOldService.queryByPage(query);
         query.setElements(list);
-        return new CommonResult(ResultStatusEnum.SUCCESS, query);
+        return CommonResult.success( query);
     }
 
     /**
@@ -64,7 +64,7 @@ public class AppOldController {
             LOG.error("AppController delete error...", e);
             return ExceptionHelper.handleException(e, null, 0);
         }
-        return new CommonResult(ResultStatusEnum.SUCCESS, null);
+        return CommonResult.success();
     }
 
     /**
@@ -82,7 +82,7 @@ public class AppOldController {
             LOG.error("AppController add error...", e);
             return ExceptionHelper.handleException(e, null, 0);
         }
-        return new CommonResult(ResultStatusEnum.SUCCESS, null);
+        return CommonResult.success();
     }
 
     /**
@@ -98,7 +98,7 @@ public class AppOldController {
             LOG.error("AppController updateLevel error...", e);
             return ExceptionHelper.handleException(e, null, 0);
         }
-        return new CommonResult(ResultStatusEnum.SUCCESS, null);
+        return CommonResult.success();
     }
 
     /**
@@ -114,7 +114,7 @@ public class AppOldController {
             LOG.error("AppController updateUuid error...", e);
             return ExceptionHelper.handleException(e, null, 0);
         }
-        return new CommonResult(ResultStatusEnum.SUCCESS, null);
+        return CommonResult.success();
     }
 
     /**
@@ -126,7 +126,7 @@ public class AppOldController {
         App app = jsonObject.toJavaObject(App.class);
         try {
             List<App> apps = appOldService.findApps(app);
-            return new CommonResult(ResultStatusEnum.SUCCESS, apps);
+            return CommonResult.success( apps);
         } catch (Exception e) {
             LOG.error("AppController findApp error...", e);
             return ExceptionHelper.handleException(e, null, 0);
@@ -156,7 +156,7 @@ public class AppOldController {
                 }
                 appOldService.accredit(apiFindApp);
             }
-            return new CommonResult(ResultStatusEnum.SUCCESS, null);
+            return CommonResult.success();
         } catch (Exception e) {
             LOG.error("AppController appToApi error...", e);
             return ExceptionHelper.handleException(e, null, 0);
@@ -173,7 +173,7 @@ public class AppOldController {
         try {
             List<Api> list = appOldService.findApis(apiQuery);
             apiQuery.setElements(list);
-            return new CommonResult(ResultStatusEnum.SUCCESS, apiQuery);
+            return CommonResult.success( apiQuery);
         } catch (Exception e) {
             LOG.error("AppController findApis error...", e);
             return ExceptionHelper.handleException(e, null, 0);
@@ -193,7 +193,7 @@ public class AppOldController {
             LOG.error("AppController unAccredit error...", e);
             return ExceptionHelper.handleException(e, null, 0);
         }
-        return new CommonResult(ResultStatusEnum.SUCCESS, null);
+        return CommonResult.success();
     }
 
     /**
@@ -205,7 +205,7 @@ public class AppOldController {
         App app = jsonObject.toJavaObject(App.class);
         try {
             app = appOldService.findOne(app);
-            return new CommonResult(ResultStatusEnum.SUCCESS, app);
+            return CommonResult.success( app);
         } catch (Exception e) {
             LOG.error("AppController findApp error...", e);
             return ExceptionHelper.handleException(e, null, 0);
@@ -223,7 +223,7 @@ public class AppOldController {
         if(StringUtils.isNotBlank(apiName)) queryApiApp.setApiName(apiName.replace("_","\\_"));
         try {
             List<Api> list = appOldService.findNoAccreditApis(queryApiApp);
-            return new CommonResult(ResultStatusEnum.SUCCESS, list);
+            return CommonResult.success( list);
         } catch (Exception e) {
             LOG.error("AppController findNoAccreditApis error...", e);
             return ExceptionHelper.handleException(e, null, 0);
@@ -243,6 +243,6 @@ public class AppOldController {
                 return ExceptionHelper.handleException(e, null, 0);
             }
         }
-        return new CommonResult(ResultStatusEnum.SUCCESS, flag);
+        return CommonResult.success( flag);
     }
 }

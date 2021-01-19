@@ -11,8 +11,8 @@ import com.imjcker.manager.manage.po.query.SubApiWeightQuery;
 import com.lemon.common.exception.ExceptionInfo;
 import com.lemon.common.exception.vo.DataValidationException;
 import com.lemon.common.util.collections.CollectionUtil;
-import com.lemon.common.vo.CommonResult;
-import com.lemon.common.vo.ResultStatusEnum;
+import com.imjcker.manager.vo.CommonResult;
+import com.imjcker.manager.vo.ResultStatusEnum;
 import com.imjcker.manager.manage.po.ApiRateDistribute;
 import com.imjcker.manager.manage.service.SubUpStreamApiService;
 import com.imjcker.manager.manage.validator.ApiValidate;
@@ -57,7 +57,7 @@ public class SubUpStreamApiController {
         if (apiRateDistribute.getApiId() == null)
             throw new DataValidationException(ExceptionInfo.NOT_NULL_PARENT_ID);
 
-        return new CommonResult(ResultStatusEnum.SUCCESS, subUpStreamApiService.get(apiRateDistribute));
+        return CommonResult.success( subUpStreamApiService.get(apiRateDistribute));
     }
 
     @ApiOperation(value = "更新子上游API", notes = "更新子上游API")
@@ -87,7 +87,7 @@ public class SubUpStreamApiController {
 
         int id = subUpStreamApiService.save(subThirdApiInfo, subThirdRequestInfoList);
 
-        return new CommonResult(ResultStatusEnum.SUCCESS, id);
+        return CommonResult.success( id);
     }
 
     @ApiOperation(value = "更改名字", notes = "更改名字")
@@ -103,7 +103,7 @@ public class SubUpStreamApiController {
             throw new DataValidationException(ExceptionInfo.NOT_NULL_PARENT_NAME);
 
         subUpStreamApiService.updateApiName(apiRateDistribute);
-        return new CommonResult(ResultStatusEnum.SUCCESS, apiRateDistribute);
+        return CommonResult.success( apiRateDistribute);
     }
 
 
@@ -118,7 +118,7 @@ public class SubUpStreamApiController {
 
 
         subUpStreamApiService.del(apiRateDistribute);
-        return new CommonResult(ResultStatusEnum.SUCCESS, apiRateDistribute);
+        return CommonResult.success( apiRateDistribute);
     }
 
 
@@ -127,7 +127,7 @@ public class SubUpStreamApiController {
     public CommonResult query(@RequestBody JSONObject jsonObject) {
         ApiInfoWithSubApiQuery query = jsonObject.toJavaObject(ApiInfoWithSubApiQuery.class);
         PageInfo<ApiInfoWithSubApi> pageInfo = subUpStreamApiService.query(query);
-        return new CommonResult(ResultStatusEnum.SUCCESS, pageInfo);
+        return CommonResult.success( pageInfo);
 
     }
 
@@ -141,7 +141,7 @@ public class SubUpStreamApiController {
             throw new DataValidationException(ExceptionInfo.NOT_NULL_PARENT_ID);
 
         List<SubApiWeightQuery> l = subUpStreamApiService.getWeightConfigs(apiRateDistribute);
-        return new CommonResult(ResultStatusEnum.SUCCESS, l);
+        return CommonResult.success( l);
     }
 
     @ApiOperation(value = "维护子接口权重配置信息", notes = "维护子接口权重配置信息")
@@ -151,6 +151,6 @@ public class SubUpStreamApiController {
         JSONArray weightConfigs = jsonObject.getJSONArray("weightConfigs");
         List<SubApiWeightQuery> weightConfigsList = weightConfigs.toJavaList(SubApiWeightQuery.class);
         List<SubApiWeightQuery> l = subUpStreamApiService.updateWeightConfigs(weightConfigsList);
-        return new CommonResult(ResultStatusEnum.SUCCESS, l);
+        return CommonResult.success( l);
     }
 }

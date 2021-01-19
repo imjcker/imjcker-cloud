@@ -26,7 +26,7 @@ public class AuthController {
 //        if (jsonObject.isEmpty())
 //            return new CommonResult(ResultStatusEnum.PARAMS_INPUT_NULL, null);
 //        Map<String, Object> result = authService.search(jsonObject);
-//        return new CommonResult(ResultStatusEnum.SUCCESS, result);
+//        return CommonResult.success( result);
 //    }
 //
 //    /**
@@ -40,9 +40,9 @@ public class AuthController {
 //        if (jsonObject.isEmpty() || null == jsonObject.getInteger("id"))
 //            return new CommonResult(ResultStatusEnum.PARAMS_INPUT_NULL, null);
 //        if (!authService.delete(jsonObject.getInteger("id"))) {
-//            return new CommonResult(ResultStatusEnum.ERROR, null);
+//            return CommonResult.error();
 //        }
-//        return new CommonResult(ResultStatusEnum.SUCCESS, null);
+//        return CommonResult.success();
 //    }
 //
 //    /**
@@ -56,9 +56,9 @@ public class AuthController {
 //    public CommonResult save(@RequestBody JSONObject jsonObject) {
 //
 //        if (!authService.save(jsonObject)) {
-//            return new CommonResult(ResultStatusEnum.ERROR, null);
+//            return CommonResult.error();
 //        }
-//        return new CommonResult(ResultStatusEnum.SUCCESS, null);
+//        return CommonResult.success();
 //    }
 //
 //    /**
@@ -71,8 +71,8 @@ public class AuthController {
 //    @PostMapping("/edit")
 //    public CommonResult edit(@RequestBody JSONObject jsonObject) throws ParseException {
 //        if (!authService.edit(jsonObject)) {
-//            return new CommonResult(ResultStatusEnum.ERROR, null);
+//            return CommonResult.error();
 //        }
-//        return new CommonResult(ResultStatusEnum.SUCCESS, null);
+//        return CommonResult.success();
 //    }
 }
